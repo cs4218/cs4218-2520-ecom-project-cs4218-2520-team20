@@ -20,7 +20,14 @@ jest.mock('../../context/auth', () => ({
     
 jest.mock('../../context/search', () => ({
     useSearch: jest.fn(() => [{ keyword: '' }, jest.fn()]) // Mock useSearch hook to return null state and a mock function
-  }));  
+  }));
+
+// Lab 2: TODO: double check the exercise soln.
+// jest.mock(moduleName, [factory], [options]) - factory produces a dict of mocked fns, replacing jest's automocking feature
+jest.mock('../../hooks/useCategory', () => ({
+  __esModule: true, // this line is needed as we are importing useCategory via ES Module
+  default: jest.fn(() => [])
+}))
 
   Object.defineProperty(window, 'localStorage', {
     value: {
@@ -46,6 +53,9 @@ describe('Register Component', () => {
   });
 
   it('should register the user successfully', async () => {
+    // Lab 2: alternatively, mock axios.get here - directly replaces axios call in useCategory.
+    // axios.get.mockResolvedValueOnce({ data: [] })
+    // if done this way, duplicate for all tests
     axios.post.mockResolvedValueOnce({ data: { success: true } });
 
     const { getByText, getByPlaceholderText } = render(
