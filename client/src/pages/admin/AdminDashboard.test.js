@@ -48,12 +48,18 @@ describe("AdminDashboard", () => {
 	});
 
 	it("renders the admin menu", () => {
+		// Arrange
 		renderWithAuth({ user: null });
 
-		expect(screen.getByText("AdminMenuMock")).toBeInTheDocument();
+		// Act
+		const adminMenu = screen.getByText("AdminMenuMock");
+
+		// Assert
+		expect(adminMenu).toBeInTheDocument();
 	});
 
 	it("renders admin name", () => {
+		// Arrange
 		renderWithAuth({
 			user: {
 				name: "Alice Admin",
@@ -62,12 +68,15 @@ describe("AdminDashboard", () => {
 			},
 		});
 
-		expect(
-			screen.getByText(/Admin Name\s*:\s*Alice Admin/i),
-		).toBeInTheDocument();
+		// Act
+		const adminName = screen.getByText(/Admin Name\s*:\s*Alice Admin/i);
+
+		// Assert
+		expect(adminName).toBeInTheDocument();
 	});
 
 	it("renders admin email", () => {
+		// Arrange
 		renderWithAuth({
 			user: {
 				name: "Alice Admin",
@@ -76,12 +85,17 @@ describe("AdminDashboard", () => {
 			},
 		});
 
-		expect(
-			screen.getByText(/Admin Email\s*:\s*alice@example\.com/i),
-		).toBeInTheDocument();
+		// Act
+		const adminEmail = screen.getByText(
+			/Admin Email\s*:\s*alice@example\.com/i,
+		);
+
+		// Assert
+		expect(adminEmail).toBeInTheDocument();
 	});
 
 	it("renders admin contact", () => {
+		// Arrange
 		renderWithAuth({
 			user: {
 				name: "Alice Admin",
@@ -90,26 +104,43 @@ describe("AdminDashboard", () => {
 			},
 		});
 
-		expect(
-			screen.getByText(/Admin Contact\s*:\s*123/i),
-		).toBeInTheDocument();
+		// Act
+		const adminContact = screen.getByText(/Admin Contact\s*:\s*123/i);
+
+		// Assert
+		expect(adminContact).toBeInTheDocument();
 	});
 
 	it("renders empty name label when auth is empty", () => {
+		// Arrange
 		renderWithAuth({ user: null });
 
-		expect(screen.getByText(/Admin Name\s*:\s*$/i)).toBeInTheDocument();
+		// Act
+		const emptyName = screen.getByText(/Admin Name\s*:\s*$/i);
+
+		// Assert
+		expect(emptyName).toBeInTheDocument();
 	});
 
 	it("renders empty email label when auth is empty", () => {
+		// Arrange
 		renderWithAuth({ user: null });
 
-		expect(screen.getByText(/Admin Email\s*:\s*$/i)).toBeInTheDocument();
+		// Act
+		const emptyEmail = screen.getByText(/Admin Email\s*:\s*$/i);
+
+		// Assert
+		expect(emptyEmail).toBeInTheDocument();
 	});
 
 	it("renders empty contact label when auth is empty", () => {
+		// Arrange
 		renderWithAuth({ user: null });
 
-		expect(screen.getByText(/Admin Contact\s*:\s*$/i)).toBeInTheDocument();
+		// Act
+		const emptyContact = screen.getByText(/Admin Contact\s*:\s*$/i);
+
+		// Assert
+		expect(emptyContact).toBeInTheDocument();
 	});
 });
