@@ -41,8 +41,8 @@ jest.mock('../../components/UserMenu', () => ({
 // LIBRARY MOCKS
 jest.mock('axios');
 jest.mock('react-hot-toast');
-jest.spyOn(JSON, 'parse').mockImplementation(jest.fn(() => canned_auth))
-jest.spyOn(JSON, 'stringify').mockImplementation(jest.fn())
+jest.spyOn(JSON, 'parse').mockImplementation(jest.fn(x => x))
+jest.spyOn(JSON, 'stringify').mockImplementation(jest.fn(x => x))
 
 Object.defineProperty(window, 'localStorage', {
     value: {
@@ -75,10 +75,6 @@ describe('Profile Component', () => {
     });
 
     describe('PUT Requests when pressing Update', () => {
-        beforeEach(() => {
-            jest.clearAllMocks();
-        });
-
         it('should be made exactly once', async () => {
             const { getByText } = render(<Profile/>);
             fireEvent.click(getByText('UPDATE'));
@@ -139,5 +135,55 @@ describe('Profile Component', () => {
             const params = axios.put.mock.calls[0][1];
             expect(params).toHaveProperty('address', update_user.address);
         });
+    })
+
+    describe('PUT Responses', () => {
+        it('should save the updated data to local storage on success', async () => {
+            // we assume the data from axios is guaranteed to be good - use placeholder
+            axios.put.mockResolvedValueOnce({ data: { updatedUser: 'placeholder' } });
+            localStorage.getItem.mockReturnValueOnce(structuredClone(canned_auth));
+
+            const { getByText } = render(<Profile/>);
+            fireEvent.click(getByText('UPDATE'));
+
+            await waitFor(() => expect(axios.put).toHaveBeenCalled());
+            expect(localStorage.setItem).toHaveBeenCalled();
+            const stored_data = localStorage.setItem.mock.calls[0][1];
+            expect(stored_data).toHaveProperty('user', 'placeholder');
+            expect(stored_data).toHaveProperty('token', 'test_token_value');
+        });
+        
+        it('should notify the user via toast on success', async () => {
+            axios.put.mockResolvedValueOnce({ data: { updatedUser: 'placeholder' } });
+            localStorage.getItem.mockReturnValueOnce(structuredClone(canned_auth));
+
+            const { getByText } = render(<Profile/>);
+            fireEvent.click(getByText('UPDATE'));
+
+            await waitFor(() => expect(axios.put).toHaveBeenCalled());
+            expect(toast.success).toHaveBeenCalledTimes(1);
+        });
+
+        it('should fail gracefully when axios succeeds & returns an error', async () => {
+            const err_msg = 'placeholder error message';
+            axios.put.mockResolvedValueOnce({ data: { error: err_msg } });
+            
+            const { getByText } = render(<Profile/>);
+            fireEvent.click(getByText('UPDATE'));
+
+            await waitFor(() => expect(axios.put).toHaveBeenCalled());
+            expect(toast.error).toHaveBeenCalledWith(err_msg);
+        });
+
+        it('should fail gracefully when axios fails', async () => {
+            const err_msg = 'Something went wrong';
+            axios.put.mockRejectedValueOnce(new Error());
+
+            const { getByText } = render(<Profile/>);
+            fireEvent.click(getByText('UPDATE'));
+
+            await waitFor(() => expect(axios.put).toHaveBeenCalled());
+            expect(toast.error).toHaveBeenCalledWith(err_msg);
+        })
     })
 })
