@@ -14,7 +14,7 @@ jest.mock('../../context/auth', () => ({
     useAuth: jest.fn(() => [null, jest.fn()]) // Mock useAuth hook to return null state and a mock function for setAuth
   }));
 
-  jest.mock('../../context/cart', () => ({
+jest.mock('../../context/cart', () => ({
     useCart: jest.fn(() => [null, jest.fn()]) // Mock useCart hook to return null state and a mock function
   }));
     
@@ -22,12 +22,11 @@ jest.mock('../../context/search', () => ({
     useSearch: jest.fn(() => [{ keyword: '' }, jest.fn()]) // Mock useSearch hook to return null state and a mock function
   }));
 
-// Lab 2: TODO: double check the exercise soln.
-// jest.mock(moduleName, [factory], [options]) - factory produces a dict of mocked fns, replacing jest's automocking feature
+// Lab 2 Solution
 jest.mock('../../hooks/useCategory', () => ({
-  __esModule: true, // this line is needed as we are importing useCategory via ES Module
-  default: jest.fn(() => [])
-}))
+    __esModule: true, // importing useCategory via ES Module
+    default: jest.fn(() => [])
+  }));
 
   Object.defineProperty(window, 'localStorage', {
     value: {
@@ -53,9 +52,9 @@ describe('Register Component', () => {
   });
 
   it('should register the user successfully', async () => {
-    // Lab 2: alternatively, mock axios.get here - directly replaces axios call in useCategory.
-    // axios.get.mockResolvedValueOnce({ data: [] })
-    // if done this way, duplicate for all tests
+    // Lab 2 alternative sol, if done this way, duplicate for all tests:
+    // axios.get.mockResolvedValueOnce({ data: { category: [] } });
+
     axios.post.mockResolvedValueOnce({ data: { success: true } });
 
     const { getByText, getByPlaceholderText } = render(
@@ -81,6 +80,7 @@ describe('Register Component', () => {
   });
 
   it('should display error message on failed registration', async () => {
+    jest.spyOn(console, 'log').mockImplementation(() => {});
     axios.post.mockRejectedValueOnce({ message: 'User already exists' });
 
     const { getByText, getByPlaceholderText } = render(
@@ -103,5 +103,7 @@ describe('Register Component', () => {
 
     await waitFor(() => expect(axios.post).toHaveBeenCalled());
     expect(toast.error).toHaveBeenCalledWith('Something went wrong');
+    console.log.mockRestore();
+
   });
 });
