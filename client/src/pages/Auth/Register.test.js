@@ -80,6 +80,7 @@ describe('Register Component', () => {
   });
 
   it('should display error message on failed registration', async () => {
+    jest.spyOn(console, 'log').mockImplementation(() => {});
     axios.post.mockRejectedValueOnce({ message: 'User already exists' });
 
     const { getByText, getByPlaceholderText } = render(
@@ -102,5 +103,7 @@ describe('Register Component', () => {
 
     await waitFor(() => expect(axios.post).toHaveBeenCalled());
     expect(toast.error).toHaveBeenCalledWith('Something went wrong');
+    console.log.mockRestore();
+
   });
 });

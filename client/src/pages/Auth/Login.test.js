@@ -63,6 +63,7 @@ describe('Login Component', () => {
         expect(getByPlaceholderText('Enter Your Email')).toBeInTheDocument();
         expect(getByPlaceholderText('Enter Your Password')).toBeInTheDocument();
       });
+      
       it('inputs should be initially empty', () => {
         const { getByText, getByPlaceholderText } = render(
           <MemoryRouter initialEntries={['/login']}>
@@ -124,6 +125,7 @@ describe('Login Component', () => {
     });
 
     it('should display error message on failed login', async () => {
+        jest.spyOn(console, 'log').mockImplementation(() => {});
         axios.post.mockRejectedValueOnce({ message: 'Invalid credentials' });
 
         const { getByPlaceholderText, getByText } = render(
@@ -140,5 +142,6 @@ describe('Login Component', () => {
 
         await waitFor(() => expect(axios.post).toHaveBeenCalled());
         expect(toast.error).toHaveBeenCalledWith('Something went wrong');
+        console.log.mockRestore();
     });
 });
