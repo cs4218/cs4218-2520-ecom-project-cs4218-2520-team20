@@ -86,7 +86,7 @@ const CreateProduct = () => {
 						<h1>Create Product</h1>
 						<div className="m-1 w-75">
 							<Select
-								bordered={false}
+                                variant="borderless"
 								placeholder="Select a category"
 								size="large"
 								showSearch
@@ -170,7 +170,7 @@ const CreateProduct = () => {
 							</div>
 							<div className="mb-3">
 								<Select
-									bordered={false}
+									variant="borderless"
 									placeholder="Select Shipping "
 									size="large"
 									showSearch
