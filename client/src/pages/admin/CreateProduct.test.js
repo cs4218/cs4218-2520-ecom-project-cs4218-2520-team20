@@ -56,7 +56,7 @@ const renderCreateProduct = () =>
 describe("CreateProduct", () => {
 	beforeEach(() => {
 		jest.clearAllMocks();
-		console.log = jest.fn();
+		jest.spyOn(console, "log").mockImplementation(() => {});
 
 		axios.get.mockResolvedValue({
 			data: {
@@ -68,6 +68,10 @@ describe("CreateProduct", () => {
 		global.URL.createObjectURL = jest.fn(() => "blob:preview-url");
 		global.URL.revokeObjectURL = jest.fn();
 	});
+
+    afterEach(() => {
+        console.log.mockRestore();
+    });
 
 	it("creates the product successfully when all required fields are filled", async () => {
 		// Arrange
