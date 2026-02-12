@@ -1,0 +1,251 @@
+// Seah Minlong, A0271643E
+import React from "react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { MemoryRouter } from "react-router-dom";
+import CreateProduct from "./CreateProduct";
+
+jest.mock("axios");
+jest.mock("react-hot-toast");
+
+const mockNavigate = jest.fn();
+
+jest.mock("react-router-dom", () => {
+	const actual = jest.requireActual("react-router-dom");
+	return {
+		...actual,
+		useNavigate: () => mockNavigate,
+	};
+});
+
+jest.mock("../../components/Layout", () => ({ children }) => (
+	<div data-testid="LayoutMock">{children}</div>
+));
+
+jest.mock("../../components/AdminMenu", () => () => (
+	<div data-testid="AdminMenuMock">AdminMenuMock</div>
+));
+
+jest.mock("antd", () => {
+	const React = require("react");
+
+	const Select = ({ children, onChange }) => (
+		<select
+			data-testid="antd-select"
+			onChange={(e) => onChange?.(e.target.value)}
+		>
+			{children}
+		</select>
+	);
+
+	Select.Option = ({ value, children }) => (
+		<option value={value}>{children}</option>
+	);
+
+	return { Select };
+});
+
+const renderCreateProduct = () =>
+	render(
+		<MemoryRouter>
+			<CreateProduct />
+		</MemoryRouter>,
+	);
+
+describe("CreateProduct", () => {
+	beforeEach(() => {
+		jest.clearAllMocks();
+
+		axios.get.mockResolvedValue({
+			data: {
+				success: true,
+				category: [{ _id: "cat1", name: "Category 1" }],
+			},
+		});
+
+		global.URL.createObjectURL = jest.fn(() => "blob:preview-url");
+		global.URL.revokeObjectURL = jest.fn();
+	});
+
+	it("creates the product successfully when all required fields are filled", async () => {
+		// Arrange
+		axios.post.mockResolvedValueOnce({
+			data: { success: true, message: "Product Created Successfully" },
+		});
+		renderCreateProduct();
+
+		const fileInput = await screen.findByLabelText(/upload photo/i, {
+			selector: "input",
+		});
+		const file = new File(["fake"], "test.png", { type: "image/png" });
+
+		// Act
+		fireEvent.change(fileInput, { target: { files: [file] } });
+		fireEvent.change(screen.getByPlaceholderText(/write a name/i), {
+			target: { value: "Product A" },
+		});
+		fireEvent.change(screen.getByPlaceholderText(/write a description/i), {
+			target: { value: "Desc" },
+		});
+		fireEvent.change(screen.getByPlaceholderText(/write a price/i), {
+			target: { value: "10" },
+		});
+		fireEvent.change(screen.getByPlaceholderText(/write a quantity/i), {
+			target: { value: "2" },
+		});
+		const [categorySelect, shippingSelect] =
+			screen.getAllByTestId("antd-select");
+		fireEvent.change(categorySelect, { target: { value: "cat1" } });
+		fireEvent.change(shippingSelect, { target: { value: "1" } });
+		fireEvent.click(
+			screen.getByRole("button", { name: /create product/i }),
+		);
+
+		// Assert
+		await waitFor(() => expect(axios.post).toHaveBeenCalled());
+		expect(axios.post).toHaveBeenCalledWith(
+			"/api/v1/product/create-product",
+			expect.any(FormData),
+		);
+		expect(toast.success).toHaveBeenCalledWith(
+			"Product Created Successfully",
+		);
+		expect(mockNavigate).toHaveBeenCalledWith("/dashboard/admin/products");
+	});
+
+	it.each([
+		["name", "Name is Required"],
+		["description", "Description is Required"],
+		["price", "Price is Required"],
+		["category", "Category is Required"],
+		["quantity", "Quantity is Required"],
+		["shipping", "Shipping is Required"],
+		["photo", "photo is Required"],
+	])(
+		"shows an error toast when %s is missing",
+		async (missingField, backendMessage) => {
+			// Arrange
+			// Backend returns validation errors as HTTP 400 with `{ error: ... }`, so axios rejects.
+			axios.post.mockRejectedValueOnce({
+				response: { status: 400, data: { error: backendMessage } },
+			});
+			renderCreateProduct();
+
+			const fileInput = await screen.findByLabelText(/upload photo/i, {
+				selector: "input",
+			});
+			const file = new File(["fake"], "test.png", { type: "image/png" });
+
+			// Act (fill everything except the missing field)
+			if (missingField !== "photo") {
+				fireEvent.change(fileInput, { target: { files: [file] } });
+			}
+
+			if (missingField !== "name") {
+				fireEvent.change(screen.getByPlaceholderText(/write a name/i), {
+					target: { value: "Product A" },
+				});
+			}
+			if (missingField !== "description") {
+				fireEvent.change(
+					screen.getByPlaceholderText(/write a description/i),
+					{
+						target: { value: "Desc" },
+					},
+				);
+			}
+			if (missingField !== "price") {
+				fireEvent.change(
+					screen.getByPlaceholderText(/write a price/i),
+					{
+						target: { value: "10" },
+					},
+				);
+			}
+			if (missingField !== "quantity") {
+				fireEvent.change(
+					screen.getByPlaceholderText(/write a quantity/i),
+					{
+						target: { value: "2" },
+					},
+				);
+			}
+
+			const [categorySelect, shippingSelect] =
+				screen.getAllByTestId("antd-select");
+			if (missingField !== "category") {
+				fireEvent.change(categorySelect, { target: { value: "cat1" } });
+			}
+			if (missingField !== "shipping") {
+				fireEvent.change(shippingSelect, { target: { value: "1" } });
+			}
+
+			fireEvent.click(
+				screen.getByRole("button", { name: /create product/i }),
+			);
+
+			// Assert
+			await waitFor(() => expect(axios.post).toHaveBeenCalled());
+			expect(axios.post).toHaveBeenCalledWith(
+				"/api/v1/product/create-product",
+				expect.any(FormData),
+			);
+			expect(toast.error).toHaveBeenCalledWith(backendMessage);
+			expect(mockNavigate).not.toHaveBeenCalled();
+		},
+	);
+
+	it("shows an error toast when photo size is too large (>1MB)", async () => {
+		// Arrange
+		axios.post.mockRejectedValueOnce({
+			response: {
+				status: 400,
+				data: {
+					error: "photo should be less than 1mb",
+				},
+			},
+		});
+		renderCreateProduct();
+
+		// Mock a large file (approx 2MB)
+		const largeFile = new File(["a".repeat(2000000)], "large.png", {
+			type: "image/png",
+		});
+		// We still need to find/set the input to trigger the "filled" flow,
+		// though the backend is what actually rejects size.
+		const fileInput = await screen.findByLabelText(/upload photo/i, {
+			selector: "input",
+		});
+		fireEvent.change(fileInput, { target: { files: [largeFile] } });
+
+		// Fill other required fields
+		fireEvent.change(screen.getByPlaceholderText(/write a name/i), {
+			target: { value: "Product A" },
+		});
+		fireEvent.change(screen.getByPlaceholderText(/write a description/i), {
+			target: { value: "Desc" },
+		});
+		fireEvent.change(screen.getByPlaceholderText(/write a price/i), {
+			target: { value: "10" },
+		});
+		fireEvent.change(screen.getByPlaceholderText(/write a quantity/i), {
+			target: { value: "2" },
+		});
+		const [categorySelect, shippingSelect] =
+			screen.getAllByTestId("antd-select");
+		fireEvent.change(categorySelect, { target: { value: "cat1" } });
+		fireEvent.change(shippingSelect, { target: { value: "1" } });
+
+		fireEvent.click(
+			screen.getByRole("button", { name: /create product/i }),
+		);
+
+		// Assert
+		await waitFor(() => expect(axios.post).toHaveBeenCalled());
+		expect(toast.error).toHaveBeenCalledWith(
+			"photo should be less than 1mb",
+		);
+		expect(mockNavigate).not.toHaveBeenCalled();
+	});
+});
