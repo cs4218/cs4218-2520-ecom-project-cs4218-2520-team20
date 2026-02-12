@@ -92,17 +92,6 @@ describe('Profile Component', () => {
             expect(params).toHaveProperty('name', update_user.name);
         });
 
-        it('can be made with an updated email field', async () => {
-            const { getByPlaceholderText, getByText } = render(<Profile/>);
-
-            fireEvent.change(getByPlaceholderText('Enter Your Email'), { target: { value: update_user.email } });
-            fireEvent.click(getByText('UPDATE'));
-
-            await waitFor(() => expect(axios.put).toHaveBeenCalled());
-            const params = axios.put.mock.calls[0][1];
-            expect(params).toHaveProperty('email', update_user.email);
-        });
-
         it('can be made with an updated password field', async () => {
             const { getByPlaceholderText, getByText } = render(<Profile/>);
 
@@ -134,6 +123,19 @@ describe('Profile Component', () => {
             await waitFor(() => expect(axios.put).toHaveBeenCalled());
             const params = axios.put.mock.calls[0][1];
             expect(params).toHaveProperty('address', update_user.address);
+        });
+
+        // we infer from both Profile.js and authController.js that the email field is not update-able as a requirement
+        // therefore, we test for the put request to have NO email field at all.
+        it('should NOT attempt to update the email field', async () => {
+            const { getByPlaceholderText, getByText } = render(<Profile/>);
+
+            fireEvent.change(getByPlaceholderText('Enter Your Email'), { target: { value: update_user.email } });
+            fireEvent.click(getByText('UPDATE'));
+
+            await waitFor(() => expect(axios.put).toHaveBeenCalled());
+            const params = axios.put.mock.calls[0][1];
+            expect(params).not.toHaveProperty('email');
         });
     })
 
