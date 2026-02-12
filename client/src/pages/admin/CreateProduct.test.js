@@ -56,6 +56,7 @@ const renderCreateProduct = () =>
 describe("CreateProduct", () => {
 	beforeEach(() => {
 		jest.clearAllMocks();
+		console.log = jest.fn();
 
 		axios.get.mockResolvedValue({
 			data: {
@@ -192,6 +193,7 @@ describe("CreateProduct", () => {
 				expect.any(FormData),
 			);
 			expect(toast.error).toHaveBeenCalledWith(backendMessage);
+			expect(console.log).toHaveBeenCalled();
 			expect(mockNavigate).not.toHaveBeenCalled();
 		},
 	);
@@ -246,6 +248,7 @@ describe("CreateProduct", () => {
 		expect(toast.error).toHaveBeenCalledWith(
 			"photo should be less than 1mb",
 		);
+		expect(console.log).toHaveBeenCalled();
 		expect(mockNavigate).not.toHaveBeenCalled();
 	});
 });
