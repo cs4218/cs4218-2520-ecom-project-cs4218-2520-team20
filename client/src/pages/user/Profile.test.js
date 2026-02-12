@@ -130,6 +130,7 @@ describe('Profile Component', () => {
         it('should NOT attempt to update the email field', async () => {
             const { getByPlaceholderText, getByText } = render(<Profile/>);
 
+            // NOTE: fireEvent bypasses the disabled tag of text input: https://github.com/testing-library/dom-testing-library/issues/92
             fireEvent.change(getByPlaceholderText('Enter Your Email'), { target: { value: update_user.email } });
             fireEvent.click(getByText('UPDATE'));
 
