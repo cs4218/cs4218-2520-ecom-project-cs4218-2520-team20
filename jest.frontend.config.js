@@ -35,6 +35,8 @@ export default {
 		"client/src/pages/admin/AdminDashboard.js",
 		"client/src/components/AdminMenu.js",
 		"client/src/components/Form/CategoryForm.js",
+        "client/src/pages/admin/UpdateProduct.js",
+        "client/src/pages/admin/CreateCategory.js",
 	],
 	coverageThreshold: {
 		global: {

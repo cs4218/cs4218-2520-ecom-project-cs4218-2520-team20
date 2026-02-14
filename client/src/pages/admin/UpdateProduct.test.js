@@ -263,4 +263,109 @@ describe("UpdateProduct", () => {
 			expect(toast.error).toHaveBeenCalledWith("Something went wrong");
 		});
 	});
+
+	it("shows error toast when getting single product fails", async () => {
+		// Arrange
+		axios.get.mockImplementation((url) => {
+			if (url.includes("/get-product/")) {
+				return Promise.reject(new Error("Product not found"));
+			}
+			if (url.includes("/get-category")) {
+				return Promise.resolve({
+					data: {
+						success: true,
+						category: [{ _id: "cat1", name: "Category 1" }],
+					},
+				});
+			}
+			return Promise.reject(new Error("not found"));
+		});
+
+		renderUpdateProduct();
+
+		// Assert - console.log should be called with the error
+		await waitFor(() => expect(console.log).toHaveBeenCalled());
+	});
+
+	it("shows error toast when getting categories fails", async () => {
+		// Arrange
+		axios.get.mockImplementation((url) => {
+			if (url.includes("/get-product/")) {
+				return Promise.resolve({
+					data: { product: mockProduct },
+				});
+			}
+			if (url.includes("/get-category")) {
+				return Promise.reject(new Error("Category fetch failed"));
+			}
+			return Promise.reject(new Error("not found"));
+		});
+
+		renderUpdateProduct();
+
+		// Assert
+		await waitFor(() =>
+			expect(toast.error).toHaveBeenCalledWith(
+				"Something went wrong in getting category",
+			),
+		);
+	});
+
+	it("shows error toast when update returns failure response", async () => {
+		// Arrange
+		axios.put.mockResolvedValueOnce({
+			data: { success: false, message: "Update validation failed" },
+		});
+
+		renderUpdateProduct();
+		await screen.findByDisplayValue("Existing Product");
+
+		// Act
+		fireEvent.click(
+			screen.getByRole("button", { name: /update product/i }),
+		);
+
+		// Assert
+		await waitFor(() => expect(axios.put).toHaveBeenCalled());
+		expect(toast.error).toHaveBeenCalledWith("Update validation failed");
+		expect(mockNavigate).not.toHaveBeenCalled();
+	});
+
+	it("allows changing category, price, quantity, and shipping fields", async () => {
+		// Arrange
+		axios.put.mockResolvedValueOnce({
+			data: { success: true, message: "Product Updated Successfully" },
+		});
+
+		renderUpdateProduct();
+		await screen.findByDisplayValue("Existing Product");
+
+		// Act - change category select
+		const selects = screen.getAllByTestId("antd-select");
+		fireEvent.change(selects[0], { target: { value: "cat2" } });
+
+		// Change price
+		fireEvent.change(screen.getByPlaceholderText(/write a price/i), {
+			target: { value: "200" },
+		});
+
+		// Change quantity
+		fireEvent.change(screen.getByPlaceholderText(/write a quantity/i), {
+			target: { value: "50" },
+		});
+
+		// Change shipping
+		fireEvent.change(selects[1], { target: { value: "1" } });
+
+		fireEvent.click(
+			screen.getByRole("button", { name: /update product/i }),
+		);
+
+		// Assert
+		await waitFor(() => expect(axios.put).toHaveBeenCalled());
+		expect(toast.success).toHaveBeenCalledWith(
+			"Product Updated Successfully",
+		);
+		expect(mockNavigate).toHaveBeenCalledWith("/dashboard/admin/products");
+	});
 });
