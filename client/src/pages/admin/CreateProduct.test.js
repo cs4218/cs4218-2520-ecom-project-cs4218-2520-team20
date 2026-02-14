@@ -28,8 +28,6 @@ jest.mock("../../components/AdminMenu", () => () => (
 ));
 
 jest.mock("antd", () => {
-	const React = require("react");
-
 	const Select = ({ children, onChange }) => (
 		<select
 			data-testid="antd-select"
@@ -69,9 +67,9 @@ describe("CreateProduct", () => {
 		global.URL.revokeObjectURL = jest.fn();
 	});
 
-    afterEach(() => {
-        console.log.mockRestore();
-    });
+	afterEach(() => {
+		console.log.mockRestore();
+	});
 
 	it("creates the product successfully when all required fields are filled", async () => {
 		// Arrange
