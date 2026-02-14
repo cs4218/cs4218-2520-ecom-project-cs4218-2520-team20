@@ -180,7 +180,7 @@ export const updateProductController = async (req, res) => {
 				return res.status(400).send({ error: "Shipping is Required" });
 			case photo && photo.size > 1000000:
 				return res.status(400).send({
-					error: "photo is Required and should be less then 1mb",
+					error: "Photo is required and should be less then 1mb",
 				});
 		}
 
