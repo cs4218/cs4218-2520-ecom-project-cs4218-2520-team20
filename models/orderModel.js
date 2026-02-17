@@ -11,7 +11,7 @@ const orderSchema = new mongoose.Schema(
         validator: v => v.length > 0,
         message: 'An order should have at least 1 product.'
       }
-      },
+    },
     payment: {},
     buyer: {
       type: mongoose.Schema.Types.ObjectId,
