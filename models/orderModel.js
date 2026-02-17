@@ -2,15 +2,15 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
   {
-    products: [
-      {
-        type: mongoose.ObjectId,
+    products: {
+      type: [{
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Products",
+      }],
       },
-    ],
     payment: {},
     buyer: {
-      type: mongoose.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "users",
     },
     status: {
