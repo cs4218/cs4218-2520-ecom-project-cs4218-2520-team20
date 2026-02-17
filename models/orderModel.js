@@ -7,6 +7,10 @@ const orderSchema = new mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "Products",
       }],
+      validate: {
+        validator: v => v.length > 0,
+        message: 'An order should have at least 1 product.'
+      }
       },
     payment: {},
     buyer: {
