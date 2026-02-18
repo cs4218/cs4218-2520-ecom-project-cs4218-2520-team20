@@ -190,14 +190,14 @@ export const updateProfileController = async (req, res) => {
     );
     res.status(200).send({
       success: true,
-      message: "Profile Updated SUccessfully",
+      message: "Profile updated successfully.",
       updatedUser,
     });
   } catch (error) {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "Error WHile Update profile",
+      message: 'Server Error - Failed to update profile.',
       error,
     });
   }
