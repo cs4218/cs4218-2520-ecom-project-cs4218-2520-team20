@@ -8,12 +8,14 @@ export default {
   // which test to run
   testMatch: [
     "<rootDir>/controllers/*.test.js",
+    "<rootDir>/models/*.test.js",
   ],
 
   // jest code coverage
   collectCoverage: true,
   collectCoverageFrom: [
     "controllers/**",
+    "models/**",
   ],
   coverageThreshold: {
     global: {
