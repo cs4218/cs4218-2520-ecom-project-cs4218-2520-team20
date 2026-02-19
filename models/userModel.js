@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     address: {
-      type: {},
+      type: String,
       required: true,
     },
     answer: {
@@ -31,6 +31,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: Number,
       default: 0,
+      enum: [0, 1]
     },
   },
   { timestamps: true }

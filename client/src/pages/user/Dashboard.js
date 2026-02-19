@@ -2,6 +2,9 @@ import React from "react";
 import Layout from "../../components/Layout";
 import UserMenu from "../../components/UserMenu";
 import { useAuth } from "../../context/auth";
+
+// TODO: Test Dashboard in UI/Integration Testing
+//       No user-defined functionality was implemented in this code.
 const Dashboard = () => {
   const [auth] = useAuth();
   return (
