@@ -7,35 +7,35 @@ import Profile from './Profile';
 
 // CANNED RESPONSES
 const canned_auth = {
-    user: {
-        name: 'John Doe',
-        phone: '12345678',
-        email: 'a@b.com',
-        address: 'P. Sherman, 42 Wallaby Way, Sydney'
-    },
-    token: 'test_token_value'
+  user: {
+    name: 'John Doe',
+    phone: '12345678',
+    email: 'a@b.com',
+    address: 'P. Sherman, 42 Wallaby Way, Sydney'
+  },
+  token: 'test_token_value'
 }
 
 const update_user = {
-    name: 'John Snow',
-    phone: '87654321',
-    email: 'c@d.com',
-    address: '221B Baker St., London',
-    password: 'updated_password'
+  name: 'John Snow',
+  phone: '87654321',
+  email: 'c@d.com',
+  address: '221B Baker St., London',
+  password: 'updated_password'
 }
 // LAYOUT MOCKS
 jest.mock('../../components/Layout', () => ({
-    __esModule: true,
-    default: ({ children, title, description, keywords, author }) => (
-        <div>
-            {children}
-        </div>
-    )
+  __esModule: true,
+  default: ({ children, title, description, keywords, author }) => (
+    <div>
+      {children}
+    </div>
+  )
 }))
 
 jest.mock('../../components/UserMenu', () => ({
-    __esModule: true,
-    default: () => (<div/>)
+  __esModule: true,
+  default: () => (<div />)
 }))
 
 // LIBRARY MOCKS
@@ -45,148 +45,148 @@ jest.spyOn(JSON, 'parse').mockImplementation(jest.fn(x => x))
 jest.spyOn(JSON, 'stringify').mockImplementation(jest.fn(x => x))
 
 Object.defineProperty(window, 'localStorage', {
-    value: {
-        setItem: jest.fn(),
-        getItem: jest.fn(),
-        removeItem: jest.fn(),
-    },
-    writable: true,
+  value: {
+    setItem: jest.fn(),
+    getItem: jest.fn(),
+    removeItem: jest.fn(),
+  },
+  writable: true,
 });
 
 // HOOK MOCKS
 const mocked_setter = jest.fn()
 
 jest.mock('../../context/auth', () => ({
-    useAuth: jest.fn(() => [canned_auth, mocked_setter])
+  useAuth: jest.fn(() => [canned_auth, mocked_setter])
 }));
 
 describe('Profile Component', () => {
-    beforeEach(() => {
-        jest.clearAllMocks();
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should render user data successfully', () => {
+    const { getByPlaceholderText } = render(<Profile />);
+    expect(getByPlaceholderText('Enter Your Name').value).toBe(canned_auth.user.name);
+    expect(getByPlaceholderText('Enter Your Email').value).toBe(canned_auth.user.email);
+    expect(getByPlaceholderText('Enter Your Password').value).toBeFalsy()
+    expect(getByPlaceholderText('Enter Your Phone').value).toBe(canned_auth.user.phone);
+    expect(getByPlaceholderText('Enter Your Address').value).toBe(canned_auth.user.address);
+  });
+
+  describe('PUT Requests when pressing Update', () => {
+    it('should be made exactly once', async () => {
+      const { getByText } = render(<Profile />);
+      fireEvent.click(getByText('UPDATE'));
+      await waitFor(() => expect(axios.put).toHaveBeenCalledTimes(1));
     });
 
-    it('should render user data successfully', () => {
-        const { getByPlaceholderText } = render(<Profile/>);
-        expect(getByPlaceholderText('Enter Your Name').value).toBe(canned_auth.user.name);
-        expect(getByPlaceholderText('Enter Your Email').value).toBe(canned_auth.user.email);
-        expect(getByPlaceholderText('Enter Your Password').value).toBeFalsy()
-        expect(getByPlaceholderText('Enter Your Phone').value).toBe(canned_auth.user.phone);
-        expect(getByPlaceholderText('Enter Your Address').value).toBe(canned_auth.user.address);
+    it('can be made with an updated name field', async () => {
+      const { getByPlaceholderText, getByText } = render(<Profile />);
+
+      fireEvent.change(getByPlaceholderText('Enter Your Name'), { target: { value: update_user.name } });
+      fireEvent.click(getByText('UPDATE'));
+
+      await waitFor(() => expect(axios.put).toHaveBeenCalled());
+      const params = axios.put.mock.calls[0][1];
+      expect(params).toHaveProperty('name', update_user.name);
     });
 
-    describe('PUT Requests when pressing Update', () => {
-        it('should be made exactly once', async () => {
-            const { getByText } = render(<Profile/>);
-            fireEvent.click(getByText('UPDATE'));
-            await waitFor(() => expect(axios.put).toHaveBeenCalledTimes(1));
-        });
+    it('can be made with an updated password field', async () => {
+      const { getByPlaceholderText, getByText } = render(<Profile />);
 
-        it('can be made with an updated name field', async () => {
-            const { getByPlaceholderText, getByText } = render(<Profile/>);
+      fireEvent.change(getByPlaceholderText('Enter Your Password'), { target: { value: update_user.password } });
+      fireEvent.click(getByText('UPDATE'));
 
-            fireEvent.change(getByPlaceholderText('Enter Your Name'), { target: { value: update_user.name } });
-            fireEvent.click(getByText('UPDATE'));
+      await waitFor(() => expect(axios.put).toHaveBeenCalled());
+      const params = axios.put.mock.calls[0][1];
+      expect(params).toHaveProperty('password', update_user.password);
+    });
 
-            await waitFor(() => expect(axios.put).toHaveBeenCalled());
-            const params = axios.put.mock.calls[0][1];
-            expect(params).toHaveProperty('name', update_user.name);
-        });
+    it('can be made with an updated phone field', async () => {
+      const { getByPlaceholderText, getByText } = render(<Profile />);
 
-        it('can be made with an updated password field', async () => {
-            const { getByPlaceholderText, getByText } = render(<Profile/>);
+      fireEvent.change(getByPlaceholderText('Enter Your Phone'), { target: { value: update_user.phone } });
+      fireEvent.click(getByText('UPDATE'));
 
-            fireEvent.change(getByPlaceholderText('Enter Your Password'), { target: { value: update_user.password } });
-            fireEvent.click(getByText('UPDATE'));
+      await waitFor(() => expect(axios.put).toHaveBeenCalled());
+      const params = axios.put.mock.calls[0][1];
+      expect(params).toHaveProperty('phone', update_user.phone);
+    });
 
-            await waitFor(() => expect(axios.put).toHaveBeenCalled());
-            const params = axios.put.mock.calls[0][1];
-            expect(params).toHaveProperty('password', update_user.password);
-        });
+    it('can be made with an updated address field', async () => {
+      const { getByPlaceholderText, getByText } = render(<Profile />);
 
-        it('can be made with an updated phone field', async () => {
-            const { getByPlaceholderText, getByText } = render(<Profile/>);
+      fireEvent.change(getByPlaceholderText('Enter Your Address'), { target: { value: update_user.address } });
+      fireEvent.click(getByText('UPDATE'));
 
-            fireEvent.change(getByPlaceholderText('Enter Your Phone'), { target: { value: update_user.phone } });
-            fireEvent.click(getByText('UPDATE'));
+      await waitFor(() => expect(axios.put).toHaveBeenCalled());
+      const params = axios.put.mock.calls[0][1];
+      expect(params).toHaveProperty('address', update_user.address);
+    });
 
-            await waitFor(() => expect(axios.put).toHaveBeenCalled());
-            const params = axios.put.mock.calls[0][1];
-            expect(params).toHaveProperty('phone', update_user.phone);
-        });
+    // we infer from both Profile.js and authController.js that the email field is not update-able as a requirement
+    // therefore, we test for the put request to have NO email field at all.
+    it('should NOT attempt to update the email field', async () => {
+      const { getByPlaceholderText, getByText } = render(<Profile />);
 
-        it('can be made with an updated address field', async () => {
-            const { getByPlaceholderText, getByText } = render(<Profile/>);
+      // NOTE: fireEvent bypasses the disabled tag of text input: https://github.com/testing-library/dom-testing-library/issues/92
+      fireEvent.change(getByPlaceholderText('Enter Your Email'), { target: { value: update_user.email } });
+      fireEvent.click(getByText('UPDATE'));
 
-            fireEvent.change(getByPlaceholderText('Enter Your Address'), { target: { value: update_user.address } });
-            fireEvent.click(getByText('UPDATE'));
+      await waitFor(() => expect(axios.put).toHaveBeenCalled());
+      const params = axios.put.mock.calls[0][1];
+      expect(params).not.toHaveProperty('email');
+    });
+  })
 
-            await waitFor(() => expect(axios.put).toHaveBeenCalled());
-            const params = axios.put.mock.calls[0][1];
-            expect(params).toHaveProperty('address', update_user.address);
-        });
+  describe('PUT Responses', () => {
+    it('should save the updated data to local storage on success', async () => {
+      // we assume the data from axios is guaranteed to be good - use placeholder
+      axios.put.mockResolvedValueOnce({ data: { updatedUser: 'placeholder' } });
+      localStorage.getItem.mockReturnValueOnce(structuredClone(canned_auth));
 
-        // we infer from both Profile.js and authController.js that the email field is not update-able as a requirement
-        // therefore, we test for the put request to have NO email field at all.
-        it('should NOT attempt to update the email field', async () => {
-            const { getByPlaceholderText, getByText } = render(<Profile/>);
+      const { getByText } = render(<Profile />);
+      fireEvent.click(getByText('UPDATE'));
 
-            // NOTE: fireEvent bypasses the disabled tag of text input: https://github.com/testing-library/dom-testing-library/issues/92
-            fireEvent.change(getByPlaceholderText('Enter Your Email'), { target: { value: update_user.email } });
-            fireEvent.click(getByText('UPDATE'));
+      await waitFor(() => expect(axios.put).toHaveBeenCalled());
+      expect(localStorage.setItem).toHaveBeenCalled();
+      const stored_data = localStorage.setItem.mock.calls[0][1];
+      expect(stored_data).toHaveProperty('user', 'placeholder');
+      expect(stored_data).toHaveProperty('token', 'test_token_value');
+    });
 
-            await waitFor(() => expect(axios.put).toHaveBeenCalled());
-            const params = axios.put.mock.calls[0][1];
-            expect(params).not.toHaveProperty('email');
-        });
+    it('should notify the user via toast on success', async () => {
+      axios.put.mockResolvedValueOnce({ data: { updatedUser: 'placeholder' } });
+      localStorage.getItem.mockReturnValueOnce(structuredClone(canned_auth));
+
+      const { getByText } = render(<Profile />);
+      fireEvent.click(getByText('UPDATE'));
+
+      await waitFor(() => expect(axios.put).toHaveBeenCalled());
+      expect(toast.success).toHaveBeenCalledTimes(1);
+    });
+
+    it('should fail gracefully when axios succeeds & returns an error', async () => {
+      const err_msg = 'placeholder error message';
+      axios.put.mockResolvedValueOnce({ data: { error: err_msg } });
+
+      const { getByText } = render(<Profile />);
+      fireEvent.click(getByText('UPDATE'));
+
+      await waitFor(() => expect(axios.put).toHaveBeenCalled());
+      expect(toast.error).toHaveBeenCalledWith(err_msg);
+    });
+
+    it('should fail gracefully when axios fails', async () => {
+      const err_msg = 'Something went wrong';
+      axios.put.mockRejectedValueOnce(new Error());
+
+      const { getByText } = render(<Profile />);
+      fireEvent.click(getByText('UPDATE'));
+
+      await waitFor(() => expect(axios.put).toHaveBeenCalled());
+      expect(toast.error).toHaveBeenCalledWith(err_msg);
     })
-
-    describe('PUT Responses', () => {
-        it('should save the updated data to local storage on success', async () => {
-            // we assume the data from axios is guaranteed to be good - use placeholder
-            axios.put.mockResolvedValueOnce({ data: { updatedUser: 'placeholder' } });
-            localStorage.getItem.mockReturnValueOnce(structuredClone(canned_auth));
-
-            const { getByText } = render(<Profile/>);
-            fireEvent.click(getByText('UPDATE'));
-
-            await waitFor(() => expect(axios.put).toHaveBeenCalled());
-            expect(localStorage.setItem).toHaveBeenCalled();
-            const stored_data = localStorage.setItem.mock.calls[0][1];
-            expect(stored_data).toHaveProperty('user', 'placeholder');
-            expect(stored_data).toHaveProperty('token', 'test_token_value');
-        });
-        
-        it('should notify the user via toast on success', async () => {
-            axios.put.mockResolvedValueOnce({ data: { updatedUser: 'placeholder' } });
-            localStorage.getItem.mockReturnValueOnce(structuredClone(canned_auth));
-
-            const { getByText } = render(<Profile/>);
-            fireEvent.click(getByText('UPDATE'));
-
-            await waitFor(() => expect(axios.put).toHaveBeenCalled());
-            expect(toast.success).toHaveBeenCalledTimes(1);
-        });
-
-        it('should fail gracefully when axios succeeds & returns an error', async () => {
-            const err_msg = 'placeholder error message';
-            axios.put.mockResolvedValueOnce({ data: { error: err_msg } });
-            
-            const { getByText } = render(<Profile/>);
-            fireEvent.click(getByText('UPDATE'));
-
-            await waitFor(() => expect(axios.put).toHaveBeenCalled());
-            expect(toast.error).toHaveBeenCalledWith(err_msg);
-        });
-
-        it('should fail gracefully when axios fails', async () => {
-            const err_msg = 'Something went wrong';
-            axios.put.mockRejectedValueOnce(new Error());
-
-            const { getByText } = render(<Profile/>);
-            fireEvent.click(getByText('UPDATE'));
-
-            await waitFor(() => expect(axios.put).toHaveBeenCalled());
-            expect(toast.error).toHaveBeenCalledWith(err_msg);
-        })
-    })
+  })
 })
