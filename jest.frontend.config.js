@@ -4,7 +4,7 @@ export default {
 
   // simulates browser environment in jest
   // e.g., using document.querySelector in your tests
-  testEnvironment: "jest-environment-jsdom",
+  testEnvironment: "./FixJSDOMEnvironment.js",
 
   // jest does not recognise jsx files by default, so we use babel to transform any jsx files
   transform: {
@@ -20,11 +20,15 @@ export default {
   transformIgnorePatterns: ["/node_modules/(?!(styleMock\\.js)$)"],
 
   // only run these tests
-  testMatch: ["<rootDir>/client/src/pages/Auth/*.test.js"],
+  testMatch: [
+    "<rootDir>/client/src/pages/Auth/*.test.js",
+  ],
 
   // jest code coverage
   collectCoverage: true,
-  collectCoverageFrom: ["client/src/pages/Auth/**"],
+  collectCoverageFrom: [
+    "client/src/pages/Auth/**",
+  ],
   coverageThreshold: {
     global: {
       lines: 100,
