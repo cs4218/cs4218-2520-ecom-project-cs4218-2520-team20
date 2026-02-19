@@ -2,9 +2,9 @@ export default {
 	// name displayed during tests
 	displayName: "frontend",
 
-  // simulates browser environment in jest
-  // e.g., using document.querySelector in your tests
-  testEnvironment: "./FixJSDOMEnvironment.js",
+	// simulates browser environment in jest
+	// e.g., using document.querySelector in your tests
+	testEnvironment: "./FixJSDOMEnvironment.js",
 
 	// jest does not recognise jsx files by default, so we use babel to transform any jsx files
 	transform: {
@@ -31,12 +31,14 @@ export default {
 	collectCoverage: true,
 	collectCoverageFrom: [
 		"client/src/pages/Auth/**",
-		"client/src/pages/admin/CreateProduct.js",
 		"client/src/pages/admin/AdminDashboard.js",
+		"client/src/pages/admin/AdminOrders.js",
+		"client/src/pages/admin/CreateCategory.js",
+		"client/src/pages/admin/CreateProduct.js",
+		"client/src/pages/admin/Products.js",
+		"client/src/pages/admin/UpdateProduct.js",
 		"client/src/components/AdminMenu.js",
 		"client/src/components/Form/CategoryForm.js",
-        "client/src/pages/admin/UpdateProduct.js",
-        "client/src/pages/admin/CreateCategory.js",
 	],
 	coverageThreshold: {
 		global: {
