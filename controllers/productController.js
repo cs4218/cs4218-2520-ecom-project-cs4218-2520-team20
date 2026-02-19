@@ -358,6 +358,11 @@ export const braintreeTokenController = async (req, res) => {
 		});
 	} catch (error) {
 		console.log(error);
+		res.status(500).send({
+			success: false,
+			message: "Error while generating token",
+			error,
+		});
 	}
 };
 
@@ -369,7 +374,7 @@ export const brainTreePaymentController = async (req, res) => {
 		cart.map((i) => {
 			total += i.price;
 		});
-		let newTransaction = gateway.transaction.sale(
+		gateway.transaction.sale(
 			{
 				amount: total,
 				paymentMethodNonce: nonce,
@@ -379,12 +384,19 @@ export const brainTreePaymentController = async (req, res) => {
 			},
 			function (error, result) {
 				if (result) {
-					const order = new orderModel({
+					new orderModel({
 						products: cart,
 						payment: result,
 						buyer: req.user._id,
-					}).save();
-					res.json({ ok: true });
+					})
+						.save()
+						.then(() => {
+							res.json({ ok: true });
+						})
+						.catch((saveErr) => {
+							console.log(saveErr);
+							res.status(500).send(saveErr);
+						});
 				} else {
 					res.status(500).send(error);
 				}
@@ -392,5 +404,10 @@ export const brainTreePaymentController = async (req, res) => {
 		);
 	} catch (error) {
 		console.log(error);
+		res.status(500).send({
+			success: false,
+			message: "Error while processing payment",
+			error,
+		});
 	}
 };
