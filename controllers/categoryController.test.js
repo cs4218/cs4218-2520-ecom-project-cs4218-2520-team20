@@ -1,3 +1,5 @@
+// Kaw Jun Rei Dylan, A0252791Y
+
 import categoryModel from "../models/categoryModel.js";
 import slugify from "slugify";
 import {
@@ -19,7 +21,8 @@ const mockCategories = [
 
 const SUCCESS_RESPONSE = 200;
 const CREATED_RESPONSE = 201;
-const BAD_REQUEST_RESPONSE = 401;
+const BAD_REQUEST_RESPONSE = 400;
+const CONFLICT_RESPONSE = 409;
 const ERROR_RESPONSE = 500;
 
 const mockRes = () => {
@@ -54,7 +57,7 @@ describe("createCategoryController", () => {
     expect(res.send).toHaveBeenCalledWith(
       expect.objectContaining({
         success: true,
-        message: "new category created",
+        message: "New category created",
         category: mockCategories[0],
       })
     );
@@ -67,16 +70,16 @@ describe("createCategoryController", () => {
 
     await createCategoryController(req, res);
 
-    expect(res.status).toHaveBeenCalledWith(SUCCESS_RESPONSE);
+    expect(res.status).toHaveBeenCalledWith(CONFLICT_RESPONSE);
     expect(res.send).toHaveBeenCalledWith(
       expect.objectContaining({
-        success: true,
+        success: false,
         message: "Category Already Exists",
       })
     );
   });
 
-  it("returns 401 if no name is provided", async () => {
+  it("returns 400 if no name is provided", async () => {
     await createCategoryController(req, res);
 
     expect(res.status).toHaveBeenCalledWith(BAD_REQUEST_RESPONSE);
@@ -110,6 +113,7 @@ describe("updateCategoryController", () => {
       name: "Gadgets Updated",
       slug: "gadgets-updated",
     };
+    categoryModel.findOne.mockResolvedValue(null);
     categoryModel.findByIdAndUpdate.mockResolvedValue(updatedCategory);
     slugify.mockReturnValue("gadgets-updated");
 
@@ -130,6 +134,26 @@ describe("updateCategoryController", () => {
     );
   });
 
+  it("returns 409 when a category with that name already exists", async () => {
+    req = {
+      body: { name: mockCategories[1].name },
+      params: { id: mockCategories[0]._id },
+    };
+
+    // findOne returns a different category with the same name
+    categoryModel.findOne.mockResolvedValue(mockCategories[1]);
+
+    await updateCategoryController(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(CONFLICT_RESPONSE);
+    expect(res.send).toHaveBeenCalledWith(
+      expect.objectContaining({
+        success: false,
+        message: "Category Already Exists",
+      })
+    );
+  });
+
   it("returns 500 and catches an error", async () => {
     req = {
       body: { name: "Gadgets Updated" },
@@ -137,6 +161,7 @@ describe("updateCategoryController", () => {
     };
 
     const error = new Error("DB failure");
+    categoryModel.findOne.mockResolvedValue(null);
     categoryModel.findByIdAndUpdate.mockRejectedValue(error);
 
     await updateCategoryController(req, res);
@@ -215,7 +240,7 @@ describe("singleCategoryController", () => {
     expect(res.send).toHaveBeenCalledWith(
       expect.objectContaining({
         success: false,
-        message: "Error While getting Single Category",
+        message: "Error While Getting Single Category",
       })
     );
   });
