@@ -125,7 +125,7 @@ describe("createProductController", () => {
 		});
 	});
 
-	it("creates product and returns 201 on valid input", async () => {
+	it("constructs product model and reads photo on valid create", async () => {
 		// Arrange
 		const req = { fields: validFields, files: { photo: validPhoto } };
 		const res = makeRes();
@@ -140,6 +140,17 @@ describe("createProductController", () => {
 		});
 		expect(fs.readFileSync).toHaveBeenCalledWith(validPhoto.path);
 		expect(mockSave).toHaveBeenCalled();
+	});
+
+	it("returns 201 with success response on valid create", async () => {
+		// Arrange
+		const req = { fields: validFields, files: { photo: validPhoto } };
+		const res = makeRes();
+
+		// Act
+		await createProductController(req, res);
+
+		// Assert
 		expect(res.status).toHaveBeenCalledWith(201);
 		expect(res.send).toHaveBeenCalledWith(
 			expect.objectContaining({

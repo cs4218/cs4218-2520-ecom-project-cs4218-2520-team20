@@ -183,50 +183,70 @@ describe("UpdateProduct", () => {
 		},
 	);
 
-	it("populates fields with initial data correctly", async () => {
+	it("populates text fields with initial data", async () => {
+		// Arrange + Act
 		renderUpdateProduct();
-
-		// Wait for data to load
 		await screen.findByDisplayValue("Existing Product");
 
+		// Assert
 		expect(
 			screen.getByDisplayValue("Existing Product"),
 		).toBeInTheDocument();
 		expect(
 			screen.getByDisplayValue("Existing Description"),
 		).toBeInTheDocument();
-		expect(screen.getByDisplayValue("100")).toBeInTheDocument(); // Price
-		expect(screen.getByDisplayValue("10")).toBeInTheDocument(); // Quantity
-
-		const selects = screen.getAllByTestId("antd-select");
-		expect(selects[0]).toHaveValue("cat1");
-		expect(selects[1]).toHaveValue("0"); // Shipping
+		expect(screen.getByDisplayValue("100")).toBeInTheDocument();
+		expect(screen.getByDisplayValue("10")).toBeInTheDocument();
 	});
 
-	it("deletes the product successfully", async () => {
+	it("populates select fields with initial data", async () => {
+		// Arrange + Act
+		renderUpdateProduct();
+		await screen.findByDisplayValue("Existing Product");
+
+		// Assert
+		const selects = screen.getAllByTestId("antd-select");
+		expect(selects[0]).toHaveValue("cat1");
+		expect(selects[1]).toHaveValue("0"); // Shipping false → "0"
+	});
+
+	it("calls DELETE API with correct URL when user confirms", async () => {
 		// Arrange
-		axios.delete.mockResolvedValueOnce({
-			data: { success: true },
-		});
-		window.confirm = jest.fn(() => true); // User clicks OK
+		axios.delete.mockResolvedValueOnce({ data: { success: true } });
+		window.confirm = jest.fn(() => true);
 
 		renderUpdateProduct();
 		await screen.findByDisplayValue("Existing Product");
 
 		// Act
-		const deleteBtn = screen.getByText("DELETE PRODUCT");
-		fireEvent.click(deleteBtn);
+		fireEvent.click(screen.getByText("DELETE PRODUCT"));
 
 		// Assert
 		expect(window.confirm).toHaveBeenCalled();
-		expect(axios.delete).toHaveBeenCalledWith(
-			`/api/v1/product/delete-product/${mockProduct._id}`,
+		await waitFor(() =>
+			expect(axios.delete).toHaveBeenCalledWith(
+				`/api/v1/product/delete-product/${mockProduct._id}`,
+			),
 		);
-		await waitFor(() => {
+	});
+
+	it("shows success toast and navigates after delete", async () => {
+		// Arrange
+		axios.delete.mockResolvedValueOnce({ data: { success: true } });
+		window.confirm = jest.fn(() => true);
+
+		renderUpdateProduct();
+		await screen.findByDisplayValue("Existing Product");
+
+		// Act
+		fireEvent.click(screen.getByText("DELETE PRODUCT"));
+
+		// Assert
+		await waitFor(() =>
 			expect(toast.success).toHaveBeenCalledWith(
 				"Product Deleted Successfully",
-			);
-		});
+			),
+		);
 		expect(mockNavigate).toHaveBeenCalledWith("/dashboard/admin/products");
 	});
 

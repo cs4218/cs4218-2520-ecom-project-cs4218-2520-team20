@@ -90,13 +90,19 @@ describe("AdminOrders", () => {
 		console.log.mockRestore();
 	});
 
-	it("renders the layout and admin menu", async () => {
-		// Arrange
+	it("renders the Layout component", async () => {
+		// Arrange + Act
 		await renderAdminOrders();
 
-		// Act + Assert
-		await waitFor(() => expect(axios.get).toHaveBeenCalled());
+		// Assert
 		expect(screen.getByTestId("LayoutMock")).toBeInTheDocument();
+	});
+
+	it("renders the AdminMenu component", async () => {
+		// Arrange + Act
+		await renderAdminOrders();
+
+		// Assert
 		expect(screen.getByTestId("AdminMenuMock")).toBeInTheDocument();
 	});
 
