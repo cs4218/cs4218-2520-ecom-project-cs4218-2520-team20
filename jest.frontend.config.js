@@ -1,31 +1,31 @@
 export default {
-	// name displayed during tests
-	displayName: "frontend",
+  // name displayed during tests
+  displayName: "frontend",
 
 	// simulates browser environment in jest
 	// e.g., using document.querySelector in your tests
 	testEnvironment: "./FixJSDOMEnvironment.js",
 
-	// jest does not recognise jsx files by default, so we use babel to transform any jsx files
-	transform: {
-		"^.+\\.jsx?$": "babel-jest",
-	},
+  // jest does not recognise jsx files by default, so we use babel to transform any jsx files
+  transform: {
+    "^.+\\.jsx?$": "babel-jest",
+  },
 
-	// tells jest how to handle css/scss imports in your tests
-	moduleNameMapper: {
-		"\\.(css|scss)$": "identity-obj-proxy",
-	},
+  // tells jest how to handle css/scss imports in your tests
+  moduleNameMapper: {
+    "\\.(css|scss)$": "identity-obj-proxy",
+  },
 
-	// ignore all node_modules except styleMock (needed for css imports)
-	transformIgnorePatterns: ["/node_modules/(?!(styleMock\\.js)$)"],
+  // ignore all node_modules except styleMock (needed for css imports)
+  transformIgnorePatterns: ["/node_modules/(?!(styleMock\\.js)$)"],
 
-	// only run these tests
-	testMatch: [
-		"<rootDir>/client/src/pages/Auth/*.test.js",
-		"<rootDir>/client/src/pages/admin/*.test.js",
-		"<rootDir>/client/src/components/AdminMenu.test.js",
-		"<rootDir>/client/src/components/Form/CategoryForm.test.js",
-	],
+  // only run these tests
+  testMatch: [
+    "<rootDir>/client/src/pages/Auth/*.test.js",
+    "<rootDir>/client/src/pages/admin/*.test.js",
+    "<rootDir>/client/src/components/AdminMenu.test.js",
+    "<rootDir>/client/src/components/Form/CategoryForm.test.js",
+  ],
 
 	// jest code coverage
 	collectCoverage: true,
