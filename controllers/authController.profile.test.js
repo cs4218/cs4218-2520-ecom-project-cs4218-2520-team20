@@ -1,3 +1,4 @@
+// Wang Zhi Wren, A0255368U
 import { updateProfileController } from "./authController";
 import userModel from "../models/userModel.js";
 import { hashPassword } from "../helpers/authHelper.js";
