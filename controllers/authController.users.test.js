@@ -1,3 +1,4 @@
+// Wang Zhi Wren, A0255368U
 import { getAllUsersController } from "./authController";
 import userModel from "../models/userModel.js";
 
