@@ -23,13 +23,22 @@ export default {
   testMatch: [
     "<rootDir>/client/src/pages/Auth/*.test.js",
     "<rootDir>/client/src/pages/user/*.test.js",
+    "<rootDir>/client/src/pages/admin/*.test.js",
+    "<rootDir>/client/src/components/AdminMenu.test.js",
+    "<rootDir>/client/src/components/Form/CategoryForm.test.js",
   ],
 
   // jest code coverage
   collectCoverage: true,
   collectCoverageFrom: [
     "client/src/pages/Auth/**",
-    "client/src/pages/user/Orders.**",
+    "client/src/pages/user/Orders.js",
+    "client/src/pages/admin/CreateProduct.js",
+    "client/src/pages/admin/AdminDashboard.js",
+    "client/src/components/AdminMenu.js",
+    "client/src/components/Form/CategoryForm.js",
+    "client/src/pages/admin/UpdateProduct.js",
+    "client/src/pages/admin/CreateCategory.js",
   ],
   coverageThreshold: {
     global: {
