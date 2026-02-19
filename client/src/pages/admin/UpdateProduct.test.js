@@ -172,6 +172,44 @@ describe("UpdateProduct", () => {
 			await screen.findByDisplayValue("Existing Product");
 
 			// Act
+			if (missingField === "name") {
+				fireEvent.change(screen.getByPlaceholderText(/write a name/i), {
+					target: { value: "" },
+				});
+			} else if (missingField === "description") {
+				fireEvent.change(
+					screen.getByPlaceholderText(/write a description/i),
+					{ target: { value: "" } },
+				);
+			} else if (missingField === "price") {
+				fireEvent.change(
+					screen.getByPlaceholderText(/write a price/i),
+					{ target: { value: "" } },
+				);
+			} else if (missingField === "quantity") {
+				fireEvent.change(
+					screen.getByPlaceholderText(/write a quantity/i),
+					{ target: { value: "" } },
+				);
+			} else if (missingField === "category") {
+				const selects = screen.getAllByTestId("antd-select");
+				fireEvent.change(selects[0], { target: { value: "" } });
+			} else if (missingField === "shipping") {
+				const selects = screen.getAllByTestId("antd-select");
+				fireEvent.change(selects[1], { target: { value: "" } });
+			} else if (missingField === "photo") {
+				// Upload an oversized photo to trigger photo size validation
+				const largeFile = new File(["a".repeat(2000000)], "large.png", {
+					type: "image/png",
+				});
+				const fileInput = screen.getByLabelText(/upload photo/i, {
+					selector: "input",
+				});
+				fireEvent.change(fileInput, {
+					target: { files: [largeFile] },
+				});
+			}
+
 			fireEvent.click(
 				screen.getByRole("button", { name: /update product/i }),
 			);

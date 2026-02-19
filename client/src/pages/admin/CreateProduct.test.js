@@ -130,7 +130,7 @@ describe("CreateProduct", () => {
 		["shipping", "Shipping is Required"],
 		["photo", "photo is Required"],
 	])(
-		"shows an error toast when %s is missing",
+		"shows the backend error toast when the backend rejects for %s",
 		async (missingField, backendMessage) => {
 			// Arrange
 			// Backend returns validation errors as HTTP 400 with `{ error: ... }`, so axios rejects.
@@ -290,6 +290,27 @@ describe("CreateProduct", () => {
 		// Assert
 		await waitFor(() => expect(axios.post).toHaveBeenCalled());
 		expect(toast.error).toHaveBeenCalledWith("Product validation failed");
+		expect(mockNavigate).not.toHaveBeenCalled();
+	});
+
+	it("shows generic error toast when product creation throws without response data", async () => {
+		// Arrange
+		axios.post.mockRejectedValueOnce(new Error("Network Error"));
+		renderCreateProduct();
+
+		await screen.findByLabelText(/upload photo/i, { selector: "input" });
+
+		// Act
+		fireEvent.change(screen.getByPlaceholderText(/write a name/i), {
+			target: { value: "Product A" },
+		});
+		fireEvent.click(
+			screen.getByRole("button", { name: /create product/i }),
+		);
+
+		// Assert
+		await waitFor(() => expect(axios.post).toHaveBeenCalled());
+		expect(toast.error).toHaveBeenCalledWith("Something went wrong");
 		expect(mockNavigate).not.toHaveBeenCalled();
 	});
 });

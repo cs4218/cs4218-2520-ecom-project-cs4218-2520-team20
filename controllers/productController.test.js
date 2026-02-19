@@ -600,4 +600,63 @@ describe("brainTreePaymentController", () => {
 		expect(res.status).toHaveBeenCalledWith(ERROR_RESPONSE);
 		expect(res.send).toHaveBeenCalledWith(transactionError);
 	});
+
+	it("responds with 500 when order save fails", async () => {
+		// Arrange
+		const saveError = new Error("DB save failed");
+		mockSale.mockImplementation((_opts, cb) => cb(null, { id: "txn1" }));
+		orderModel._mockSave.mockRejectedValueOnce(saveError);
+		const req = { body: { nonce, cart }, user: { _id: userId } };
+		const res = makeRes();
+
+		// Act
+		await brainTreePaymentController(req, res);
+		// Flush microtask queue so the .catch handler on order.save() executes
+		await new Promise(process.nextTick);
+
+		// Assert
+		expect(console.log).toHaveBeenCalledWith(saveError);
+		expect(res.status).toHaveBeenCalledWith(ERROR_RESPONSE);
+		expect(res.send).toHaveBeenCalledWith(saveError);
+	});
+
+	it("handles an empty cart with zero total", async () => {
+		// Arrange
+		mockSale.mockImplementation((_opts, cb) => cb(null, { id: "txn1" }));
+		const req = { body: { nonce, cart: [] }, user: { _id: userId } };
+		const res = makeRes();
+
+		// Act
+		await brainTreePaymentController(req, res);
+
+		// Assert
+		expect(mockSale).toHaveBeenCalledWith(
+			{
+				amount: 0,
+				paymentMethodNonce: nonce,
+				options: { submitForSettlement: true },
+			},
+			expect.any(Function),
+		);
+		expect(res.json).toHaveBeenCalledWith({ ok: true });
+	});
+
+	it("responds with 500 when req.body is undefined (outer catch)", async () => {
+		// Arrange
+		const req = { body: undefined, user: { _id: userId } };
+		const res = makeRes();
+
+		// Act
+		await brainTreePaymentController(req, res);
+
+		// Assert
+		expect(console.log).toHaveBeenCalled();
+		expect(res.status).toHaveBeenCalledWith(ERROR_RESPONSE);
+		expect(res.send).toHaveBeenCalledWith(
+			expect.objectContaining({
+				success: false,
+				message: "Error while processing payment",
+			}),
+		);
+	});
 });
