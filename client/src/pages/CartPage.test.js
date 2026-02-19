@@ -1,3 +1,5 @@
+// Kaw Jun Rei Dylan, A0252791Y
+
 import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
@@ -32,12 +34,10 @@ jest.mock("../context/cart", () => ({
   useCart: () => mockUseCart(),
 }));
 
-jest.mock("./../components/Layout", () => {
-  const ReactLib = require("react");
+jest.mock("../components/Layout", () => {
   return {
     __esModule: true,
-    default: ({ children }) =>
-      ReactLib.createElement("div", { "data-testid": "layout-mock" }, children),
+    default: ({ children }) => <div data-testid="layout-mock">{children}</div>,
   };
 });
 
