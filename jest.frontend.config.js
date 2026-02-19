@@ -2,9 +2,9 @@ export default {
 	// name displayed during tests
 	displayName: "frontend",
 
-	// simulates browser environment in jest
-	// e.g., using document.querySelector in your tests
-	testEnvironment: "jest-environment-jsdom",
+  // simulates browser environment in jest
+  // e.g., using document.querySelector in your tests
+  testEnvironment: "./FixJSDOMEnvironment.js",
 
 	// jest does not recognise jsx files by default, so we use babel to transform any jsx files
 	transform: {
