@@ -73,7 +73,7 @@ describe('Orders Component', () => {
     });
 
     it('should not render table headers if no users are found', async () => {
-        axios.get.mockResolvedValueOnce({success: true, data: []});
+        axios.get.mockResolvedValueOnce({ data: {success: true, data: []}});
 
         const { queryAllByText } = await act(async () => render(<Users/>));
         await waitFor(() => expect(axios.get).toHaveBeenCalledTimes(1));
@@ -93,7 +93,7 @@ describe('Orders Component', () => {
     });
 
     it('should display loading message when no users are found', async () => {
-        axios.get.mockResolvedValueOnce({success: true, data: []});
+        axios.get.mockResolvedValueOnce({ data: {success: true, data: []}});
 
         const { queryAllByText } = await act(async () => render(<Users/>));
         await waitFor(() => expect(axios.get).toHaveBeenCalledTimes(1));
@@ -103,7 +103,7 @@ describe('Orders Component', () => {
     });
 
     it('should render exactly 1 set of table headers when there are users', async () => {
-        axios.get.mockResolvedValueOnce({success: true, data: construct_users(3)});
+        axios.get.mockResolvedValueOnce({ data: {success: true, data: construct_users(3)}});
 
         const { queryAllByText } = await act(async () => render(<Users/>));
         await waitFor(() => expect(axios.get).toHaveBeenCalledTimes(1));
@@ -137,7 +137,7 @@ describe('Orders Component', () => {
     });
 
     it('should fail gracefully if axios returns false', async () => {
-        axios.get.mockResolvedValueOnce({success: false, message: 'error string'});
+        axios.get.mockResolvedValueOnce({ data: {success: false, message: 'error string'}});
         const spy = jest.spyOn(console, 'error').mockImplementation(x => {})
 
         const { queryAllByText } = await act(async () => render(<Users/>));
@@ -151,7 +151,7 @@ describe('Orders Component', () => {
     });
 
     it('should display order details of a successful order', async () => {
-        axios.get.mockResolvedValueOnce({success: true, data: construct_users(3)});
+        axios.get.mockResolvedValueOnce({ data: {success: true, data: construct_users(3)}});
 
         const { queryAllByText } = await act(async () => render(<Users/>));
         await waitFor(() => expect(axios.get).toHaveBeenCalledTimes(1));
@@ -175,7 +175,7 @@ describe('Orders Component', () => {
 
     describe('Role Rendering', () => {
         it('should display user role when role is 0', async () => {
-            axios.get.mockResolvedValueOnce({success: true, data: construct_users(1)});
+            axios.get.mockResolvedValueOnce({ data: {success: true, data: construct_users(1)}});
 
             const { queryAllByText } = await act(async () => render(<Users/>));
             await waitFor(() => expect(axios.get).toHaveBeenCalledTimes(1));
@@ -185,7 +185,7 @@ describe('Orders Component', () => {
         });
 
         it('should display admin role when role is 1', async () => {
-            axios.get.mockResolvedValueOnce({success: true, data: construct_users(1, 1)});
+            axios.get.mockResolvedValueOnce({ data: {success: true, data: construct_users(1, 1)}});
 
             const { queryAllByText } = await act(async () => render(<Users/>));
             await waitFor(() => expect(axios.get).toHaveBeenCalledTimes(1));
@@ -197,7 +197,7 @@ describe('Orders Component', () => {
         it('should display unknown role when role is -1', async () => {
             const modded_data = construct_users(1)
             modded_data[0].role = -1
-            axios.get.mockResolvedValueOnce({success: true, data: modded_data});
+            axios.get.mockResolvedValueOnce({ data: {success: true, data: modded_data}});
             const spy = jest.spyOn(console, 'error').mockImplementation(x => {})
 
             const { queryAllByText } = await act(async () => render(<Users/>));
@@ -212,7 +212,7 @@ describe('Orders Component', () => {
         it('should display unknown role when role is 2', async () => {
             const modded_data = construct_users(1)
             modded_data[0].role = 2
-            axios.get.mockResolvedValueOnce({success: true, data: modded_data});
+            axios.get.mockResolvedValueOnce({ data: {success: true, data: modded_data}});
             const spy = jest.spyOn(console, 'error').mockImplementation(x => {})
 
             const { queryAllByText } = await act(async () => render(<Users/>));

@@ -8,7 +8,7 @@ import moment from "moment";
 const enum_role = ["User", "Admin"];
 
 function role_to_str(role) {
-  if (role != 0 && role != 1) {
+  if (role !== 0 && role !== 1) {
     console.error(`Unknown role ${role} found in response.`);
     return "Unknown";
   }
@@ -20,12 +20,12 @@ const Users = () => {
   const [auth, _] = useAuth();
   const getUsers = async () => {
     try {
-      const res = await axios.get("/api/v1/auth/all-users");
-      if (res.success) {
-        setUserData(res.data);
+      const { data } = await axios.get("/api/v1/auth/all-users");
+      if (data.success) {
+        setUserData(data.data);
         return;
       } 
-      console.error(res.message)
+      console.error(data.message)
     } catch (error) {
       console.error(error.message);
     }
@@ -45,7 +45,7 @@ const Users = () => {
           <div className="col-md-9">
             <h1>All Users</h1>
             <div className="border shadow">
-              {userData?.length == 0 && (<h3>Loading list of users...</h3>)}
+              {userData?.length === 0 && (<h3>Loading list of users...</h3>)}
               <table className="table">
                   {userData?.length > 0 && (
                     <thead>
