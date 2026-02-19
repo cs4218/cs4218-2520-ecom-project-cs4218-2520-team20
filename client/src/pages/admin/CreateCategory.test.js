@@ -48,11 +48,15 @@ jest.mock("antd", () => {
 	};
 });
 
-const renderCreateCategory = () => {
+const renderCreateCategory = async () => {
 	render(
 		<MemoryRouter>
 			<CreateCategory />
 		</MemoryRouter>,
+	);
+	// Wait for the initial category fetch to complete so state updates happen inside act
+	await waitFor(() =>
+		expect(axios.get).toHaveBeenCalledWith("/api/v1/category/get-category"),
 	);
 };
 
@@ -60,8 +64,6 @@ describe("CreateCategory", () => {
 	beforeEach(() => {
 		jest.clearAllMocks();
 		jest.spyOn(console, "log").mockImplementation(() => {});
-		jest.spyOn(console, "error").mockImplementation(() => {});
-
 		// Default happy path for get-category
 		axios.get.mockResolvedValue({
 			data: {
@@ -76,11 +78,10 @@ describe("CreateCategory", () => {
 
 	afterEach(() => {
 		console.log.mockRestore();
-		console.error.mockRestore();
 	});
 
 	it("renders the component and fetches categories correctly", async () => {
-		renderCreateCategory();
+		await renderCreateCategory();
 
 		expect(screen.getByTestId("LayoutMock")).toBeInTheDocument();
 		expect(screen.getByTestId("AdminMenuMock")).toBeInTheDocument();
@@ -113,7 +114,7 @@ describe("CreateCategory", () => {
 			data: { success: true },
 		});
 
-		renderCreateCategory();
+		await renderCreateCategory();
 		await screen.findByText("Electronics");
 
 		// Act
@@ -125,19 +126,17 @@ describe("CreateCategory", () => {
 		const submitBtns = screen.getAllByText("Submit");
 		fireEvent.click(submitBtns[0]);
 
+		// Wait for the re-fetch to update the UI first (keeps act scope active)
+		await screen.findByText("New Category");
+
 		// Assert
-		await waitFor(() =>
-			expect(axios.post).toHaveBeenCalledWith(
-				"/api/v1/category/create-category",
-				{
-					name: "New Category",
-				},
-			),
+		expect(axios.post).toHaveBeenCalledWith(
+			"/api/v1/category/create-category",
+			{
+				name: "New Category",
+			},
 		);
 		expect(toast.success).toHaveBeenCalledWith("New Category is created");
-
-		// Wait for the re-fetch to update the UI
-		await screen.findByText("New Category");
 		expect(axios.get).toHaveBeenCalledTimes(2);
 	});
 
@@ -147,7 +146,7 @@ describe("CreateCategory", () => {
 			data: { success: false, message: "Error creating category" },
 		});
 
-		renderCreateCategory();
+		await renderCreateCategory();
 		await screen.findByText("Electronics");
 
 		// Act
@@ -167,7 +166,7 @@ describe("CreateCategory", () => {
 		// Arrange
 		axios.post.mockRejectedValueOnce(new Error("Network Error"));
 
-		renderCreateCategory();
+		await renderCreateCategory();
 		await screen.findByText("Electronics");
 
 		// Act
@@ -204,11 +203,10 @@ describe("CreateCategory", () => {
 			data: { success: true },
 		});
 
-		renderCreateCategory();
+		await renderCreateCategory();
 		await screen.findByText("Electronics");
 
 		// Act
-		// Find edit button for Electronics
 		const editBtn = screen.getAllByText("Edit")[0];
 		fireEvent.click(editBtn);
 
@@ -232,21 +230,19 @@ describe("CreateCategory", () => {
 		const modalSubmitBtn = submitBtns[1]; // 2nd submit button
 		fireEvent.click(modalSubmitBtn);
 
+		// Wait for the re-fetch to update the UI first (keeps act scope active)
+		await screen.findByText("Electronics Updated");
+
 		// Assert
-		await waitFor(() =>
-			expect(axios.put).toHaveBeenCalledWith(
-				"/api/v1/category/update-category/1",
-				{
-					name: "Electronics Updated",
-				},
-			),
+		expect(axios.put).toHaveBeenCalledWith(
+			"/api/v1/category/update-category/1",
+			{
+				name: "Electronics Updated",
+			},
 		);
 		expect(toast.success).toHaveBeenCalledWith(
 			"Electronics Updated is updated",
 		);
-
-		// Wait for UI to update with new name
-		await screen.findByText("Electronics Updated");
 	});
 
 	it("deletes a category successfully", async () => {
@@ -269,7 +265,7 @@ describe("CreateCategory", () => {
 			data: { success: true },
 		});
 
-		renderCreateCategory();
+		await renderCreateCategory();
 		await screen.findByText("Electronics");
 
 		// Act
@@ -277,18 +273,16 @@ describe("CreateCategory", () => {
 		const deleteBtn = screen.getAllByText("Delete")[0];
 		fireEvent.click(deleteBtn);
 
-		// Assert
-		await waitFor(() =>
-			expect(axios.delete).toHaveBeenCalledWith(
-				"/api/v1/category/delete-category/1",
-			),
-		);
-		expect(toast.success).toHaveBeenCalledWith("category is deleted");
-
-		// Ensure Electronics is removed
+		// Wait for the re-fetch to update the UI first (keeps act scope active)
 		await waitFor(() =>
 			expect(screen.queryByText("Electronics")).not.toBeInTheDocument(),
 		);
+
+		// Assert
+		expect(axios.delete).toHaveBeenCalledWith(
+			"/api/v1/category/delete-category/1",
+		);
+		expect(toast.success).toHaveBeenCalledWith("category is deleted");
 	});
 
 	it("shows error toast if get categories fails", async () => {
@@ -296,7 +290,7 @@ describe("CreateCategory", () => {
 		axios.get.mockRejectedValueOnce(new Error("Network Error"));
 
 		// Act
-		renderCreateCategory();
+		await renderCreateCategory();
 
 		// Assert
 		await waitFor(() =>
@@ -314,7 +308,7 @@ describe("CreateCategory", () => {
 			},
 		});
 
-		renderCreateCategory();
+		await renderCreateCategory();
 		await screen.findByText("Electronics");
 
 		// Act
@@ -338,7 +332,7 @@ describe("CreateCategory", () => {
 			},
 		});
 
-		renderCreateCategory();
+		await renderCreateCategory();
 		await screen.findByText("Electronics");
 
 		// Act
@@ -368,7 +362,7 @@ describe("CreateCategory", () => {
 		// Arrange
 		axios.delete.mockRejectedValueOnce(new Error("Delete Failed"));
 
-		renderCreateCategory();
+		await renderCreateCategory();
 		await screen.findByText("Electronics");
 
 		// Act
@@ -386,7 +380,7 @@ describe("CreateCategory", () => {
 			data: { success: false, message: "Update Failed" },
 		});
 
-		renderCreateCategory();
+		await renderCreateCategory();
 		await screen.findByText("Electronics");
 
 		// Act
@@ -417,7 +411,7 @@ describe("CreateCategory", () => {
 		// Arrange
 		axios.put.mockRejectedValueOnce(new Error("Network Error"));
 
-		renderCreateCategory();
+		await renderCreateCategory();
 		await screen.findByText("Electronics");
 
 		// Act
@@ -445,7 +439,7 @@ describe("CreateCategory", () => {
 			data: { success: false, message: "Cannot delete category" },
 		});
 
-		renderCreateCategory();
+		await renderCreateCategory();
 		await screen.findByText("Electronics");
 
 		// Act
@@ -465,7 +459,7 @@ describe("CreateCategory", () => {
 			},
 		});
 
-		renderCreateCategory();
+		await renderCreateCategory();
 		await screen.findByText("Electronics");
 
 		// Act
@@ -478,7 +472,7 @@ describe("CreateCategory", () => {
 	});
 
 	it("closes the modal when cancel is clicked", async () => {
-		renderCreateCategory();
+		await renderCreateCategory();
 		await screen.findByText("Electronics");
 
 		// Open modal
