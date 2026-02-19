@@ -255,3 +255,23 @@ export const orderStatusController = async (req, res) => {
     });
   }
 };
+
+// all users
+export const getAllUsersController = async (req, res) => {
+  try {
+    const users = await userModel
+      .find({}, '-password -answer -updatedAt')
+      .sort({ role: -1, createdAt: -1 });
+    res.send({
+      success: true,
+      data: users
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: 'Error while getting users.',
+      error,
+    });
+  }
+};
