@@ -26,6 +26,7 @@ export default {
     "<rootDir>/client/src/pages/admin/*.test.js",
     "<rootDir>/client/src/components/AdminMenu.test.js",
     "<rootDir>/client/src/components/Form/CategoryForm.test.js",
+    "<rootDir>/client/src/pages/Contact.test.js"
   ],
 
 	// jest code coverage
@@ -40,6 +41,7 @@ export default {
 		"client/src/components/Form/CategoryForm.js",
     "client/src/pages/admin/UpdateProduct.js",
     "client/src/pages/admin/CreateCategory.js",
+    "client/src/pages/Contact.js"
 	],
 	coverageThreshold: {
 		global: {
