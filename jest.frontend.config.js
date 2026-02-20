@@ -38,6 +38,7 @@ export default {
 		"client/src/pages/admin/CreateProduct.js",
 		"client/src/pages/admin/Products.js",
 		"client/src/pages/admin/UpdateProduct.js",
+        "client/src/pages/admin/Users.js",
 		"client/src/components/AdminMenu.js",
 		"client/src/components/Form/CategoryForm.js",
         "client/src/pages/user/Orders.js",
