@@ -202,6 +202,7 @@ describe("CartPage - user logged in", () => {
     const payButton = await screen.findByRole("button", {
       name: /Make Payment/i,
     });
+    await waitFor(() => expect(payButton).toBeEnabled());  
     fireEvent.click(payButton);
 
     // Assert

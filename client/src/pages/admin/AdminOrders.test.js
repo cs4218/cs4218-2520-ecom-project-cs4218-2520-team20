@@ -49,7 +49,7 @@ const { useAuth } = require("../../context/auth");
 const mockOrders = [
 	{
 		_id: "order1",
-		status: "Not Process",
+		status: "Not Processed",
 		buyer: { name: "John Doe" },
 		createdAt: "2024-01-01T00:00:00.000Z",
 		payment: { success: true },
@@ -294,11 +294,11 @@ describe("AdminOrders", () => {
 
 		// Assert
 		await screen.findByText("John Doe");
-		expect(screen.getByText("Not Process")).toBeInTheDocument();
+		expect(screen.getByText("Not Processed")).toBeInTheDocument();
 		expect(screen.getByText("Processing")).toBeInTheDocument();
 		expect(screen.getByText("Shipped")).toBeInTheDocument();
-		expect(screen.getByText("delivered")).toBeInTheDocument();
-		expect(screen.getByText("Cancel")).toBeInTheDocument();
+		expect(screen.getByText("Delivered")).toBeInTheDocument();
+		expect(screen.getByText("Cancelled")).toBeInTheDocument();
 	});
 
 	it("renders order index (1-based) in table", async () => {

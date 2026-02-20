@@ -24,6 +24,7 @@ export default {
     "<rootDir>/client/src/pages/Auth/*.test.js",
     "<rootDir>/client/src/pages/user/*.test.js",
     "<rootDir>/client/src/pages/admin/*.test.js",
+    "<rootDir>/client/src/pages/*.test.js",
     "<rootDir>/client/src/components/AdminMenu.test.js",
     "<rootDir>/client/src/components/Form/CategoryForm.test.js",
   ],
