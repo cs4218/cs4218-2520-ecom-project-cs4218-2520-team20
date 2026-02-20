@@ -35,7 +35,7 @@ const UpdateConsumer = () => {
 };
 
 describe("SearchContext & SearchProvider", () => {
-  test("renders children inside SearchProvider", () => {
+  test("renders children inside SearchProvider", () => { // Alexander Setyawan, A0257149W
     // Arrange
     render(
       <SearchProvider>
@@ -50,7 +50,7 @@ describe("SearchContext & SearchProvider", () => {
     expect(childElement).toBeInTheDocument();
   });
 
-  test("initializes keyword as empty string", () => {
+  test("initializes keyword as empty string", () => { // Alexander Setyawan, A0257149W
     // Arrange
     render(
       <SearchProvider>
@@ -65,7 +65,7 @@ describe("SearchContext & SearchProvider", () => {
     expect(keyword.textContent).toBe("");
   });
 
-  test("initializes results as empty array", () => {
+  test("initializes results as empty array", () => { // Alexander Setyawan, A0257149W
     // Arrange
     render(
       <SearchProvider>
@@ -80,7 +80,7 @@ describe("SearchContext & SearchProvider", () => {
     expect(resultsLength.textContent).toBe("0");
   });
 
-  test("updates keyword when setState is called", () => {
+  test("updates keyword when setState is called", () => { // Alexander Setyawan, A0257149W
     // Arrange
     render(
       <SearchProvider>
@@ -96,7 +96,7 @@ describe("SearchContext & SearchProvider", () => {
     expect(screen.getByTestId("keyword").textContent).toBe("react");
   });
 
-  test("updates results when setState is called", () => {
+  test("updates results when setState is called", () => { // Alexander Setyawan, A0257149W
     // Arrange
     render(
       <SearchProvider>
@@ -112,7 +112,7 @@ describe("SearchContext & SearchProvider", () => {
     expect(screen.getByTestId("results-length").textContent).toBe("2");
   });
 
-  test("useSearch returns state object and setState function", () => {
+  test("useSearch returns state object and setState function", () => { // Alexander Setyawan, A0257149W
     // Arrange
     let contextValue;
 
@@ -136,7 +136,7 @@ describe("SearchContext & SearchProvider", () => {
     expect(typeof setState).toBe("function");
   });
 
-  test("allows multiple consecutive state updates", () => {
+  test("allows multiple consecutive state updates", () => { // Alexander Setyawan, A0257149W
     // Arrange
     const MultiUpdateConsumer = () => {
       const [state, setState] = useSearch();

@@ -32,7 +32,7 @@ describe("SearchInput Component", () => {
     jest.clearAllMocks();
   });
 
-  test("renders search form", () => {
+  test("renders search form", () => { // Alexander Setyawan, A0257149W
     // Arrange
     render(<SearchInput />);
 
@@ -45,7 +45,7 @@ describe("SearchInput Component", () => {
     expect(button).toBeInTheDocument();
   });
 
-  test("input should be initially empty", () => {
+  test("input should be initially empty", () => { // Alexander Setyawan, A0257149W
     // Arrange
     render(<SearchInput />);
 
@@ -56,7 +56,7 @@ describe("SearchInput Component", () => {
     expect(input.value).toBe("");
   });
 
-  test("should update keyword when typing", () => {
+  test("should update keyword when typing", () => { // Alexander Setyawan, A0257149W
     // Arrange
     render(<SearchInput />);
     const input = screen.getByPlaceholderText("Search");
@@ -71,7 +71,7 @@ describe("SearchInput Component", () => {
     });
   });
 
-  test("should call axios with correct URL on submit", async () => {
+  test("should call axios with correct URL on submit", async () => { // Alexander Setyawan, A0257149W
     // Arrange
     useSearch.mockReturnValue([
       { keyword: "phone", results: [] },
@@ -94,7 +94,7 @@ describe("SearchInput Component", () => {
     });
   });
 
-  test("should set results after successful search", async () => {
+  test("should set results after successful search", async () => { // Alexander Setyawan, A0257149W
     // Arrange
     const fakeData = [{ id: 1, name: "Phone" }];
 
@@ -120,7 +120,7 @@ describe("SearchInput Component", () => {
     });
   });
 
-  test("should navigate to /search after successful search", async () => {
+  test("should navigate to /search after successful search", async () => { // Alexander Setyawan, A0257149W
     // Arrange
     axios.get.mockResolvedValue({ data: [] });
 
@@ -141,7 +141,7 @@ describe("SearchInput Component", () => {
     });
   });
 
-  test("should log error if axios request fails", async () => {
+  test("should log error if axios request fails", async () => { // Alexander Setyawan, A0257149W
     // Arrange
     const consoleSpy = jest.spyOn(console, "log").mockImplementation();
 
@@ -166,7 +166,7 @@ describe("SearchInput Component", () => {
     consoleSpy.mockRestore();
   });
 
-  test("should handle empty search keyword", async () => {
+  test("should handle empty search keyword", async () => { // Alexander Setyawan, A0257149W
     // Arrange
     axios.get.mockResolvedValue({ data: [] });
 

@@ -21,7 +21,7 @@ describe("Search Page", () => {
     jest.clearAllMocks();
   });
 
-  test("renders search results heading", () => {
+  test("renders search results heading", () => { // Alexander Setyawan, A0257149W
     // ARRANGE
     useSearch.mockReturnValue([{ results: [] }, jest.fn()]);
 
@@ -32,7 +32,7 @@ describe("Search Page", () => {
     expect(screen.getByText("Search Results")).toBeInTheDocument();
   });
 
-  test("displays 'No Products Found' when results array is empty", () => {
+  test("displays 'No Products Found' when results array is empty", () => { // Alexander Setyawan, A0257149W
     // ARRANGE
     useSearch.mockReturnValue([{ results: [] }, jest.fn()]);
 
@@ -43,7 +43,7 @@ describe("Search Page", () => {
     expect(screen.getByText("No Products Found")).toBeInTheDocument();
   });
 
-  test("displays correct number of products found", () => {
+  test("displays correct number of products found", () => { // Alexander Setyawan, A0257149W
     // ARRANGE
     const fakeProducts = [
       { _id: "1", name: "Product 1", description: "Description 1", price: 100 },
@@ -59,7 +59,7 @@ describe("Search Page", () => {
     expect(screen.getByText("Found 2")).toBeInTheDocument();
   });
 
-  test("renders product name correctly", () => {
+  test("renders product name correctly", () => { // Alexander Setyawan, A0257149W
     // ARRANGE
     const fakeProducts = [
       { _id: "1", name: "Test Product", description: "Some description", price: 100 },
@@ -74,7 +74,7 @@ describe("Search Page", () => {
     expect(screen.getByText("Test Product")).toBeInTheDocument();
   });
 
-  test("renders truncated product description (first 30 characters)", () => {
+  test("renders truncated product description (first 30 characters)", () => { // Alexander Setyawan, A0257149W
     // ARRANGE
     const longDescription = "123456789012345678901234567890EXTRA_TEXT";
     const fakeProducts = [
@@ -90,7 +90,7 @@ describe("Search Page", () => {
     expect(screen.getByText("123456789012345678901234567890...")).toBeInTheDocument();
   });
 
-  test("renders product price correctly", () => {
+  test("renders product price correctly", () => { // Alexander Setyawan, A0257149W
     // ARRANGE
     const fakeProducts = [
       { _id: "1", name: "Product", description: "Desc", price: 999 },
@@ -105,7 +105,7 @@ describe("Search Page", () => {
     expect(screen.getByText("$ 999")).toBeInTheDocument();
   });
 
-  test("renders correct product image source", () => {
+  test("renders correct product image source", () => { // Alexander Setyawan, A0257149W
     // ARRANGE
     const fakeProducts = [
       { _id: "abc123", name: "Product", description: "Desc", price: 100 },
@@ -125,7 +125,7 @@ describe("Search Page", () => {
     );
   });
 
-  test("renders 'More Details' button for each product", () => {
+  test("renders 'More Details' button for each product", () => { // Alexander Setyawan, A0257149W
     // ARRANGE
     const fakeProducts = [
       { _id: "1", name: "Product", description: "Desc", price: 100 },
@@ -140,7 +140,7 @@ describe("Search Page", () => {
     expect(screen.getByText("More Details")).toBeInTheDocument();
   });
 
-  test("renders 'ADD TO CART' button for each product", () => {
+  test("renders 'ADD TO CART' button for each product", () => { // Alexander Setyawan, A0257149W
     // ARRANGE
     const fakeProducts = [
       { _id: "1", name: "Product", description: "Desc", price: 100 },
