@@ -13,7 +13,7 @@ jest.mock("./../components/Layout", () => ({
 }));
 
 describe("Contact Page", () => {
-  test("renders Contact page without crashing", () => {
+  test("renders Contact page without crashing", () => { // Alexander Setyawan, A0257149W
     // Act
     render(<Contact />);
 
@@ -30,7 +30,7 @@ describe("Contact Page", () => {
       .toHaveAttribute("data-title", "Contact us");
   });
 
-  test("renders CONTACT US heading", () => {
+  test("renders CONTACT US heading", () => { // Alexander Setyawan, A0257149W
     // Act
     render(<Contact />);
 
@@ -40,7 +40,7 @@ describe("Contact Page", () => {
     ).toBeInTheDocument();
   });
 
-  test("renders contact description text", () => {
+  test("renders contact description text", () => { // Alexander Setyawan, A0257149W
     // Act
     render(<Contact />);
 
@@ -50,7 +50,7 @@ describe("Contact Page", () => {
     ).toBeInTheDocument();
   });
 
-  test("renders email address", () => {
+  test("renders email address", () => { // Alexander Setyawan, A0257149W
     // Act
     render(<Contact />);
 
@@ -60,7 +60,7 @@ describe("Contact Page", () => {
     ).toBeInTheDocument();
   });
 
-  test("renders phone number", () => {
+  test("renders phone number", () => { // Alexander Setyawan, A0257149W
     // Act
     render(<Contact />);
 
@@ -70,7 +70,7 @@ describe("Contact Page", () => {
     ).toBeInTheDocument();
   });
 
-  test("renders toll free support number", () => {
+  test("renders toll free support number", () => { // Alexander Setyawan, A0257149W
     // Act
     render(<Contact />);
 
@@ -80,7 +80,7 @@ describe("Contact Page", () => {
     ).toBeInTheDocument();
   });
 
-  test("renders contact image with correct alt text", () => {
+  test("renders contact image with correct alt text", () => { // Alexander Setyawan, A0257149W
     // Act
     render(<Contact />);
 
@@ -89,7 +89,7 @@ describe("Contact Page", () => {
     expect(image).toBeInTheDocument();
   });
 
-  test("contact image has correct src attribute", () => {
+  test("contact image has correct src attribute", () => { // Alexander Setyawan, A0257149W
     // Act
     render(<Contact />);
 
@@ -98,7 +98,7 @@ describe("Contact Page", () => {
     expect(image).toHaveAttribute("src", "/images/contactus.jpeg");
   });
 
-  test("renders 3 contact icons", () => {
+  test("renders 3 contact icons", () => { // Alexander Setyawan, A0257149W
     // Act
     render(<Contact />);
 
