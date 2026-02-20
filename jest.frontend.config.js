@@ -26,12 +26,15 @@ export default {
     "<rootDir>/client/src/pages/admin/*.test.js",
     "<rootDir>/client/src/components/AdminMenu.test.js",
     "<rootDir>/client/src/components/Form/CategoryForm.test.js",
+    "<rootDir>/client/src/components/Form/SearchInput.test.js",
+    "<rootDir>/client/src/context/search.test.js",
+    "<rootDir>/client/src/pages/Search.test.js"
   ],
 
-	// jest code coverage
-	collectCoverage: true,
-	collectCoverageFrom: [
-		"client/src/pages/Auth/**",
+  // jest code coverage
+  collectCoverage: true,
+  collectCoverageFrom: [
+    "client/src/pages/Auth/**",
     "client/src/pages/user/Orders.js",
 		"client/src/pages/admin/CreateProduct.js",
 		"client/src/pages/admin/AdminDashboard.js",
@@ -40,12 +43,15 @@ export default {
 		"client/src/components/Form/CategoryForm.js",
     "client/src/pages/admin/UpdateProduct.js",
     "client/src/pages/admin/CreateCategory.js",
-	],
-	coverageThreshold: {
-		global: {
-			lines: 100,
-			functions: 100,
-		},
-	},
-	setupFilesAfterEnv: ["<rootDir>/client/src/setupTests.js"],
+    "<rootDir>/client/src/components/Form/SearchInput.js",
+    "<rootDir>/client/src/context/search.js",
+    "<rootDir>/client/src/pages/Search.js"
+  ],
+  coverageThreshold: {
+    global: {
+      lines: 100,
+      functions: 100,
+    },
+  },
+  setupFilesAfterEnv: ["<rootDir>/client/src/setupTests.js"],
 };
