@@ -22,6 +22,7 @@ export default {
   // only run these tests
   testMatch: [
     "<rootDir>/client/src/pages/Auth/*.test.js",
+    "<rootDir>/client/src/pages/user/*.test.js",
     "<rootDir>/client/src/pages/admin/*.test.js",
     "<rootDir>/client/src/components/AdminMenu.test.js",
     "<rootDir>/client/src/components/Form/CategoryForm.test.js",
@@ -39,6 +40,7 @@ export default {
 		"client/src/pages/admin/UpdateProduct.js",
 		"client/src/components/AdminMenu.js",
 		"client/src/components/Form/CategoryForm.js",
+        "client/src/pages/user/Orders.js",
 	],
 	coverageThreshold: {
 		global: {
