@@ -372,7 +372,7 @@ describe("HomePage", () => {
     render(<HomePage />);
 
     const loadMoreButton = await screen.findByRole("button", {
-      name: /loadmore/i,
+      name: /Load more/i,
     });
 
     // Act: clicking the button increments the internal page state.
