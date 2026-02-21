@@ -1,4 +1,7 @@
 // Kaw Jun Rei Dylan, A0252791Y
+// These tests were created with the help of GPT5.3 Codex, where I asked it to generate tests in a way to help me understand how to identify test cases and what to mock
+// from reading the code, and give me a tutorial on how to write the tests, arranging them in the Arrange-Act-Assert format. After the inital generation, I would
+// identify and modify the tests where necessary.
 
 import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
@@ -470,10 +473,14 @@ describe("HomePage", () => {
 
     it("logs error when product count fetch fails (getTotal)", async () => {
       // Arrange: spy on console and make product-count endpoint fail
-      const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+      const consoleSpy = jest
+        .spyOn(console, "log")
+        .mockImplementation(() => {});
       axios.get.mockImplementation((url) => {
         if (url === "/api/v1/category/get-category") {
-          return Promise.resolve({ data: { success: true, category: mockCategories } });
+          return Promise.resolve({
+            data: { success: true, category: mockCategories },
+          });
         }
         if (url === "/api/v1/product/product-count") {
           return Promise.reject(new Error("count-fail"));
@@ -499,10 +506,14 @@ describe("HomePage", () => {
 
     it("logs error when loadMore fetch fails", async () => {
       // Arrange: normal GETs for initial render, but page=2 list will fail
-      const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+      const consoleSpy = jest
+        .spyOn(console, "log")
+        .mockImplementation(() => {});
       axios.get.mockImplementation((url) => {
         if (url === "/api/v1/category/get-category") {
-          return Promise.resolve({ data: { success: true, category: mockCategories } });
+          return Promise.resolve({
+            data: { success: true, category: mockCategories },
+          });
         }
         if (url === "/api/v1/product/product-count") {
           return Promise.resolve({ data: { total: 4 } });
@@ -510,7 +521,8 @@ describe("HomePage", () => {
         const pageMatch = url.match(/\/api\/v1\/product\/product-list\/(\d+)/);
         if (pageMatch) {
           const pageNum = Number(pageMatch[1]);
-          if (pageNum === 1) return Promise.resolve({ data: { products: mockProductsPageOne } });
+          if (pageNum === 1)
+            return Promise.resolve({ data: { products: mockProductsPageOne } });
           return Promise.reject(new Error("page2-fail"));
         }
         return Promise.resolve({ data: {} });

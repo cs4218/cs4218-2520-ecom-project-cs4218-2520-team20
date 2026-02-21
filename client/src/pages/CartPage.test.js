@@ -1,4 +1,6 @@
 // Kaw Jun Rei Dylan, A0252791Y
+// These tests were created with the help of GPT5.3 Codex, where I first read through the source code to identify possible test cases, then asked it to generate the test
+// code based on my identified test cases, after which I would then edit it where necessary.
 
 import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
