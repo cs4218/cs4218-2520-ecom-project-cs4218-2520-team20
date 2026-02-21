@@ -144,16 +144,6 @@ const setupAxiosGet = ({
   });
 };
 
-/*
-Teaching checklist (reuse on any component):
-1. Identify observable behaviors (e.g., initial fetch, navigation, cart saves).
-2. For each behavior, outline Arrange-Act-Assert steps before writing code.
-3. Mock every dependency that would otherwise reach outside the component
-  (network, context, routing) so the test stays deterministic.
-4. Use fixtures to keep test data readable and avoid copy/paste.
-5. Keep each test laser-focused on a single user-visible outcome.
-*/
-
 describe("HomePage", () => {
   let setCartMock;
 
@@ -380,5 +370,166 @@ describe("HomePage", () => {
 
     expect(axios.get).toHaveBeenCalledWith("/api/v1/product/product-list/2");
     expect(await screen.findByText("Smart Lamp")).toBeInTheDocument();
+  });
+
+  describe("error handling", () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it("logs error when category fetch fails", async () => {
+      // Arrange: spy on console and make category GET fail
+      const consoleSpy = jest
+        .spyOn(console, "log")
+        .mockImplementation(() => {});
+      axios.get.mockImplementation((url) => {
+        if (url === "/api/v1/category/get-category") {
+          return Promise.reject(new Error("network"));
+        }
+        if (url === "/api/v1/product/product-count") {
+          return Promise.resolve({ data: { total: 0 } });
+        }
+        const pageMatch = url.match(/\/api\/v1\/product\/product-list\/(\d+)/);
+        if (pageMatch) return Promise.resolve({ data: { products: [] } });
+        return Promise.resolve({ data: {} });
+      });
+
+      // Act: render the component which triggers the fetch
+      render(
+        <MemoryRouter>
+          <HomePage />
+        </MemoryRouter>
+      );
+
+      // Assert: the error path was hit (console.log called)
+      await waitFor(() => {
+        expect(consoleSpy).toHaveBeenCalled();
+      });
+      consoleSpy.mockRestore();
+    });
+
+    it("logs error when products list fetch fails", async () => {
+      // Arrange: spy on console and make product list GET fail
+      const consoleSpy = jest
+        .spyOn(console, "log")
+        .mockImplementation(() => {});
+      axios.get.mockImplementation((url) => {
+        if (url === "/api/v1/category/get-category") {
+          return Promise.resolve({
+            data: { success: true, category: mockCategories },
+          });
+        }
+        if (url.match(/\/api\/v1\/product\/product-list\/(\d+)/)) {
+          return Promise.reject(new Error("network"));
+        }
+        if (url === "/api/v1/product/product-count") {
+          return Promise.resolve({ data: { total: 0 } });
+        }
+        return Promise.resolve({ data: {} });
+      });
+
+      // Act: render to trigger the failing fetch
+      render(
+        <MemoryRouter>
+          <HomePage />
+        </MemoryRouter>
+      );
+
+      // Assert: component caught and logged the error
+      await waitFor(() => {
+        expect(consoleSpy).toHaveBeenCalled();
+      });
+      consoleSpy.mockRestore();
+    });
+
+    it("logs error when filter POST fails", async () => {
+      // Arrange: spy on console and make POST fail while GETs succeed
+      const consoleSpy = jest
+        .spyOn(console, "log")
+        .mockImplementation(() => {});
+      setupAxiosGet();
+      axios.post.mockRejectedValueOnce(new Error("post-fail"));
+
+      // Act: render and trigger a filter POST by clicking a checkbox
+      render(
+        <MemoryRouter>
+          <HomePage />
+        </MemoryRouter>
+      );
+
+      const gadgetsCheckbox = await screen.findByRole("checkbox", {
+        name: "Gadgets",
+      });
+      fireEvent.click(gadgetsCheckbox);
+
+      // Assert: error path executed and logged
+      await waitFor(() => {
+        expect(consoleSpy).toHaveBeenCalled();
+      });
+      consoleSpy.mockRestore();
+    });
+
+    it("logs error when product count fetch fails (getTotal)", async () => {
+      // Arrange: spy on console and make product-count endpoint fail
+      const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+      axios.get.mockImplementation((url) => {
+        if (url === "/api/v1/category/get-category") {
+          return Promise.resolve({ data: { success: true, category: mockCategories } });
+        }
+        if (url === "/api/v1/product/product-count") {
+          return Promise.reject(new Error("count-fail"));
+        }
+        const pageMatch = url.match(/\/api\/v1\/product\/product-list\/(\d+)/);
+        if (pageMatch) return Promise.resolve({ data: { products: [] } });
+        return Promise.resolve({ data: {} });
+      });
+
+      // Act: render to trigger getTotal
+      render(
+        <MemoryRouter>
+          <HomePage />
+        </MemoryRouter>
+      );
+
+      // Assert: error was caught and logged
+      await waitFor(() => {
+        expect(consoleSpy).toHaveBeenCalled();
+      });
+      consoleSpy.mockRestore();
+    });
+
+    it("logs error when loadMore fetch fails", async () => {
+      // Arrange: normal GETs for initial render, but page=2 list will fail
+      const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+      axios.get.mockImplementation((url) => {
+        if (url === "/api/v1/category/get-category") {
+          return Promise.resolve({ data: { success: true, category: mockCategories } });
+        }
+        if (url === "/api/v1/product/product-count") {
+          return Promise.resolve({ data: { total: 4 } });
+        }
+        const pageMatch = url.match(/\/api\/v1\/product\/product-list\/(\d+)/);
+        if (pageMatch) {
+          const pageNum = Number(pageMatch[1]);
+          if (pageNum === 1) return Promise.resolve({ data: { products: mockProductsPageOne } });
+          return Promise.reject(new Error("page2-fail"));
+        }
+        return Promise.resolve({ data: {} });
+      });
+
+      // Act: render and click Loadmore to set page to 2 and trigger loadMore
+      render(
+        <MemoryRouter>
+          <HomePage />
+        </MemoryRouter>
+      );
+      const loadMoreButton = await screen.findByTestId("load-more-btn");
+      fireEvent.click(loadMoreButton);
+
+      // Assert: loadMore's catch executed and logged
+      await waitFor(() => {
+        expect(consoleSpy).toHaveBeenCalled();
+      });
+      consoleSpy.mockRestore();
+    });
   });
 });

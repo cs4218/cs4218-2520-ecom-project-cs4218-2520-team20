@@ -199,13 +199,14 @@ const HomePage = () => {
           <div className="m-2 p-3">
             {products && products.length < total && (
               <button
+                data-testid="load-more-btn"
                 className="btn loadmore"
                 onClick={(e) => {
                   e.preventDefault();
                   setPage(page + 1);
                 }}
               >
-                {loading ? "Loading ..." : <> Load more</>}
+                {loading ? "Loading ..." : "Load more"}
               </button>
             )}
           </div>
