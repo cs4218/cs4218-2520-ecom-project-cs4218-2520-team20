@@ -9,6 +9,7 @@ export default {
   testMatch: [
     "<rootDir>/controllers/*.test.js",
     "<rootDir>/models/*.test.js",
+    "<rootDir>/config/*.test.js",
   ],
 
   // jest code coverage
@@ -16,6 +17,7 @@ export default {
   collectCoverageFrom: [
     "controllers/**",
     "models/**",
+    "config/**",
   ],
   coverageThreshold: {
     global: {
