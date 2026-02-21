@@ -1,4 +1,6 @@
 // Kaw Jun Rei Dylan, A0252791Y
+// These tests were created with the help of GPT5.3 Codex, where I first read through the source code to identify possible test cases, then asked it to generate the test
+// code based on my identified test cases, after which I would then edit it where necessary.
 
 import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
@@ -260,7 +262,7 @@ describe("CartPage - user logged out", () => {
 
     // Act
     const loginButton = screen.getByRole("button", {
-      name: /Plase Login to checkout/i,
+      name: /Please Login to checkout/i,
     });
 
     // Assert
@@ -271,7 +273,7 @@ describe("CartPage - user logged out", () => {
     // Arrange
     renderCartPage({ authState: loggedOutAuth, cartState: cartItems });
     const loginButton = screen.getByRole("button", {
-      name: /Plase Login to checkout/i,
+      name: /Please Login to checkout/i,
     });
 
     // Act
@@ -403,5 +405,95 @@ describe("CartPage - payment button visibility", () => {
     expect(
       screen.queryByRole("button", { name: /Make Payment/i })
     ).not.toBeInTheDocument();
+  });
+
+  describe("error handling", () => {
+    it("logs error when braintree token fetch fails", async () => {
+      // Arrange: spy on console and make token endpoint fail
+      const consoleSpy = jest
+        .spyOn(console, "log")
+        .mockImplementation(() => {});
+      axios.get.mockRejectedValueOnce(new Error("token-fail"));
+
+      // Act: render component which fetches the token
+      renderCartPage({ authState: loggedInAuth, cartState: cartItems });
+
+      // Assert: error path executed and logged
+      await waitFor(() => {
+        expect(consoleSpy).toHaveBeenCalled();
+      });
+      consoleSpy.mockRestore();
+    });
+
+    it("logs error when payment flow fails during handlePayment", async () => {
+      // Arrange: spy on console, ensure token exists, and make payment instance fail
+      const consoleSpy = jest
+        .spyOn(console, "log")
+        .mockImplementation(() => {});
+      axios.get.mockResolvedValue({
+        data: { clientToken: "client-token-123" },
+      });
+      mockPaymentInstance.requestPaymentMethod.mockRejectedValueOnce(
+        new Error("pay-fail")
+      );
+
+      // Act: render and click Make Payment to trigger handlePayment
+      renderCartPage({ authState: loggedInAuth, cartState: cartItems });
+      const payButton = await screen.findByRole("button", {
+        name: /Make Payment/i,
+      });
+      fireEvent.click(payButton);
+
+      // Assert: handlePayment caught the error and logged it
+      await waitFor(() => {
+        expect(consoleSpy).toHaveBeenCalled();
+      });
+      consoleSpy.mockRestore();
+    });
+  });
+});
+
+describe("CartPage - uncovered error branches", () => {
+  it("logs error when totalPrice toLocaleString throws", () => {
+    // Arrange: make Number.prototype.toLocaleString throw and spy on console
+    const original = Number.prototype.toLocaleString;
+    const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+    Number.prototype.toLocaleString = function () {
+      throw new Error("toLocale-fail");
+    };
+
+    // Provide minimal auth/cart state so component renders
+    renderCartPage({ authState: loggedInAuth, cartState: cartItems });
+
+    // Act & Assert: rendering should call totalPrice and hit catch
+    expect(consoleSpy).toHaveBeenCalled();
+
+    // Cleanup
+    Number.prototype.toLocaleString = original;
+    consoleSpy.mockRestore();
+  });
+
+  it("logs error when removeCartItem's localStorage.setItem throws", async () => {
+    // Arrange: make localStorage.setItem throw and spy on console
+    const originalSetItem = window.localStorage.setItem;
+    const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+    window.localStorage.setItem = jest.fn(() => {
+      throw new Error("ls-set-fail");
+    });
+
+    renderCartPage({ authState: loggedInAuth, cartState: cartItems });
+    const removeButtons = screen.getAllByRole("button", { name: /Remove/i });
+
+    // Act: click remove to trigger removeCartItem and its catch
+    fireEvent.click(removeButtons[0]);
+
+    // Assert
+    await waitFor(() => {
+      expect(consoleSpy).toHaveBeenCalled();
+    });
+
+    // Cleanup
+    window.localStorage.setItem = originalSetItem;
+    consoleSpy.mockRestore();
   });
 });
