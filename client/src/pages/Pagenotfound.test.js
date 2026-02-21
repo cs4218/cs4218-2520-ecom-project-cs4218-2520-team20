@@ -1,6 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import Pagenotfound from './Pagenotfound';
-import Layout from './../components/Layout';
 import { BrowserRouter as Router, MemoryRouter } from 'react-router-dom';
 
 jest.mock('../context/auth', () => ({
