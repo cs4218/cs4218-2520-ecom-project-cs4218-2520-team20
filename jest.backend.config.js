@@ -17,7 +17,7 @@ export default {
   collectCoverage: true,
   collectCoverageFrom: [
     "controllers/**",
-    "models/**",
+    "models/**"
   ],
   coverageThreshold: {
     global: {

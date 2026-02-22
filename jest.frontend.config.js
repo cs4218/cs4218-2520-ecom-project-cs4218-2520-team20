@@ -24,7 +24,7 @@ export default {
     "<rootDir>/client/src/pages/Auth/*.test.js",
     "<rootDir>/client/src/pages/user/*.test.js",
     "<rootDir>/client/src/pages/admin/*.test.js",
-    "<rootDir>/client/src/pages/*.test.js",
+    "<rootDir>/client/src/components/Routes/*.test.js",
     "<rootDir>/client/src/components/AdminMenu.test.js",
     "<rootDir>/client/src/components/Form/CategoryForm.test.js",
     "<rootDir>/client/src/context/*.test.js", 
@@ -42,10 +42,11 @@ export default {
 		"client/src/pages/admin/CreateProduct.js",
 		"client/src/pages/admin/Products.js",
 		"client/src/pages/admin/UpdateProduct.js",
-        "client/src/pages/admin/Users.js",
+    "client/src/pages/admin/Users.js",
 		"client/src/components/AdminMenu.js",
 		"client/src/components/Form/CategoryForm.js",
-        "client/src/pages/user/Orders.js",
+    "client/src/components/Routes/Private.js",
+    "client/src/pages/user/Orders.js",
 	],
 	coverageThreshold: {
 		global: {
