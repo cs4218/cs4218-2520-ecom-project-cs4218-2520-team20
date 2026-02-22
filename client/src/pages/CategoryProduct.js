@@ -26,7 +26,7 @@ const CategoryProduct = () => {
 
   return (
     <Layout>
-      <div className="container mt-3 category">
+      <div className="container mt-3 category" data-testid="main-container">
         <h4 className="text-center">Category - {category?.name}</h4>
         <h6 className="text-center">{products?.length} result found </h6>
         <div className="row">
@@ -56,6 +56,7 @@ const CategoryProduct = () => {
                       <button
                         className="btn btn-info ms-1"
                         onClick={() => navigate(`/product/${p.slug}`)}
+                        data-testid={`${p.slug}-button`}
                       >
                         More Details
                       </button>

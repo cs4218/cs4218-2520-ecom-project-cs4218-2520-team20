@@ -68,6 +68,8 @@ export default {
     "client/src/pages/HomePage.js",
     "client/src/pages/CartPage.js",
     "client/src/pages/Categories.js",
+    "client/src/pages/CategoryProduct.js",
+    "client/src/pages/ProductDetails.js"
   ],
   coverageThreshold: {
     global: {
