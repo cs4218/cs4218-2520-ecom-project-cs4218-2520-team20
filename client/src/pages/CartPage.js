@@ -32,7 +32,7 @@ const CartPage = () => {
       console.log(error);
     }
   };
-  //detele item
+  //delete item
   const removeCartItem = (pid) => {
     try {
       let myCart = [...cart];
@@ -131,11 +131,15 @@ const CartPage = () => {
               <p>Total | Checkout | Payment</p>
               <hr />
               <h4>Total : {totalPrice()} </h4>
-              {auth?.user?.address ? (
+              {auth?.token ? (
                 <>
                   <div className="mb-3">
-                    <h4>Current Address</h4>
-                    <h5>{auth?.user?.address}</h5>
+                    {auth?.user?.address && (
+                      <>
+                        <h4>Current Address</h4>
+                        <h5>{auth?.user?.address}</h5>
+                      </>
+                    )}
                     <button
                       className="btn btn-outline-warning"
                       onClick={() => navigate("/dashboard/user/profile")}
@@ -145,27 +149,16 @@ const CartPage = () => {
                   </div>
                 </>
               ) : (
-                <div className="mb-3">
-                  {auth?.token ? (
-                    <button
-                      className="btn btn-outline-warning"
-                      onClick={() => navigate("/dashboard/user/profile")}
-                    >
-                      Update Address
-                    </button>
-                  ) : (
-                    <button
-                      className="btn btn-outline-warning"
-                      onClick={() =>
-                        navigate("/login", {
-                          state: "/cart",
-                        })
-                      }
-                    >
-                      Plase Login to checkout
-                    </button>
-                  )}
-                </div>
+                <button
+                  className="btn btn-outline-warning"
+                  onClick={() =>
+                    navigate("/login", {
+                      state: "/cart",
+                    })
+                  }
+                >
+                  Please Login to checkout
+                </button>
               )}
               <div className="mt-2">
                 {!clientToken || !auth?.token || !cart?.length ? (

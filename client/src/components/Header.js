@@ -51,12 +51,13 @@ const Header = () => {
                   className="nav-link dropdown-toggle"
                   to={"/categories"}
                   data-bs-toggle="dropdown"
+                  data-testid="categories-link"
                 >
                   Categories
                 </Link>
-                <ul className="dropdown-menu">
+                <ul className="dropdown-menu" data-testid="categories-menu">
                   <li>
-                    <Link className="dropdown-item" to={"/categories"}>
+                    <Link className="dropdown-item" to={"/categories"} data-testid="all-categories-link">
                       All Categories
                     </Link>
                   </li>
@@ -65,6 +66,7 @@ const Header = () => {
                       <Link
                         className="dropdown-item"
                         to={`/category/${c.slug}`}
+                        data-testid={`${c.slug}-link`}
                       >
                         {c.name}
                       </Link>
@@ -98,7 +100,7 @@ const Header = () => {
                     >
                       {auth?.user?.name}
                     </NavLink>
-                    <ul className="dropdown-menu">
+                    <ul className="dropdown-menu" data-testid="dashboard-menu">
                       <li>
                         <NavLink
                           to={`/dashboard/${
@@ -123,7 +125,7 @@ const Header = () => {
                 </>
               )}
               <li className="nav-item">
-                <Badge count={cart?.length} showZero>
+                <Badge data-testid="badge" count={cart?.length} showZero>
                   <NavLink to="/cart" className="nav-link">
                     Cart
                   </NavLink>

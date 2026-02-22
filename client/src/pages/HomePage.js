@@ -6,7 +6,6 @@ import { useCart } from "../context/cart";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Layout from "./../components/Layout";
-import { AiOutlineReload } from "react-icons/ai";
 import "../styles/Homepages.css";
 
 const HomePage = () => {
@@ -87,7 +86,7 @@ const HomePage = () => {
     setChecked(all);
   };
   useEffect(() => {
-    if (!checked.length || !radio.length) getAllProducts();
+    if (!checked.length && !radio.length) getAllProducts();
   }, [checked.length, radio.length]);
 
   useEffect(() => {
@@ -200,20 +199,14 @@ const HomePage = () => {
           <div className="m-2 p-3">
             {products && products.length < total && (
               <button
+                data-testid="load-more-btn"
                 className="btn loadmore"
                 onClick={(e) => {
                   e.preventDefault();
                   setPage(page + 1);
                 }}
               >
-                {loading ? (
-                  "Loading ..."
-                ) : (
-                  <>
-                    {" "}
-                    Loadmore <AiOutlineReload />
-                  </>
-                )}
+                {loading ? "Loading ..." : "Load more"}
               </button>
             )}
           </div>

@@ -1,3 +1,4 @@
+// A0271643E Seah Minlong
 import React, { useState, useEffect } from "react";
 import AdminMenu from "../../components/AdminMenu";
 import Layout from "./../../components/Layout";
@@ -14,7 +15,7 @@ const Products = () => {
       setProducts(data.products);
     } catch (error) {
       console.log(error);
-      toast.error("Someething Went Wrong");
+      toast.error("Something Went Wrong");
     }
   };
 

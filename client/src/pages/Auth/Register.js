@@ -4,6 +4,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import "../../styles/AuthStyles.css";
+
+// Nigel Lee, A0259264W
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -14,28 +16,53 @@ const Register = () => {
   const [answer, setAnswer] = useState("");
   const navigate = useNavigate();
 
-  // form function
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    const trimName = name.trim();
+    const trimEmail = email.trim();
+    const trimPhone = phone.trim();
+    const trimAddress = address.trim();
+    const trimAnswer = answer.trim();
+
+    if (
+      !trimName ||
+      !trimEmail ||
+      !password ||
+      !trimPhone ||
+      !trimAddress ||
+      !DOB ||
+      !trimAnswer
+    ) {
+      toast.error("Please fill all required fields");
+      return;
+    }
+
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters long");
+      return;
+    }
+
     try {
       const res = await axios.post("/api/v1/auth/register", {
-        name,
-        email,
+        name: trimName,
+        email: trimEmail,
         password,
-        phone,
-        address,
+        phone: trimPhone,
+        address: trimAddress,
         DOB,
-        answer,
+        answer: trimAnswer,
       });
+
       if (res && res.data.success) {
-        toast.success("Register Successfully, please login");
+        toast.success(res.data.message || "Register Successfully, please login");
         navigate("/login");
       } else {
-        toast.error(res.data.message);
+        toast.error(res.data.message || res.data.error || "Registration failed");
       }
     } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
+      console.error(error);
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
   };
 
@@ -63,7 +90,7 @@ const Register = () => {
               onChange={(e) => setEmail(e.target.value)}
               className="form-control"
               id="exampleInputEmail1"
-              placeholder="Enter Your Email "
+              placeholder="Enter Your Email"
               required
             />
           </div>
@@ -102,12 +129,11 @@ const Register = () => {
           </div>
           <div className="mb-3">
             <input
-              type="Date"
+              type="date"
               value={DOB}
               onChange={(e) => setDOB(e.target.value)}
               className="form-control"
               id="exampleInputDOB1"
-              placeholder="Enter Your DOB"
               required
             />
           </div>
