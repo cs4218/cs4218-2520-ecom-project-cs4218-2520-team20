@@ -172,6 +172,44 @@ describe("UpdateProduct", () => {
 			await screen.findByDisplayValue("Existing Product");
 
 			// Act
+			if (missingField === "name") {
+				fireEvent.change(screen.getByPlaceholderText(/write a name/i), {
+					target: { value: "" },
+				});
+			} else if (missingField === "description") {
+				fireEvent.change(
+					screen.getByPlaceholderText(/write a description/i),
+					{ target: { value: "" } },
+				);
+			} else if (missingField === "price") {
+				fireEvent.change(
+					screen.getByPlaceholderText(/write a price/i),
+					{ target: { value: "" } },
+				);
+			} else if (missingField === "quantity") {
+				fireEvent.change(
+					screen.getByPlaceholderText(/write a quantity/i),
+					{ target: { value: "" } },
+				);
+			} else if (missingField === "category") {
+				const selects = screen.getAllByTestId("antd-select");
+				fireEvent.change(selects[0], { target: { value: "" } });
+			} else if (missingField === "shipping") {
+				const selects = screen.getAllByTestId("antd-select");
+				fireEvent.change(selects[1], { target: { value: "" } });
+			} else if (missingField === "photo") {
+				// Upload an oversized photo to trigger photo size validation
+				const largeFile = new File(["a".repeat(2000000)], "large.png", {
+					type: "image/png",
+				});
+				const fileInput = screen.getByLabelText(/upload photo/i, {
+					selector: "input",
+				});
+				fireEvent.change(fileInput, {
+					target: { files: [largeFile] },
+				});
+			}
+
 			fireEvent.click(
 				screen.getByRole("button", { name: /update product/i }),
 			);
@@ -183,50 +221,70 @@ describe("UpdateProduct", () => {
 		},
 	);
 
-	it("populates fields with initial data correctly", async () => {
+	it("populates text fields with initial data", async () => {
+		// Arrange + Act
 		renderUpdateProduct();
-
-		// Wait for data to load
 		await screen.findByDisplayValue("Existing Product");
 
+		// Assert
 		expect(
 			screen.getByDisplayValue("Existing Product"),
 		).toBeInTheDocument();
 		expect(
 			screen.getByDisplayValue("Existing Description"),
 		).toBeInTheDocument();
-		expect(screen.getByDisplayValue("100")).toBeInTheDocument(); // Price
-		expect(screen.getByDisplayValue("10")).toBeInTheDocument(); // Quantity
-
-		const selects = screen.getAllByTestId("antd-select");
-		expect(selects[0]).toHaveValue("cat1");
-		expect(selects[1]).toHaveValue("0"); // Shipping
+		expect(screen.getByDisplayValue("100")).toBeInTheDocument();
+		expect(screen.getByDisplayValue("10")).toBeInTheDocument();
 	});
 
-	it("deletes the product successfully", async () => {
+	it("populates select fields with initial data", async () => {
+		// Arrange + Act
+		renderUpdateProduct();
+		await screen.findByDisplayValue("Existing Product");
+
+		// Assert
+		const selects = screen.getAllByTestId("antd-select");
+		expect(selects[0]).toHaveValue("cat1");
+		expect(selects[1]).toHaveValue("0"); // Shipping false → "0"
+	});
+
+	it("calls DELETE API with correct URL when user confirms", async () => {
 		// Arrange
-		axios.delete.mockResolvedValueOnce({
-			data: { success: true },
-		});
-		window.confirm = jest.fn(() => true); // User clicks OK
+		axios.delete.mockResolvedValueOnce({ data: { success: true } });
+		window.confirm = jest.fn(() => true);
 
 		renderUpdateProduct();
 		await screen.findByDisplayValue("Existing Product");
 
 		// Act
-		const deleteBtn = screen.getByText("DELETE PRODUCT");
-		fireEvent.click(deleteBtn);
+		fireEvent.click(screen.getByText("DELETE PRODUCT"));
 
 		// Assert
 		expect(window.confirm).toHaveBeenCalled();
-		expect(axios.delete).toHaveBeenCalledWith(
-			`/api/v1/product/delete-product/${mockProduct._id}`,
+		await waitFor(() =>
+			expect(axios.delete).toHaveBeenCalledWith(
+				`/api/v1/product/delete-product/${mockProduct._id}`,
+			),
 		);
-		await waitFor(() => {
+	});
+
+	it("shows success toast and navigates after delete", async () => {
+		// Arrange
+		axios.delete.mockResolvedValueOnce({ data: { success: true } });
+		window.confirm = jest.fn(() => true);
+
+		renderUpdateProduct();
+		await screen.findByDisplayValue("Existing Product");
+
+		// Act
+		fireEvent.click(screen.getByText("DELETE PRODUCT"));
+
+		// Assert
+		await waitFor(() =>
 			expect(toast.success).toHaveBeenCalledWith(
 				"Product Deleted Successfully",
-			);
-		});
+			),
+		);
 		expect(mockNavigate).toHaveBeenCalledWith("/dashboard/admin/products");
 	});
 
