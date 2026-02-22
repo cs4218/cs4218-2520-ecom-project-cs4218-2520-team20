@@ -37,6 +37,12 @@ export const updateCategoryController = async (req, res) => {
   try {
     const { name } = req.body;
     const { id } = req.params;
+    if (!name) {
+      return res.status(400).send({ message: "Name is required" });
+    }
+    if (!id) {
+      return res.status(400).send({ message: "Category ID is required" });
+    }
     const existingCategory = await categoryModel.findOne({ name });
     if (existingCategory && existingCategory._id.toString() !== id) {
       return res.status(409).send({
