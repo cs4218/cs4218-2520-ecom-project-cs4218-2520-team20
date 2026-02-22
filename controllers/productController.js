@@ -17,6 +17,7 @@ var gateway = new braintree.BraintreeGateway({
 	privateKey: process.env.BRAINTREE_PRIVATE_KEY,
 });
 
+// A0271643E Seah Minlong
 export const createProductController = async (req, res) => {
 	try {
 		const { name, description, price, category, quantity, shipping } =
@@ -138,6 +139,7 @@ export const productPhotoController = async (req, res) => {
 	}
 };
 
+// A0271643E Seah Minlong
 //delete controller
 export const deleteProductController = async (req, res) => {
 	try {
@@ -156,6 +158,7 @@ export const deleteProductController = async (req, res) => {
 	}
 };
 
+// A0271643E Seah Minlong
 //update product
 export const updateProductController = async (req, res) => {
 	try {
@@ -345,6 +348,7 @@ export const productCategoryController = async (req, res) => {
 	}
 };
 
+// A0271643E Seah Minlong
 //payment gateway api
 //token
 export const braintreeTokenController = async (req, res) => {
@@ -366,6 +370,7 @@ export const braintreeTokenController = async (req, res) => {
 	}
 };
 
+// A0271643E Seah Minlong
 //payment
 export const brainTreePaymentController = async (req, res) => {
 	try {

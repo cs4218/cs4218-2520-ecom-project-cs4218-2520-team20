@@ -1,3 +1,4 @@
+// A0271643E Seah Minlong
 import React from "react";
 import { NavLink } from "react-router-dom";
 const AdminMenu = () => {
