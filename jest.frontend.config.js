@@ -31,7 +31,15 @@ export default {
     "<rootDir>/client/src/components/Routes/*.test.js",
     "<rootDir>/client/src/components/AdminMenu.test.js",
     "<rootDir>/client/src/components/Form/*.test.js",
+<<<<<<< fix/home
     "<rootDir>/client/src/context/*.test.js",
+=======
+    "<rootDir>/client/src/components/Footer.test.js",
+    "<rootDir>/client/src/components/Header.test.js",
+    "<rootDir>/client/src/components/Layout.test.js",
+    "<rootDir>/client/src/components/Spinner.test.js",
+    "<rootDir>/client/src/context/*.test.js", 
+>>>>>>> main
     "<rootDir>/client/src/pages/*.test.js",
   ],
 
@@ -39,6 +47,7 @@ export default {
   collectCoverage: true,
   collectCoverageFrom: [
     "client/src/pages/Auth/**",
+<<<<<<< fix/home
     "client/src/pages/user/Orders.js",
     "client/src/pages/admin/CreateProduct.js",
     "client/src/pages/admin/AdminDashboard.js",
@@ -66,4 +75,36 @@ export default {
     },
   },
   setupFilesAfterEnv: ["<rootDir>/client/src/setupTests.js"],
+=======
+    "client/src/pages/user/**",
+		"client/src/pages/admin/CreateProduct.js",
+		"client/src/pages/admin/AdminDashboard.js",
+		"client/src/pages/admin/AdminOrders.js",
+		"client/src/pages/admin/CreateCategory.js",
+		"client/src/pages/admin/CreateProduct.js",
+		"client/src/pages/admin/Products.js",
+		"client/src/pages/admin/UpdateProduct.js",
+    "client/src/pages/admin/Users.js",
+		"client/src/components/AdminMenu.js",
+		"client/src/components/Form/CategoryForm.js",
+    "client/src/components/Footer.js",
+    "client/src/components/Layout.js",
+    "client/src/components/Spinner.js",
+    "client/src/pages/About.js",
+    "client/src/pages/Pagenotfound.js",
+    "client/src/components/Header.js",
+    "client/src/pages/Contact.js",
+    "client/src/components/Routes/Private.js",
+    "client/src/components/Form/SearchInput.js",
+    "client/src/context/search.js",
+    "client/src/pages/Search.js"
+	],
+	coverageThreshold: {
+		global: {
+			lines: 100,
+			functions: 100,
+		},
+	},
+	setupFilesAfterEnv: ["<rootDir>/client/src/setupTests.js"],
+>>>>>>> main
 };
