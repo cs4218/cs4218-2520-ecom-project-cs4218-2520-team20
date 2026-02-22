@@ -1,3 +1,5 @@
+// IF ALL TESTS FAIL, TRY USING REACT 18
+
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";

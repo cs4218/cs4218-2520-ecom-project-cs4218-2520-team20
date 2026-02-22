@@ -135,11 +135,12 @@ To begin unit testing with Jest in your project, follow these steps:
      ```
 
 ## MS1 CI URL
-`<insert url here>`
+
+[MS1 CI URL](https://github.com/cs4218/cs4218-2520-ecom-project-cs4218-2520-team20/actions/runs/22283277546/job/64457271252)
 
 ## Contributions
 
-### Alexander Setyawan
+### Alexander Setyawan (A0257149W)
 
  - Search
  - Product
@@ -170,7 +171,11 @@ To begin unit testing with Jest in your project, follow these steps:
  
 ### Wang Zhi, Wren (A0255368U)
 
-- General - User-Related Routes
+- General
+   - components/Routes/Private.js
+   - components/UserMenu.js
+   - pages/user/Dashboard.js
+   - models/userModel.js
 - Order
 - Profile
 - Admin View Users
