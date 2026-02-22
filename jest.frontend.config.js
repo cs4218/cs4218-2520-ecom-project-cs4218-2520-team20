@@ -46,11 +46,12 @@ export default {
     "client/src/pages/admin/Users.js",
 		"client/src/components/AdminMenu.js",
 		"client/src/components/Form/CategoryForm.js",
+    "client/src/pages/Contact.js",
     "client/src/components/Routes/Private.js",
     "client/src/pages/user/Orders.js",
-    "<rootDir>/client/src/components/Form/SearchInput.js",
-    "<rootDir>/client/src/context/search.js",
-    "<rootDir>/client/src/pages/Search.js"
+    "client/src/components/Form/SearchInput.js",
+    "client/src/context/search.js",
+    "client/src/pages/Search.js"
 	],
 	coverageThreshold: {
 		global: {
