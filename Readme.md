@@ -145,7 +145,14 @@ To begin unit testing with Jest in your project, follow these steps:
  - Search
  - Product
  - Contact
- - General - Components + Misc Pages
+ - General
+   - components/Footer.js
+   - components/Header.js
+   - components/Layout.js
+   - components/Spinner.js
+   - pages/About.js
+   - pages/Pagenotfound.js
+   
 
 ### Seah Minlong (A0271643E)
 
