@@ -27,7 +27,10 @@ export default {
     "<rootDir>/client/src/pages/*.test.js",
     "<rootDir>/client/src/components/AdminMenu.test.js",
     "<rootDir>/client/src/components/Form/CategoryForm.test.js",
+    "<rootDir>/client/src/context/*.test.js", 
+    "<rootDir>/client/src/pages/*.test.js",
   ],
+
 
 	// jest code coverage
 	collectCoverage: true,
