@@ -152,8 +152,8 @@ To begin unit testing with Jest in your project, follow these steps:
    - components/Spinner.js
    - pages/About.js
    - pages/Pagenotfound.js
+   - config/db.js
    
-
 ### Seah Minlong (A0271643E)
 
 - Admin Actions - Client-Related Files only
