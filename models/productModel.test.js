@@ -23,7 +23,7 @@ describe('Product Model Tests', () => {
       slug: 'laptop',
       description: 'A high-end gaming laptop',
       price: 1200,
-      category: mongoose.Types.ObjectId(),
+      category: new mongoose.Types.ObjectId(),
       quantity: 10,
       photo: {
         data: Buffer.from('imageData'),
@@ -51,7 +51,7 @@ describe('Product Model Tests', () => {
       slug: '',
       description: 'A high-end gaming laptop',
       price: 1200,
-      category: mongoose.Types.ObjectId(),
+      category: new mongoose.Types.ObjectId(),
       quantity: 10,
     };
     
@@ -72,7 +72,7 @@ describe('Product Model Tests', () => {
       slug: 'gaming-laptop',
       description: 'A gaming laptop',
       price: 1200,
-      category: mongoose.Types.ObjectId(),
+      category: new mongoose.Types.ObjectId(),
       quantity: 10,
       shipping: true,
     };
@@ -96,7 +96,7 @@ describe('Product Model Tests', () => {
       slug: 'laptop',
       description: 'A gaming laptop',
       price: 1200,
-      category: mongoose.Types.ObjectId(),
+      category: new mongoose.Types.ObjectId(),
       quantity: 10,
       shipping: true,
     };
@@ -118,7 +118,7 @@ describe('Product Model Tests', () => {
       slug: 'cheap-laptop',
       description: 'A budget laptop',
       price: -50,
-      category: mongoose.Types.ObjectId(),
+      category: new mongoose.Types.ObjectId(),
       quantity: 10,
       shipping: true,
     };
@@ -140,7 +140,7 @@ describe('Product Model Tests', () => {
       slug: 'laptop',
       description: 'A laptop with fast shipping',
       price: 1200,
-      category: mongoose.Types.ObjectId(),
+      category: new mongoose.Types.ObjectId(),
       quantity: 10,
       shipping: true,
     };
