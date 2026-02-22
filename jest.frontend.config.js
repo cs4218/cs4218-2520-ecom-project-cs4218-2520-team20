@@ -39,7 +39,7 @@ export default {
   collectCoverage: true,
   collectCoverageFrom: [
     "client/src/pages/Auth/**",
-    "client/src/pages/user/Orders.js",
+    "client/src/pages/user/**",
 		"client/src/pages/admin/CreateProduct.js",
 		"client/src/pages/admin/AdminDashboard.js",
 		"client/src/pages/admin/AdminOrders.js",
@@ -58,7 +58,6 @@ export default {
     "client/src/components/Header.js",
     "client/src/pages/Contact.js",
     "client/src/components/Routes/Private.js",
-    "client/src/pages/user/Orders.js",
     "client/src/components/Form/SearchInput.js",
     "client/src/context/search.js",
     "client/src/pages/Search.js"
