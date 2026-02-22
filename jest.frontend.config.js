@@ -26,16 +26,17 @@ export default {
     "<rootDir>/client/src/pages/admin/*.test.js",
     "<rootDir>/client/src/components/Routes/*.test.js",
     "<rootDir>/client/src/components/AdminMenu.test.js",
-    "<rootDir>/client/src/components/Form/CategoryForm.test.js",
+    "<rootDir>/client/src/components/Form/*.test.js",
     "<rootDir>/client/src/context/*.test.js", 
     "<rootDir>/client/src/pages/*.test.js",
   ],
 
-
-	// jest code coverage
-	collectCoverage: true,
-	collectCoverageFrom: [
-		"client/src/pages/Auth/**",
+  // jest code coverage
+  collectCoverage: true,
+  collectCoverageFrom: [
+    "client/src/pages/Auth/**",
+    "client/src/pages/user/Orders.js",
+		"client/src/pages/admin/CreateProduct.js",
 		"client/src/pages/admin/AdminDashboard.js",
 		"client/src/pages/admin/AdminOrders.js",
 		"client/src/pages/admin/CreateCategory.js",
@@ -47,6 +48,9 @@ export default {
 		"client/src/components/Form/CategoryForm.js",
     "client/src/components/Routes/Private.js",
     "client/src/pages/user/Orders.js",
+    "<rootDir>/client/src/components/Form/SearchInput.js",
+    "<rootDir>/client/src/context/search.js",
+    "<rootDir>/client/src/pages/Search.js"
 	],
 	coverageThreshold: {
 		global: {
