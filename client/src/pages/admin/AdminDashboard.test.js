@@ -15,26 +15,10 @@ jest.mock("../../context/auth", () => ({
 	useAuth: jest.fn(),
 }));
 
-jest.mock("../../context/cart", () => ({
-	useCart: jest.fn(),
-}));
-
-jest.mock("../../context/search", () => ({
-	useSearch: jest.fn(),
-}));
-
-jest.mock("../../hooks/useCategory", () => jest.fn());
-
 const { useAuth } = require("../../context/auth");
-const { useCart } = require("../../context/cart");
-const { useSearch } = require("../../context/search");
-const useCategory = require("../../hooks/useCategory");
 
 const renderWithAuth = (authState) => {
 	useAuth.mockReturnValue([authState, jest.fn()]);
-	useCart.mockReturnValue([[], jest.fn()]);
-	useSearch.mockReturnValue([{ keyword: "", results: [] }, jest.fn()]);
-	useCategory.mockReturnValue([]);
 
 	render(
 		<MemoryRouter>

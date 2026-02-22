@@ -17,6 +17,7 @@ var gateway = new braintree.BraintreeGateway({
 	privateKey: process.env.BRAINTREE_PRIVATE_KEY,
 });
 
+// A0271643E Seah Minlong
 export const createProductController = async (req, res) => {
 	try {
 		const { name, description, price, category, quantity, shipping } =
@@ -138,6 +139,7 @@ export const productPhotoController = async (req, res) => {
 	}
 };
 
+// A0271643E Seah Minlong
 //delete controller
 export const deleteProductController = async (req, res) => {
 	try {
@@ -156,6 +158,7 @@ export const deleteProductController = async (req, res) => {
 	}
 };
 
+// A0271643E Seah Minlong
 //update product
 export const updateProductController = async (req, res) => {
 	try {
@@ -345,6 +348,7 @@ export const productCategoryController = async (req, res) => {
 	}
 };
 
+// A0271643E Seah Minlong
 //payment gateway api
 //token
 export const braintreeTokenController = async (req, res) => {
@@ -358,9 +362,15 @@ export const braintreeTokenController = async (req, res) => {
 		});
 	} catch (error) {
 		console.log(error);
+		res.status(500).send({
+			success: false,
+			message: "Error while generating token",
+			error,
+		});
 	}
 };
 
+// A0271643E Seah Minlong
 //payment
 export const brainTreePaymentController = async (req, res) => {
 	try {
@@ -369,7 +379,7 @@ export const brainTreePaymentController = async (req, res) => {
 		cart.map((i) => {
 			total += i.price;
 		});
-		let newTransaction = gateway.transaction.sale(
+		gateway.transaction.sale(
 			{
 				amount: total,
 				paymentMethodNonce: nonce,
@@ -379,12 +389,19 @@ export const brainTreePaymentController = async (req, res) => {
 			},
 			function (error, result) {
 				if (result) {
-					const order = new orderModel({
+					new orderModel({
 						products: cart,
 						payment: result,
 						buyer: req.user._id,
-					}).save();
-					res.json({ ok: true });
+					})
+						.save()
+						.then(() => {
+							res.json({ ok: true });
+						})
+						.catch((saveErr) => {
+							console.log(saveErr);
+							res.status(500).send(saveErr);
+						});
 				} else {
 					res.status(500).send(error);
 				}
@@ -392,5 +409,10 @@ export const brainTreePaymentController = async (req, res) => {
 		);
 	} catch (error) {
 		console.log(error);
+		res.status(500).send({
+			success: false,
+			message: "Error while processing payment",
+			error,
+		});
 	}
 };
