@@ -1,5 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+
+// TODO: Test UserMenu in UI/Integration Testing
+//       No user-defined functionality was implemented in this code.
 const UserMenu = () => {
   return (
     <div>

@@ -29,12 +29,11 @@ const Profile = () => {
     try {
       const { data } = await axios.put("/api/v1/auth/profile", {
         name,
-        email,
         password,
         phone,
         address,
       });
-      if (data?.errro) {
+      if (data?.error) {
         toast.error(data?.error);
       } else {
         setAuth({ ...auth, user: data?.updatedUser });
@@ -66,7 +65,7 @@ const Profile = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="form-control"
-                    id="exampleInputEmail1"
+                    id="input-name"
                     placeholder="Enter Your Name"
                     autoFocus
                   />
@@ -75,10 +74,9 @@ const Profile = () => {
                   <input
                     type="email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
                     className="form-control"
-                    id="exampleInputEmail1"
-                    placeholder="Enter Your Email "
+                    id="input-email"
+                    placeholder="Enter Your Email"
                     disabled
                   />
                 </div>
@@ -88,7 +86,7 @@ const Profile = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="form-control"
-                    id="exampleInputPassword1"
+                    id="input-password"
                     placeholder="Enter Your Password"
                   />
                 </div>
@@ -98,7 +96,7 @@ const Profile = () => {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     className="form-control"
-                    id="exampleInputEmail1"
+                    id="input-phone"
                     placeholder="Enter Your Phone"
                   />
                 </div>
@@ -108,7 +106,7 @@ const Profile = () => {
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     className="form-control"
-                    id="exampleInputEmail1"
+                    id="input-address"
                     placeholder="Enter Your Address"
                   />
                 </div>
