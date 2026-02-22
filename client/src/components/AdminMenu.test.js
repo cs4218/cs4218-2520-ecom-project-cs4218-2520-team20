@@ -114,4 +114,26 @@ describe("AdminMenu", () => {
 		// Assert
 		expect(link).toHaveAttribute("href", "/dashboard/admin/orders");
 	});
+
+    it("renders the users link", () => {
+		// Arrange
+		renderAdminMenu();
+
+		// Act
+		const link = screen.getByRole("link", { name: /users/i });
+
+		// Assert
+		expect(link).toBeInTheDocument();
+	});
+
+    it("users link has correct href", () => {
+		// Arrange
+		renderAdminMenu();
+
+		// Act
+		const link = screen.getByRole("link", { name: /users/i });
+
+		// Assert
+		expect(link).toHaveAttribute("href", "/dashboard/admin/users");
+	});
 });
