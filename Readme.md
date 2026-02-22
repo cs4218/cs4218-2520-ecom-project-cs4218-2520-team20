@@ -134,16 +134,43 @@ To begin unit testing with Jest in your project, follow these steps:
      npm run test
      ```
 
-## 6. Contributions
+## MS1 CI URL
+`<insert url here>`
 
-Alexander Setyawan
+## Contributions
 
-Seah Minlong (A0271643E)
+### Alexander Setyawan
+
+ - Search
+ - Product
+ - Contact
+ - General - Components + Misc Pages
+
+### Seah Minlong (A0271643E)
+
+- Admin Actions - Client-Related Files only
+- Admin View Products
+- Admin View Orders
+- Admin Dashboard
+- Payment
+
+### Nigel Lee Xun Yi (A0259264W)
+
+- Protected Routes
+- Registration
+- Login
+- Policy
 
 ### Kaw Jun Rei, Dylan (A0252791Y)
 
+- Home
 - Cart
 - Category
-- Payment
-- Admin Actions
-  - categoryController.js
+- Admin Actions - Server-Related Files Only
+ 
+### Wang Zhi, Wren (A0255368U)
+
+- General - User-Related Routes
+- Order
+- Profile
+- Admin View Users
