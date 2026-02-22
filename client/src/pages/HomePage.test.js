@@ -287,6 +287,76 @@ describe("HomePage", () => {
     });
   });
 
+  it("calls getAllProducts when both checked and radio are empty", async () => {
+    // Arrange: render with no active filters — both checked and radio are [].
+    render(
+      <MemoryRouter>
+        <HomePage />
+      </MemoryRouter>
+    );
+
+    // Act: no interaction needed; the effect fires on mount with both lengths = 0.
+
+    // Assert: getAllProducts was triggered.
+    await waitFor(() => {
+      expect(axios.get).toHaveBeenCalledWith(
+        expect.stringMatching(/\/api\/v1\/product\/product-list\//)
+      );
+    });
+  });
+
+  it("does not call getAllProducts when checked has items but radio is empty", async () => {
+    // Arrange: render and wait for categories, then check one category.
+    axios.post.mockResolvedValueOnce({
+      data: { products: [mockProductsPageOne[0]] },
+    });
+    render(
+      <MemoryRouter>
+        <HomePage />
+      </MemoryRouter>
+    );
+    const gadgetsCheckbox = await screen.findByRole("checkbox", {
+      name: "Gadgets",
+    });
+    const getCallsBefore = axios.get.mock.calls.filter((c) =>
+      c[0].includes("product-list")
+    ).length;
+
+    // Act: check a category — checked becomes ["cat-1"], radio stays [].
+    fireEvent.click(gadgetsCheckbox);
+
+    // Assert: getAllProducts was not called again.
+    await waitFor(() => expect(axios.post).toHaveBeenCalled());
+    expect(
+      axios.get.mock.calls.filter((c) => c[0].includes("product-list")).length
+    ).toBe(getCallsBefore);
+  });
+
+  it("does not call getAllProducts when radio has items but checked is empty", async () => {
+    // Arrange: render and wait for price options to load.
+    axios.post.mockResolvedValueOnce({
+      data: { products: [mockProductsPageOne[0]] },
+    });
+    render(
+      <MemoryRouter>
+        <HomePage />
+      </MemoryRouter>
+    );
+    await screen.findByLabelText("$0 to 19");
+    const getCallsBefore = axios.get.mock.calls.filter((c) =>
+      c[0].includes("product-list")
+    ).length;
+
+    // Act: select a price radio — radio becomes [0, 19], checked stays [].
+    fireEvent.click(screen.getByLabelText("$0 to 19"));
+
+    // Assert: getAllProducts was not called again.
+    await waitFor(() => expect(axios.post).toHaveBeenCalled());
+    expect(
+      axios.get.mock.calls.filter((c) => c[0].includes("product-list")).length
+    ).toBe(getCallsBefore);
+  });
+
   it("filters by price when a price radio is clicked", async () => {
     // Arrange: render and wait for price options.
     render(
