@@ -136,8 +136,14 @@ To begin unit testing with Jest in your project, follow these steps:
 
 ## 6. Contributions
 
-| Name | Feature |
-|------|---------|
-| Alexander Setyawan | |
-| Seah Minlong (A0271643E) | |
-| Kaw Jun Rei, Dylan (A0252791Y) | Cart, Category, Payment, Admin Actions (categoryController.js) |
+Alexander Setyawan
+
+Seah Minlong (A0271643E)
+
+### Kaw Jun Rei, Dylan (A0252791Y)
+
+- Cart
+- Category
+- Payment
+- Admin Actions
+  - categoryController.js
