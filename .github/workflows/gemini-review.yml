@@ -67,7 +67,7 @@ jobs:
           upload_artifacts: '${{ vars.UPLOAD_ARTIFACTS }}'
           workflow_name: 'gemini-review'
           # Explicitly set the PR number to handle `issue_comment` triggers (which GitHub treats as issues, not PRs)
-          github_pr_number: '${{ github.event.pull_request.number }}'
+          # github_pr_number: '${{ github.event.pull_request.number }}'
           settings: |-
             {
               "model": {
@@ -113,4 +113,4 @@ jobs:
             [
               "https://github.com/gemini-cli-extensions/code-review"
             ]
-          prompt: '/pr-code-review'
+          prompt: '/pr-code-review ${{ github.event.pull_request.number || github.event.issue.number }}'
