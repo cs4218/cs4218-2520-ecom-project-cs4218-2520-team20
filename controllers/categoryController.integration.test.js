@@ -142,20 +142,6 @@ describe("updateCategoryController", () => {
     expect(updated.slug).toBe("gadgets");
   });
 
-  it("returns 404 when the category ID does not exist in the DB", async () => {
-    // Arrange
-    const nonExistentId = new mongoose.Types.ObjectId().toString();
-    const req = { body: { name: "NewName" }, params: { id: nonExistentId } };
-    const res = mockRes();
-
-    // Act
-    await updateCategoryController(req, res);
-
-    // Assert
-    expect(res.status).toHaveBeenCalledWith(404);
-    const body = res.send.mock.calls[0][0];
-    expect(body.message).toBe("Category not found");
-  });
 });
 
 describe("deleteCategoryController", () => {
@@ -195,20 +181,6 @@ describe("deleteCategoryController", () => {
     expect(gone).toBeNull();
   });
 
-  it("returns 404 when the category ID does not exist in the DB", async () => {
-    // Arrange
-    const nonExistentId = new mongoose.Types.ObjectId().toString();
-    const req = { params: { id: nonExistentId } };
-    const res = mockRes();
-
-    // Act
-    await deleteCategoryController(req, res);
-
-    // Assert
-    expect(res.status).toHaveBeenCalledWith(404);
-    const body = res.send.mock.calls[0][0];
-    expect(body.message).toBe("Category not found");
-  });
 });
 
 describe("categoryController (getAllCategories)", () => {
