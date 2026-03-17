@@ -1,4 +1,6 @@
 // Kaw Jun Rei Dylan, A0252791Y
+// These tests were created with the help of GPT5.3 Codex, where I first read through the source code to identify possible test cases, then asked it to generate the test
+// code based on my identified test cases, after which I would then edit it where necessary.
 
 import categoryModel from "../models/categoryModel.js";
 import slugify from "slugify";
@@ -134,6 +136,30 @@ describe("updateCategoryController", () => {
     );
   });
 
+  it("returns 400 if no name is provided", async () => {
+    // Arrange
+    req = { body: {}, params: { id: mockCategories[0]._id } };
+
+    // Act
+    await updateCategoryController(req, res);
+
+    // Assert
+    expect(res.status).toHaveBeenCalledWith(BAD_REQUEST_RESPONSE);
+    expect(res.send).toHaveBeenCalledWith({ message: "Name is required" });
+  });
+
+  it("returns 400 if no id is provided", async () => {
+    // Arrange
+    req = { body: { name: "Gadgets Updated" }, params: {} };
+
+    // Act
+    await updateCategoryController(req, res);
+
+    // Assert
+    expect(res.status).toHaveBeenCalledWith(BAD_REQUEST_RESPONSE);
+    expect(res.send).toHaveBeenCalledWith({ message: "Category ID is required" });
+  });
+
   it("returns 409 when a category with that name already exists", async () => {
     req = {
       body: { name: mockCategories[1].name },
@@ -151,6 +177,26 @@ describe("updateCategoryController", () => {
         success: false,
         message: "Category Already Exists",
       })
+    );
+  });
+
+  it("returns 404 when the category to update does not exist", async () => {
+    // Arrange
+    req = {
+      body: { name: "Gadgets Updated" },
+      params: { id: "nonexistent-id" },
+    };
+    categoryModel.findOne.mockResolvedValue(null);
+    categoryModel.findByIdAndUpdate.mockResolvedValue(null);
+    slugify.mockReturnValue("gadgets-updated");
+
+    // Act
+    await updateCategoryController(req, res);
+
+    // Assert
+    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.send).toHaveBeenCalledWith(
+      expect.objectContaining({ message: "Category not found" })
     );
   });
 
@@ -229,6 +275,38 @@ describe("singleCategoryController", () => {
     );
   });
 
+  it("returns 400 if no slug is provided", async () => {
+    // Arrange
+    req = { params: {} };
+
+    // Act
+    await singleCategoryController(req, res);
+
+    // Assert
+    expect(res.status).toHaveBeenCalledWith(BAD_REQUEST_RESPONSE);
+    expect(res.send).toHaveBeenCalledWith(
+      expect.objectContaining({ message: "Slug is required" })
+    );
+  });
+
+  it("returns 404 when no category matches the slug", async () => {
+    // Arrange
+    req = { params: { slug: "nonexistent-slug" } };
+    categoryModel.findOne.mockResolvedValue(null);
+
+    // Act
+    await singleCategoryController(req, res);
+
+    // Assert
+    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.send).toHaveBeenCalledWith(
+      expect.objectContaining({
+        success: false,
+        message: "Category not found",
+      })
+    );
+  });
+
   it("returns 500 and catches an error", async () => {
     req = { params: { slug: mockCategories[0].slug } };
     const error = new Error("DB failure");
@@ -248,9 +326,14 @@ describe("singleCategoryController", () => {
 
 describe("deleteCategoryController", () => {
   it("deletes a category successfully", async () => {
+    // Arrange
     req = { params: { id: mockCategories[0]._id } };
+    categoryModel.findByIdAndDelete.mockResolvedValue(mockCategories[0]);
+
+    // Act
     await deleteCategoryController(req, res);
 
+    // Assert
     expect(categoryModel.findByIdAndDelete).toHaveBeenCalledWith(
       mockCategories[0]._id
     );
@@ -260,6 +343,33 @@ describe("deleteCategoryController", () => {
         success: true,
         message: "Category Deleted Successfully",
       })
+    );
+  });
+
+  it("returns 400 if no id is provided", async () => {
+    // Arrange
+    req = { params: {} };
+
+    // Act
+    await deleteCategoryController(req, res);
+
+    // Assert
+    expect(res.status).toHaveBeenCalledWith(BAD_REQUEST_RESPONSE);
+    expect(res.send).toHaveBeenCalledWith({ message: "Category ID is required" });
+  });
+
+  it("returns 404 when the category to delete does not exist", async () => {
+    // Arrange
+    req = { params: { id: "nonexistent-id" } };
+    categoryModel.findByIdAndDelete.mockResolvedValue(null);
+
+    // Act
+    await deleteCategoryController(req, res);
+
+    // Assert
+    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.send).toHaveBeenCalledWith(
+      expect.objectContaining({ message: "Category not found" })
     );
   });
 

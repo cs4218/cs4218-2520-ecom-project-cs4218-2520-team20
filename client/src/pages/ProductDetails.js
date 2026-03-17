@@ -47,6 +47,7 @@ const ProductDetails = () => {
             alt={product.name}
             height="300"
             width={"350px"}
+            data-testid="product-name"
           />
         </div>
         <div className="col-md-6 product-details-info">

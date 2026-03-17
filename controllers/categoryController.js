@@ -37,6 +37,12 @@ export const updateCategoryController = async (req, res) => {
   try {
     const { name } = req.body;
     const { id } = req.params;
+    if (!name) {
+      return res.status(400).send({ message: "Name is required" });
+    }
+    if (!id) {
+      return res.status(400).send({ message: "Category ID is required" });
+    }
     const existingCategory = await categoryModel.findOne({ name });
     if (existingCategory && existingCategory._id.toString() !== id) {
       return res.status(409).send({
@@ -49,6 +55,9 @@ export const updateCategoryController = async (req, res) => {
       { name, slug: slugify(name) },
       { new: true }
     );
+    if (!category) {
+      return res.status(404).send({ message: "Category not found" });
+    }
     res.status(200).send({
       success: true,
       message: "Category Updated Successfully",
@@ -86,7 +95,23 @@ export const categoryController = async (req, res) => {
 // single category
 export const singleCategoryController = async (req, res) => {
   try {
-    const category = await categoryModel.findOne({ slug: req.params.slug });
+    const { slug } = req.params;
+
+    if (!slug) {
+      return res.status(400).send({
+        success: false,
+        message: "Slug is required",
+      });
+    }
+
+    const category = await categoryModel.findOne({ slug });
+
+    if (!category) {
+      return res.status(404).send({
+        success: false,
+        message: "Category not found",
+      });
+    }
     res.status(200).send({
       success: true,
       message: "Get Single Category Successfully",
@@ -106,7 +131,13 @@ export const singleCategoryController = async (req, res) => {
 export const deleteCategoryController = async (req, res) => {
   try {
     const { id } = req.params;
-    await categoryModel.findByIdAndDelete(id);
+    if (!id) {
+      return res.status(400).send({ message: "Category ID is required" });
+    }
+    const deletedCategory = await categoryModel.findByIdAndDelete(id);
+    if (!deletedCategory) {
+      return res.status(404).send({ message: "Category not found" });
+    }
     res.status(200).send({
       success: true,
       message: "Category Deleted Successfully",

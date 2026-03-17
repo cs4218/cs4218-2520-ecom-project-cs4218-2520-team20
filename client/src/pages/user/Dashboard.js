@@ -3,8 +3,6 @@ import Layout from "../../components/Layout";
 import UserMenu from "../../components/UserMenu";
 import { useAuth } from "../../context/auth";
 
-// TODO: Test Dashboard in UI/Integration Testing
-//       No user-defined functionality was implemented in this code.
 const Dashboard = () => {
   const [auth] = useAuth();
   return (
@@ -18,6 +16,7 @@ const Dashboard = () => {
             <div className="card w-75 p-3">
               <h3>{auth?.user?.name}</h3>
               <h3>{auth?.user?.email}</h3>
+              <h3>{auth?.user?.phone}</h3>
               <h3>{auth?.user?.address}</h3>
             </div>
           </div>
