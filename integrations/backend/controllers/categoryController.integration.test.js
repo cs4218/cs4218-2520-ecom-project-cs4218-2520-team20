@@ -1,14 +1,14 @@
 // Seah Minlong, A0271643E
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
-import categoryModel from "../models/categoryModel.js";
+import categoryModel from "../../../models/categoryModel.js";
 import {
   createCategoryController,
   updateCategoryController,
   deleteCategoryController,
   categoryController,
   singleCategoryController,
-} from "./categoryController.js";
+} from "../../../controllers/categoryController.js";
 
 let mongoServer;
 
