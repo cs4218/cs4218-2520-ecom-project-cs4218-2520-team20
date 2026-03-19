@@ -10,6 +10,7 @@ export default {
    // TODO: Remove at end of MS2 - Early removal will probably cause merge conflicts
     "<rootDir>/integrations/backend/example/*.test.js",
     "<rootDir>/integrations/backend/models/*.test.js",
+    "<rootDir>/integrations/backend/routes/*.test.js",
   ],
   
   collectCoverage: false,
