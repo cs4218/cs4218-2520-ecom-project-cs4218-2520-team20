@@ -1,4 +1,6 @@
 // Seah Minlong, A0271643E
+// Integration: categoryController.js, categoryModel.js, productModel.js,
+//              createProductController, deleteProductController
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import os from "os";

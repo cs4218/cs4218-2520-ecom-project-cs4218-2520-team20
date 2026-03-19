@@ -1,4 +1,5 @@
 // Seah Minlong, A0271643E
+// Integration: categoryController.js <-> categoryModel.js 
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import categoryModel from "../../../models/categoryModel.js";
