@@ -142,6 +142,47 @@ describe("updateCategoryController", () => {
     expect(updated.slug).toBe("gadgets");
   });
 
+  it("returns 404 when the category ID does not exist in the DB", async () => {
+    // Arrange
+    const nonExistentId = new mongoose.Types.ObjectId().toString();
+    const req = {
+      body: { name: "Gadgets" },
+      params: { id: nonExistentId },
+    };
+    const res = mockRes();
+
+    // Act
+    await updateCategoryController(req, res);
+
+    // Assert
+    expect(res.status).toHaveBeenCalledWith(404);
+    const body = res.send.mock.calls[0][0];
+    expect(body.message).toBe("Category not found");
+  });
+
+  it("returns 409 when the new name already belongs to a different category", async () => {
+    // Arrange
+    await categoryModel.create({ name: "Gadgets", slug: "gadgets" });
+    const existing = await categoryModel.create({
+      name: "Electronics",
+      slug: "electronics",
+    });
+    const req = {
+      body: { name: "Gadgets" },
+      params: { id: existing._id.toString() },
+    };
+    const res = mockRes();
+
+    // Act
+    await updateCategoryController(req, res);
+
+    // Assert
+    expect(res.status).toHaveBeenCalledWith(409);
+    const body = res.send.mock.calls[0][0];
+    expect(body.success).toBe(false);
+    expect(body.message).toBe("Category Already Exists");
+  });
+
 });
 
 describe("deleteCategoryController", () => {
@@ -179,6 +220,21 @@ describe("deleteCategoryController", () => {
     // Assert
     const gone = await categoryModel.findById(existing._id);
     expect(gone).toBeNull();
+  });
+
+  it("returns 404 when the category ID does not exist in the DB", async () => {
+    // Arrange
+    const nonExistentId = new mongoose.Types.ObjectId().toString();
+    const req = { params: { id: nonExistentId } };
+    const res = mockRes();
+
+    // Act
+    await deleteCategoryController(req, res);
+
+    // Assert
+    expect(res.status).toHaveBeenCalledWith(404);
+    const body = res.send.mock.calls[0][0];
+    expect(body.message).toBe("Category not found");
   });
 
 });
@@ -260,5 +316,20 @@ describe("singleCategoryController (getSingleCategory)", () => {
     expect(category).toHaveProperty("_id");
     expect(category.name).toBe("Electronics");
     expect(category.slug).toBe("electronics");
+  });
+
+  it("returns 404 when the slug does not exist in the DB", async () => {
+    // Arrange
+    const req = { params: { slug: "nonexistent-slug" } };
+    const res = mockRes();
+
+    // Act
+    await singleCategoryController(req, res);
+
+    // Assert
+    expect(res.status).toHaveBeenCalledWith(404);
+    const body = res.send.mock.calls[0][0];
+    expect(body.success).toBe(false);
+    expect(body.message).toBe("Category not found");
   });
 });
