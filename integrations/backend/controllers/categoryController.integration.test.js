@@ -2,14 +2,14 @@
 // Integration: categoryController.js <-> categoryModel.js 
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
-import categoryModel from "../../../models/categoryModel.js";
+import categoryModel from "@server/models/categoryModel.js";
 import {
   createCategoryController,
   updateCategoryController,
   deleteCategoryController,
   categoryController,
   singleCategoryController,
-} from "../../../controllers/categoryController.js";
+} from "@server/controllers/categoryController.js";
 
 let mongoServer;
 

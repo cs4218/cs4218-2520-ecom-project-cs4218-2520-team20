@@ -6,12 +6,12 @@ import mongoose from "mongoose";
 import fs from "fs";
 import path from "path";
 import os from "os";
-import productModel from "../../../models/productModel.js";
-import categoryModel from "../../../models/categoryModel.js";
+import productModel from "@server/models/productModel.js";
+import categoryModel from "@server/models/categoryModel.js";
 import {
   createProductController,
   deleteProductController,
-} from "../../../controllers/productController.js";
+} from "@server/controllers/productController.js";
 
 let mongoServer;
 let testCategory;
