@@ -9,6 +9,7 @@ export default {
   testMatch: [
    // TODO: Remove at end of MS2 - Early removal will probably cause merge conflicts
     "<rootDir>/integrations/backend/example/*.test.js",
+    "<rootDir>/integrations/backend/**/*.test.js",
   ],
   
   collectCoverage: false,
