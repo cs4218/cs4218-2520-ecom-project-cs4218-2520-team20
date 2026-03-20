@@ -27,7 +27,10 @@ const mockRes = () => {
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   await mongoose.connect(mongoServer.getUri());
-
+  
+  // The following code was adapted from Claude Opus 4.
+  // Prompt: "Write code that creates a small temporary JPEG file and tracks its path for cleanup, 
+  // to be used in tests that require file uploads."
   photoPath = path.join(os.tmpdir(), "integration_test_photo.jpg");
   const minJpeg = Buffer.from([
     0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46, 0x00, 0x01,

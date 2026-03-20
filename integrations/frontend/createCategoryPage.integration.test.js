@@ -44,8 +44,7 @@ jest.mock("antd", () => ({
 // wiring in beforeEach were adapted from Claude Opus 4.
 // Prompt: "Write helper functions that bridge mocked axios calls to real
 // Express controller functions by constructing req/res objects, capturing the
-// status and body, and resolving or rejecting like real axios based on the
-// status code."
+// status and body, and resolving or rejecting like real axios based on the status code."
 
 // Helper: calls a real controller with a constructed req/res and returns
 // { status, body } so the axios mock can decide to resolve or reject.
@@ -77,8 +76,6 @@ const axiosResult = ({ status, body }) => {
 let mongoServer;
 
 beforeAll(async () => {
-  // MongoMemoryServer is injected via FixJSDOMEnvironment to avoid ESM parse
-  // errors when importing mongodb-memory-server directly in JSDOM.
   mongoServer = await MongoMemoryServer.create();
   await mongoose.connect(mongoServer.getUri());
 });
