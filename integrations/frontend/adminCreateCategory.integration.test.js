@@ -13,7 +13,7 @@ import {
   deleteCategoryController,
   categoryController,
 } from "../../controllers/categoryController.js";
-import CreateCategory from "../../client/src/pages/Admin/CreateCategory.js";
+import CreateCategory from "../../client/src/pages/admin/CreateCategory.js";
 
 jest.mock("axios");
 jest.mock("react-hot-toast");

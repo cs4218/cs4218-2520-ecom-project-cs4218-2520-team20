@@ -16,8 +16,8 @@ import {
 	getProductController,
 } from "../../controllers/productController.js";
 import { categoryController } from "../../controllers/categoryController.js";
-import CreateProduct from "../../client/src/pages/Admin/CreateProduct.js";
-import Products from "../../client/src/pages/Admin/Products.js";
+import CreateProduct from "../../client/src/pages/admin/CreateProduct.js";
+import Products from "../../client/src/pages/admin/Products.js";
 
 jest.mock("axios");
 jest.mock("react-hot-toast");
