@@ -29,12 +29,10 @@ test.afterAll(() => {
 
 async function loginAs(page, email, password) {
   await page.goto("/login");
-  await page.fill("#exampleInputEmail1", email);
-  await page.fill("#exampleInputPassword1", password);
+  await page.getByPlaceholder("Enter Your Email").fill(email);
+  await page.getByPlaceholder("Enter Your Password").fill(password);
   await page.getByRole("button", { name: "LOGIN" }).click();
-  await page.waitForURL((url) => !url.toString().includes("/login"), {
-    timeout: 10_000,
-  });
+  await expect(page).not.toHaveURL(/\/login/, { timeout: 10_000 });
 }
 
 async function logout(page) {
@@ -50,9 +48,9 @@ test("created category appears on the public categories page", async ({
   await loginAs(page, ADMIN_EMAIL, ADMIN_PASSWORD);
 
   await page.goto("/dashboard/admin/create-category");
-  await page.fill('input[placeholder="Enter new category"]', categoryName);
+  await page.getByPlaceholder("Enter new category").fill(categoryName);
   await page.getByRole("button", { name: "Submit" }).click();
-  await expect(page.locator(`td:has-text("${categoryName}")`)).toBeVisible();
+  await expect(page.getByRole("cell", { name: categoryName })).toBeVisible();
 
   await logout(page);
   await page.goto("/categories");
@@ -67,27 +65,22 @@ test("created product appears on the public product listing page", async ({
 
   await loginAs(page, ADMIN_EMAIL, ADMIN_PASSWORD);
   await page.goto("/dashboard/admin/create-category");
-  await page.fill('input[placeholder="Enter new category"]', categoryName);
+  await page.getByPlaceholder("Enter new category").fill(categoryName);
   await page.getByRole("button", { name: "Submit" }).click();
-  await expect(page.locator(`td:has-text("${categoryName}")`)).toBeVisible();
+  await expect(page.getByRole("cell", { name: categoryName })).toBeVisible();
 
   await page.goto("/dashboard/admin/create-product");
   await page.locator(".ant-select-selector").first().click();
-  await page
-    .locator(`.ant-select-item-option[title="${categoryName}"]`)
-    .click();
+  await page.getByTitle(categoryName).click();
   await page.setInputFiles('input[type="file"]', TEST_PHOTO_PATH);
-  await page.fill('input[placeholder="write a name"]', productName);
-  await page.fill(
-    'textarea[placeholder="write a description"]',
-    "An E2E test product description"
-  );
-  await page.fill('input[placeholder="write a Price"]', "99");
-  await page.fill('input[placeholder="write a quantity"]', "10");
+  await page.getByPlaceholder("write a name").fill(productName);
+  await page.getByPlaceholder("write a description").fill("An E2E test product description");
+  await page.getByPlaceholder("write a Price").fill("99");
+  await page.getByPlaceholder("write a quantity").fill("10");
   await page.locator(".ant-select-selector").nth(1).click();
-  await page.locator('.ant-select-item-option[title="Yes"]').click();
+  await page.getByTitle("Yes").click();
   await page.getByRole("button", { name: "CREATE PRODUCT" }).click();
-  await page.waitForURL("**/admin/products", { timeout: 10_000 });
+  await expect(page).toHaveURL(/\/admin\/products/, { timeout: 10_000 });
 
   await logout(page);
   await page.goto("/");
@@ -102,15 +95,13 @@ test("newly created category appears in the Create Product category dropdown", a
   await loginAs(page, ADMIN_EMAIL, ADMIN_PASSWORD);
 
   await page.goto("/dashboard/admin/create-category");
-  await page.fill('input[placeholder="Enter new category"]', categoryName);
+  await page.getByPlaceholder("Enter new category").fill(categoryName);
   await page.getByRole("button", { name: "Submit" }).click();
-  await expect(page.locator(`td:has-text("${categoryName}")`)).toBeVisible();
+  await expect(page.getByRole("cell", { name: categoryName })).toBeVisible();
 
   await page.goto("/dashboard/admin/create-product");
   await page.locator(".ant-select-selector").first().click();
-  await expect(
-    page.locator(`.ant-select-item-option[title="${categoryName}"]`)
-  ).toBeVisible();
+  await expect(page.getByTitle(categoryName)).toBeVisible();
 });
 
 test("order status changed by admin is reflected on the user orders page", async ({
@@ -125,7 +116,7 @@ test("order status changed by admin is reflected on the user orders page", async
   await expect(orderBlocks.first()).toBeVisible();
   const firstOrderSelect = orderBlocks.first().locator(".ant-select").first();
   await firstOrderSelect.click();
-  await page.locator(`.ant-select-item-option[title="${newStatus}"]`).click();
+  await page.getByTitle(newStatus).click();
   await page.waitForResponse(
     (resp) =>
       resp.url().includes("/api/v1/auth/order-status") &&
@@ -137,7 +128,7 @@ test("order status changed by admin is reflected on the user orders page", async
   await loginAs(page, USER_EMAIL, USER_PASSWORD);
   await page.goto("/dashboard/user/orders");
   await expect(
-    page.locator("table tbody tr").first().locator("td").nth(1)
+    page.getByRole("row").nth(1).getByRole("cell").nth(1)
   ).toHaveText(newStatus);
 });
 
@@ -148,15 +139,15 @@ test("deleted category no longer appears as a filter option on the homepage", as
 
   await loginAs(page, ADMIN_EMAIL, ADMIN_PASSWORD);
   await page.goto("/dashboard/admin/create-category");
-  await page.fill('input[placeholder="Enter new category"]', categoryName);
+  await page.getByPlaceholder("Enter new category").fill(categoryName);
   await page.getByRole("button", { name: "Submit" }).click();
-  await expect(page.locator(`td:has-text("${categoryName}")`)).toBeVisible();
+  await expect(page.getByRole("cell", { name: categoryName })).toBeVisible();
 
   const row = page
-    .locator("tr")
-    .filter({ has: page.locator(`td:has-text("${categoryName}")`) });
+    .getByRole("row")
+    .filter({ has: page.getByRole("cell", { name: categoryName }) });
   await row.getByRole("button", { name: "Delete" }).click();
-  await expect(page.locator(`td:has-text("${categoryName}")`)).toBeHidden();
+  await expect(page.getByRole("cell", { name: categoryName })).toBeHidden();
 
   await logout(page);
   await page.goto("/");

@@ -2,6 +2,8 @@
 // Credit to tkrotoff for the fix: https://github.com/jsdom/jsdom/issues/3363#issuecomment-1467894943
 
 import JSDOMEnvironment from 'jest-environment-jsdom';
+import { MongoMemoryServer } from 'mongodb-memory-server';
+import { TextDecoder, TextEncoder } from 'util';
 
 // https://github.com/facebook/jest/blob/v29.4.3/website/versioned_docs/version-29.4/Configuration.md#testenvironment-string
 export default class FixJSDOMEnvironment extends JSDOMEnvironment {
@@ -10,5 +12,9 @@ export default class FixJSDOMEnvironment extends JSDOMEnvironment {
 
     // FIXME https://github.com/jsdom/jsdom/issues/3363
     this.global.structuredClone = structuredClone;
+    this.global.MongoMemoryServer = MongoMemoryServer;
+
+    this.global.TextEncoder = TextEncoder;
+    this.global.TextDecoder = TextDecoder;
   }
 }

@@ -16,6 +16,10 @@ export default {
     "\\.(css|scss)$": "identity-obj-proxy",
   },
 
+  // resolve modules from client/node_modules so integration tests outside client/src
+  // can import axios, react-hot-toast, antd, etc.
+  modulePaths: ["<rootDir>/client/node_modules"],
+
   // ignore all node_modules except styleMock (needed for css imports)
   transformIgnorePatterns: ["/node_modules/(?!(styleMock\\.js)$)"],
 
@@ -23,6 +27,7 @@ export default {
   testMatch: [
    // TODO: Remove at end of MS2 - Early removal will probably cause merge conflicts
     "<rootDir>/integrations/frontend/example/*.test.js",
+    "<rootDir>/integrations/frontend/*.test.js",
   ],
 
   setupFilesAfterEnv: ["<rootDir>/client/src/setupTests.js"],

@@ -27,7 +27,10 @@ const mockRes = () => {
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   await mongoose.connect(mongoServer.getUri());
-
+  
+  // The following code was adapted from Claude Opus 4.
+  // Prompt: "Write code that creates a small temporary JPEG file and tracks its path for cleanup, 
+  // to be used in tests that require file uploads."
   photoPath = path.join(os.tmpdir(), "integration_test_photo.jpg");
   const minJpeg = Buffer.from([
     0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46, 0x00, 0x01,
@@ -106,9 +109,15 @@ describe("createProductController", () => {
     expect(saved.price).toBe(49);
   });
 
-  it("returns 400 when name is missing", async () => {
+  it.each([
+    ["name", "Name is Required"],
+    ["description", "Description is Required"],
+    ["price", "Price is Required"],
+    ["category", "Category is Required"],
+    ["quantity", "Quantity is Required"],
+  ])("returns 400 when %s is missing", async (field, expectedError) => {
     // Arrange
-    const req = validProductReq({ name: "" });
+    const req = validProductReq({ [field]: "" });
     const res = mockRes();
 
     // Act
@@ -117,63 +126,7 @@ describe("createProductController", () => {
     // Assert
     expect(res.status).toHaveBeenCalledWith(400);
     const body = res.send.mock.calls[0][0];
-    expect(body.error).toBe("Name is Required");
-  });
-
-  it("returns 400 when description is missing", async () => {
-    // Arrange
-    const req = validProductReq({ description: "" });
-    const res = mockRes();
-
-    // Act
-    await createProductController(req, res);
-
-    // Assert
-    expect(res.status).toHaveBeenCalledWith(400);
-    const body = res.send.mock.calls[0][0];
-    expect(body.error).toBe("Description is Required");
-  });
-
-  it("returns 400 when price is missing", async () => {
-    // Arrange
-    const req = validProductReq({ price: "" });
-    const res = mockRes();
-
-    // Act
-    await createProductController(req, res);
-
-    // Assert
-    expect(res.status).toHaveBeenCalledWith(400);
-    const body = res.send.mock.calls[0][0];
-    expect(body.error).toBe("Price is Required");
-  });
-
-  it("returns 400 when category is missing", async () => {
-    // Arrange
-    const req = validProductReq({ category: "" });
-    const res = mockRes();
-
-    // Act
-    await createProductController(req, res);
-
-    // Assert
-    expect(res.status).toHaveBeenCalledWith(400);
-    const body = res.send.mock.calls[0][0];
-    expect(body.error).toBe("Category is Required");
-  });
-
-  it("returns 400 when quantity is missing", async () => {
-    // Arrange
-    const req = validProductReq({ quantity: "" });
-    const res = mockRes();
-
-    // Act
-    await createProductController(req, res);
-
-    // Assert
-    expect(res.status).toHaveBeenCalledWith(400);
-    const body = res.send.mock.calls[0][0];
-    expect(body.error).toBe("Quantity is Required");
+    expect(body.error).toBe(expectedError);
   });
 
   it("returns 400 when photo is missing", async () => {
