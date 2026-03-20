@@ -106,9 +106,15 @@ describe("createProductController", () => {
     expect(saved.price).toBe(49);
   });
 
-  it("returns 400 when name is missing", async () => {
+  it.each([
+    ["name", "Name is Required"],
+    ["description", "Description is Required"],
+    ["price", "Price is Required"],
+    ["category", "Category is Required"],
+    ["quantity", "Quantity is Required"],
+  ])("returns 400 when %s is missing", async (field, expectedError) => {
     // Arrange
-    const req = validProductReq({ name: "" });
+    const req = validProductReq({ [field]: "" });
     const res = mockRes();
 
     // Act
@@ -117,63 +123,7 @@ describe("createProductController", () => {
     // Assert
     expect(res.status).toHaveBeenCalledWith(400);
     const body = res.send.mock.calls[0][0];
-    expect(body.error).toBe("Name is Required");
-  });
-
-  it("returns 400 when description is missing", async () => {
-    // Arrange
-    const req = validProductReq({ description: "" });
-    const res = mockRes();
-
-    // Act
-    await createProductController(req, res);
-
-    // Assert
-    expect(res.status).toHaveBeenCalledWith(400);
-    const body = res.send.mock.calls[0][0];
-    expect(body.error).toBe("Description is Required");
-  });
-
-  it("returns 400 when price is missing", async () => {
-    // Arrange
-    const req = validProductReq({ price: "" });
-    const res = mockRes();
-
-    // Act
-    await createProductController(req, res);
-
-    // Assert
-    expect(res.status).toHaveBeenCalledWith(400);
-    const body = res.send.mock.calls[0][0];
-    expect(body.error).toBe("Price is Required");
-  });
-
-  it("returns 400 when category is missing", async () => {
-    // Arrange
-    const req = validProductReq({ category: "" });
-    const res = mockRes();
-
-    // Act
-    await createProductController(req, res);
-
-    // Assert
-    expect(res.status).toHaveBeenCalledWith(400);
-    const body = res.send.mock.calls[0][0];
-    expect(body.error).toBe("Category is Required");
-  });
-
-  it("returns 400 when quantity is missing", async () => {
-    // Arrange
-    const req = validProductReq({ quantity: "" });
-    const res = mockRes();
-
-    // Act
-    await createProductController(req, res);
-
-    // Assert
-    expect(res.status).toHaveBeenCalledWith(400);
-    const body = res.send.mock.calls[0][0];
-    expect(body.error).toBe("Quantity is Required");
+    expect(body.error).toBe(expectedError);
   });
 
   it("returns 400 when photo is missing", async () => {

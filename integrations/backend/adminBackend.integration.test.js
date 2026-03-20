@@ -227,7 +227,7 @@ describe("deleteProductController", () => {
     expect(gone).toBeNull();
   });
 
-  it("confirms the product is absent from a subsequent DB listing after deletion", async () => {
+  it("deleting a product does not remove the associated category from the DB", async () => {
     // Arrange
     const categoryId = await seedCategory();
     const photoPath = makeTempPhoto();
@@ -245,13 +245,17 @@ describe("deleteProductController", () => {
     const createRes = mockRes();
     await createProductController(createReq, createRes);
     const productId = createRes.send.mock.calls[0][0].products._id.toString();
+    const req = { params: { pid: productId } };
+    const res = mockRes();
 
     // Act
-    await deleteProductController({ params: { pid: productId } }, mockRes());
+    await deleteProductController(req, res);
 
     // Assert
-    const remaining = await productModel.find({});
-    expect(remaining).toHaveLength(0);
+    expect(res.status).toHaveBeenCalledWith(200);
+    const category = await categoryModel.findById(categoryId);
+    expect(category).not.toBeNull();
+    expect(category.name).toBe("Electronics");
   });
 });
 
