@@ -5,9 +5,9 @@ import supertest from "supertest";
 import JWT from 'jsonwebtoken'
 import cors from "cors";
 import morgan from "morgan";
-import categoryRoutes from '../../../routes/categoryRoutes.js'
-import CategoryModel from "../../../models/categoryModel.js";
-import connectDB from '../../../config/db';
+import categoryRoutes from '@server/routes/categoryRoutes.js'
+import CategoryModel from "@server/models/categoryModel.js";
+import connectDB from '@server/config/db';
 
 // canned values
 const categories = [{

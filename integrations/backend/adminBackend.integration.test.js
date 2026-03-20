@@ -6,13 +6,13 @@ import mongoose from "mongoose";
 import os from "os";
 import path from "path";
 import fs from "fs";
-import categoryModel from "../../models/categoryModel.js";
-import productModel from "../../models/productModel.js";
-import { createCategoryController } from "../../controllers/categoryController.js";
+import categoryModel from "@server/models/categoryModel.js";
+import productModel from "@server/models/productModel.js";
+import { createCategoryController } from "@server/controllers/categoryController.js";
 import {
   createProductController,
   deleteProductController,
-} from "../../controllers/productController.js";
+} from "@server/controllers/productController.js";
 
 let mongoServer;
 let tempFiles = [];

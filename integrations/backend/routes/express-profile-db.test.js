@@ -2,13 +2,13 @@ import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import supertest from "supertest";
 import express from "express";
-import authRoutes from '../../../routes/authRoute.js'
-import UserModel from '../../../models/userModel';
-import connectDB from '../../../config/db';
+import authRoutes from '@server/routes/authRoute.js'
+import UserModel from '@server/models/userModel';
+import connectDB from '@server/config/db';
 import JWT from 'jsonwebtoken'
 import cors from "cors";
 import morgan from "morgan";
-import { comparePassword } from '../../../helpers/authHelper.js';
+import { comparePassword } from '@server/helpers/authHelper.js';
 
 // JWT dummy token
 const DUMMY_JWT_SECRET = 'PQOW1564QESD7813AS2';
