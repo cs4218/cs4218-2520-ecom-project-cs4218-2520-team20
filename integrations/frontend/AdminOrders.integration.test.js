@@ -203,7 +203,7 @@ describe("AdminOrders integration", () => {
     expect(screen.getByText("Test Product")).toBeInTheDocument();
     expect(screen.getByText("Price : 99.99")).toBeInTheDocument();
     expect(screen.getByText("a few seconds ago")).toBeInTheDocument();
-    expect(screen.getByText("1")).toBeInTheDocument();
+    expect(screen.getAllByRole("cell", { name: "1" })).toHaveLength(2);
   });
 
   it("does not fetch orders when auth token is missing", async () => {
@@ -241,8 +241,10 @@ describe("AdminOrders integration", () => {
       );
     });
 
-    const updated = await orderModel.findById(seededOrder._id);
-    expect(updated.status).toBe("Shipped");
+    await waitFor(async () => {
+      const updated = await orderModel.findById(seededOrder._id);
+      expect(updated.status).toBe("Shipped");
+    });
 
     await waitFor(() => {
       expect(axios.get).toHaveBeenCalledTimes(2);

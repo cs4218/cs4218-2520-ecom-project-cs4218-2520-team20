@@ -1,3 +1,6 @@
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+
 export default {
   // name displayed during tests
   displayName: "frontend-integration",
@@ -16,6 +19,7 @@ export default {
     "\\.(css|scss)$": "identity-obj-proxy",
     "^@client/(.*)$": "<rootDir>/client/src/$1",
     "^@server/(.*)$": "<rootDir>/$1",
+    "^bson$": require.resolve("bson"),
   },
 
   // resolve modules from client/node_modules so integration tests outside client/src
