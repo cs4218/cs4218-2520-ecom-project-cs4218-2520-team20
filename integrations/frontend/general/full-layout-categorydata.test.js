@@ -8,8 +8,8 @@ import { MemoryRouter } from 'react-router-dom';
 import Layout from '@client/components/Layout';
 import { useAuth } from "@client/context/auth";
 import { AuthProvider } from '@client/context/auth';
-import { SearchProvider } from '@client/context/search';
-import { CartProvider } from '@client/context/cart';
+import { SearchProvider, useSearch } from '@client/context/search';
+import { CartProvider, useCart } from '@client/context/cart';
 // backend imports
 import mongoose from 'mongoose';
 import express from "express";
@@ -18,6 +18,14 @@ import CategoryModel from "@server/models/categoryModel.js";
 import connectDB from '@server/config/db';
 import cors from "cors";
 import morgan from "morgan";
+
+window.matchMedia = window.matchMedia || function() {
+  return {
+    matches: false,
+    addListener: function() {},
+    removeListener: function() {}
+  };
+};  
 
 // mongo-db-memory server workaround
 const MongoMemoryServer = global.MongoMemoryServer
@@ -40,7 +48,7 @@ let app;
 let expressServer;
 const mockSearchController = jest.fn(async (req, res) => {
   const { keyword } = req.params;
-  res.json({keyword: keyword});
+  res.json([keyword]);
 })
 
 // canned response
@@ -63,6 +71,7 @@ const localStorageMock = (() => {
   return {
     getItem: jest.fn((key) => store[key] || null),
     setItem: jest.fn((key, value) => { store[key] = value.toString(); }),
+    removeItem: jest.fn((key) => delete store[key]),
     clear: jest.fn(() => { store = {}; }),
   };
 })();
@@ -82,6 +91,27 @@ function RenderStack({children}) {
         </CartProvider>
       </SearchProvider>
     </AuthProvider>
+  );
+};
+
+// helper function - exploits property of contexts in React, unwraps useSearch value for us
+function ExpectValue() {
+  const [ value, _ ] = useSearch();
+  return (
+    <div>
+      <div>{value.keyword ? `Keyword: ${value.keyword}` : 'NIL'}</div>
+      <div>{JSON.stringify(value.results)}</div>
+    </div>
+  );
+};
+
+// helper function - exploits property of contexts in React, unwraps useCart value for us
+function SetCartButton({next_val}) {
+  const [ _, setCart ] = useCart();
+  return (
+    <div>
+      <button onClick={() => setCart(next_val)} data-testid="set-cart-btn"></button>
+    </div>
   );
 };
 
@@ -110,6 +140,7 @@ beforeAll(async () => {
 });
 
 beforeEach(() => {
+  jest.clearAllMocks();
   localStorageMock.setItem('cart', JSON.stringify(canned_cart))
   localStorageMock.setItem('auth', JSON.stringify(canned_auth))
 });
@@ -195,17 +226,155 @@ describe("Layout Component", () => {
     });
   });
 
-  it("saves search results into the local storage", async () => {
-    const { findByTestId, findAllByPlaceholderText, findAllByText } = await act(async () => render(
+  it("propagates Search results into the SearchContext", async () => {
+    const spy = jest.spyOn(axios, "get")
+    const { findByTestId, findByPlaceholderText, findByText } = await act(async () => render(
       <RenderStack>
+        <ExpectValue/>
         <div data-testid="child">Child Content</div>
       </RenderStack>
     ));
+    // use this to wait for the layout to complete render from backend.
     await findByTestId('laptop-link')
-  
-    const search_field = await findAllByPlaceholderText('Search', { selector: 'input' });
-    const search_btn = await findAllByText('Search', { selector: 'button' });
-    expect(search_field).toHaveLength(1);
-    expect(search_btn).toHaveLength(1);
+    const search_field = await findByPlaceholderText('Search', { selector: 'input' });
+    const search_btn = await findByText('Search', { selector: 'button' });
+
+    fireEvent.change(search_field, { target: { value: 'Football' } });
+    fireEvent.click(search_btn);
+
+    await waitFor(() => expect(axios.get).toHaveBeenCalledWith('/api/v1/product/search/Football'));
+    await waitFor(() => expect(mockSearchController).toHaveBeenCalled());
+    const expect_value_keyword = findByText('Keyword: Football')
+    const expect_value_result = findByText(JSON.stringify(['Football']))
+    await expect(expect_value_keyword).resolves.toBeInTheDocument()
+    await expect(expect_value_result).resolves.toBeInTheDocument()
+
+    // cleanup
+    spy.mockRestore()
   });
+
+  describe('Auth localStorage', () => {
+    afterEach(() => {
+      localStorageMock.setItem('auth', JSON.stringify(canned_auth))
+    })
+
+    it("displays elements accordingly with an auth object in local storage", async () => {
+      const { findByTestId, findByText } = await act(async () => render(
+        <RenderStack>
+          <div data-testid="child">Child Content</div>
+        </RenderStack>
+      ));
+      // use this to wait for the layout to complete render from backend.
+      await findByTestId('laptop-link')
+    
+      const register = findByText('Register')
+      const login = findByText('Login')
+      const name = findByText('The Man')
+      const logout = findByText('Logout')
+      await expect(register).rejects.toThrow();
+      await expect(login).rejects.toThrow();
+      await expect(name).resolves.toBeVisible();
+      await expect(logout).resolves.toBeVisible();
+    });
+
+    it("displays elements accordingly if no auth object is in local storage", async () => {
+      localStorageMock.removeItem('auth');
+
+      const { findByTestId, findByText } = await act(async () => render(
+        <RenderStack>
+          <div data-testid="child">Child Content</div>
+        </RenderStack>
+      ));
+      // use this to wait for the layout to complete render from backend.
+      await findByTestId('laptop-link')
+    
+      const register = findByText('Register')
+      const login = findByText('Login')
+      const name = findByText('The Man')
+      const logout = findByText('Logout')
+      await expect(register).resolves.toBeVisible();
+      await expect(login).resolves.toBeVisible();
+      await expect(name).rejects.toThrow();
+      await expect(logout).rejects.toThrow();
+    });
+
+    it("should delete the auth object on logout and update elements accordingly", async () => {
+      const { findByTestId, findByText } = await act(async () => render(
+        <RenderStack>
+          <div data-testid="child">Child Content</div>
+        </RenderStack>
+      ));
+      // use this to wait for the layout to complete render from backend.
+      await findByTestId('laptop-link')
+      const logout = await findByText('Logout')
+
+      fireEvent.click(logout)
+
+      await waitFor(() => expect(localStorageMock.getItem('auth')).toBeFalsy());
+      const register = findByText('Register')
+      const login = findByText('Login')
+      await expect(register).resolves.toBeVisible();
+      await expect(login).resolves.toBeVisible();
+    });
+  })
+  
+  describe('Cart localStorage', () => {
+    afterEach(() => {
+      localStorageMock.setItem('cart', JSON.stringify(canned_cart))
+    })
+
+    it("displays the number of elements in the cart in the header", async () => {
+      const { findByTestId } = await act(async () => render(
+        <RenderStack>
+          <div data-testid="child">Child Content</div>
+        </RenderStack>
+      ));
+      // use this to wait for the layout to complete render from backend.
+      await findByTestId('laptop-link')
+    
+      const cart_badge = await findByTestId('badge')
+      expect(cart_badge).toBeVisible();
+      await waitFor(() => expect(cart_badge).toHaveTextContent('3'));
+    });
+
+    it("should successfully increase badge number as cart gets items added", async () => {
+      const { findByTestId } = await act(async () => render(
+        <RenderStack>
+          <SetCartButton next_val={JSON.stringify(['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'])}/>
+          <div data-testid="child">Child Content</div>
+        </RenderStack>
+      ));
+      // use this to wait for the layout to complete render from backend.
+      await findByTestId('laptop-link')
+      const cart_badge = await findByTestId('badge')
+      // confirm badge number is 3 before adding items to cart
+      expect(cart_badge).toBeVisible();
+      await waitFor(() => expect(cart_badge).toHaveTextContent('3'));
+
+      const cart_btn = await findByTestId('set-cart-btn')
+      fireEvent.click(cart_btn)
+
+      await waitFor(() => expect(cart_badge).toHaveTextContent('5'));
+    });
+
+    it("should successfully decrease badge number as cart gets items removed", async () => {
+      const { findByTestId } = await act(async () => render(
+        <RenderStack>
+          <SetCartButton next_val={JSON.stringify([])}/>
+          <div data-testid="child">Child Content</div>
+        </RenderStack>
+      ));
+      // use this to wait for the layout to complete render from backend.
+      await findByTestId('laptop-link')
+      const cart_badge = await findByTestId('badge')
+      // confirm badge number is 3 before adding items to cart
+      expect(cart_badge).toBeVisible();
+      await waitFor(() => expect(cart_badge).toHaveTextContent('3'));
+
+      const cart_btn = await findByTestId('set-cart-btn')
+      fireEvent.click(cart_btn)
+      
+      await waitFor(() => expect(cart_badge).toHaveTextContent('0'));
+    });
+  })
 });
