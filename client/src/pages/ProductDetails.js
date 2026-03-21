@@ -43,7 +43,10 @@ const ProductDetails = () => {
   return (
     <Layout>
       <div className="row container product-details">
-        <div className="col-md-6">
+        <div
+          className="col-md-6"
+          data-testid={`product-details-main-${product?.slug || "loading"}`}
+        >
           <img
             src={`/api/v1/product/product-photo/${product._id}`}
             className="card-img-top"
@@ -56,8 +59,16 @@ const ProductDetails = () => {
         <div className="col-md-6 product-details-info">
           <h1 className="text-center">Product Details</h1>
           <hr />
-          <h6>Name : {product.name}</h6>
-          <h6>Description : {product.description}</h6>
+          <h6
+            data-testid={`product-details-name-${product?.slug || "loading"}`}
+          >
+            Name : {product.name}
+          </h6>
+          <h6
+            data-testid={`product-details-description-${product?.slug || "loading"}`}
+          >
+            Description : {product.description}
+          </h6>
           <h6>
             Price :
             {product?.price?.toLocaleString("en-US", {
@@ -68,6 +79,7 @@ const ProductDetails = () => {
           <h6>Category : {product?.category?.name}</h6>
           <button
             className="btn btn-secondary ms-1"
+            data-testid={`product-details-add-to-cart-btn-${product?.slug || "loading"}`}
             onClick={() => {
               setCart([...cart, product]);
               localStorage.setItem("cart", JSON.stringify([...cart, product]));
@@ -86,15 +98,25 @@ const ProductDetails = () => {
         )}
         <div className="d-flex flex-wrap">
           {relatedProducts?.map((p) => (
-            <div className="card m-2" key={p._id}>
+            <div
+              className="card m-2"
+              key={p._id}
+              data-testid={`related-product-card-${p.slug}`}
+            >
               <img
                 src={`/api/v1/product/product-photo/${p._id}`}
                 className="card-img-top"
                 alt={p.name}
+                data-testid={`related-product-image-${p.slug}`}
               />
               <div className="card-body">
                 <div className="card-name-price">
-                  <h5 className="card-title">{p.name}</h5>
+                  <h5
+                    className="card-title"
+                    data-testid={`related-product-name-${p.slug}`}
+                  >
+                    {p.name}
+                  </h5>
                   <h5 className="card-title card-price">
                     {p.price.toLocaleString("en-US", {
                       style: "currency",
@@ -108,12 +130,14 @@ const ProductDetails = () => {
                 <div className="card-name-price">
                   <button
                     className="btn btn-info ms-1"
+                    data-testid={`related-product-details-btn-${p.slug}`}
                     onClick={() => navigate(`/product/${p.slug}`)}
                   >
                     More Details
                   </button>
                   <button
                     className="btn btn-dark ms-1"
+                    data-testid={`related-product-add-to-cart-btn-${p.slug}`}
                     onClick={() => {
                       setCart([...cart, p]);
                       localStorage.setItem(
