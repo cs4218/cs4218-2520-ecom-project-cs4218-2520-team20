@@ -27,13 +27,13 @@ export default {
 
   // only run these tests
   testMatch: [
-   // TODO: Remove at end of MS2 - Early removal will probably cause merge conflicts
+    // TODO: Remove at end of MS2 - Early removal will probably cause merge conflicts
     "<rootDir>/integrations/frontend/example/*.test.js",
     "<rootDir>/integrations/frontend/general/*.test.js",
     "<rootDir>/integrations/frontend/*.test.js",
   ],
 
   setupFilesAfterEnv: ["<rootDir>/client/src/setupTests.js"],
-  
+
   collectCoverage: false,
 };
