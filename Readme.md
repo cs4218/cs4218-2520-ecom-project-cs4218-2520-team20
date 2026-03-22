@@ -141,18 +141,36 @@ To begin unit testing with Jest in your project, follow these steps:
 ## Contributions
 
 ### Alexander Setyawan (A0257149W)
-
- - Search
- - Product
- - Contact
- - General
-   - components/Footer.js
-   - components/Header.js
-   - components/Layout.js
-   - components/Spinner.js
-   - pages/About.js
-   - pages/Pagenotfound.js
-   - config/db.js
+- UNIT TESTS
+   - Search
+   - Product
+   - Contact
+   - General
+      - components/Footer.js
+      - components/Header.js
+      - components/Layout.js
+      - components/Spinner.js
+      - pages/About.js
+      - pages/Pagenotfound.js
+      - config/db.js
+- INTEGRATION TESTS
+   - integrations\backend\controllers\categoryController.integration.test.js
+   - integrations\backend\controllers\getProductController.integration.test.js
+   - integrations\backend\controllers\getSingleProductController.integration.test.js
+   - integrations\backend\controllers\productCategoryController.integration.test.js
+   - integrations\backend\controllers\productController.integration.test.js
+   - integrations\backend\controllers\productCountController.integration.test.js
+   - integrations\backend\controllers\productFiltersController.integration.test.js
+   - integrations\backend\controllers\productListController.integration.test.js
+   - integrations\backend\controllers\productPhotoController.integration.test.js
+   - integrations\backend\controllers\relatedProductController.integration.test.js
+   - integrations\backend\controllers\searchProductController.integration.test.js
+   - integrations\frontend\CategoryProductBackend.integration.test.js
+   - integrations\frontend\ProductDetailsRelated.integration.test.js
+   - integrations\frontend\ProductDetailsSingle.integration.test.js
+- UI TESTS
+   - playwright-tests\profileDetails.spec.js
+   - playwright-tests\search.spec.js
    
 ### Seah Minlong (A0271643E)
 
