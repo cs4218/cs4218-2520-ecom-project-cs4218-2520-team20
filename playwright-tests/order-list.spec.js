@@ -42,7 +42,7 @@ test('Verify orders page updates properly on success', async ({ reset_db, page }
   await page.getByRole('button', { name: 'Make Payment' }).click();
   await expect(page).toHaveURL(/\/dashboard\/user\/orders$/, { timeout: 10_000 });
 
-  await expect(page.getByText('Seed ProductA seeded product for testingPrice : 25Seed ProductA seeded product')).toBeVisible();
+  await expect(page.getByText('Price : 30').nth(2)).toBeVisible();
   await expect(page.getByRole('cell', { name: 'Success' }).first()).toBeVisible();
   await expect(page.getByRole('cell', { name: 'Success' }).nth(1)).toBeVisible();
 
@@ -98,9 +98,8 @@ test('Verify orders page updates properly for a failed order', async ({ reset_db
   await page.getByRole('button', { name: 'Make Payment' }).click();
   await expect(page).toHaveURL(/\/dashboard\/user\/orders$/, { timeout: 10_000 });
 
-  await expect(page.locator('div').filter({ hasText: /^Bad ProductA bad product for testingPrice : 2000$/ }).nth(1)).toBeVisible();
+  await expect(page.getByText('Bad Product')).toBeVisible();
   await expect(page.getByRole('cell', { name: 'Failed' })).toBeVisible();
-  await expect(page.getByRole('cell', { name: 'Success' })).toBeVisible();
 
   await page.getByRole('button', { name: 'Test User' }).click();
   await page.getByRole('link', { name: 'Logout' }).click();

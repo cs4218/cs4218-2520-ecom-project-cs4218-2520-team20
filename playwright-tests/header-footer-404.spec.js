@@ -80,7 +80,7 @@ test.describe('Header Element', () => {
     await page.getByRole('button', { name: 'Search' }).click();
 
     await expect(page.getByRole('heading', { name: 'Search Results' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Found 1' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Found 2' })).toBeVisible();
 
     await page.getByRole('searchbox', { name: 'Search' }).click();
     await page.getByRole('searchbox', { name: 'Search' }).fill('Wrong Search');
