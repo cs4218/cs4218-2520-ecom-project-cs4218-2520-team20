@@ -14,8 +14,8 @@
     "test:all": "npm run test && npm run test:i",
     "test:frontend": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.frontend.config.js",
     "test:backend": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.backend.config.js",
-    "test:i:frontend": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.frontend.integration.config.js",
-    "test:i:backend": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.backend.integration.config.js",
+    "test:i:frontend": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.frontend.integration.config.js --runInBand",
+    "test:i:backend": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.backend.integration.config.js --runInBand",
     "test:ui": "npx playwright test"
   },
   "keywords": [],

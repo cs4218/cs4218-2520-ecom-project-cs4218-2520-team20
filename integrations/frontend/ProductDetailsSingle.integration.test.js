@@ -12,6 +12,7 @@ import categoryModel from "@server/models/categoryModel.js";
 import {
   getSingleProductController,
 } from "@server/controllers/productController.js";
+import { CartProvider } from "@client/context/cart";
 
 const MongoMemoryServer = global.MongoMemoryServer
 
@@ -82,11 +83,13 @@ afterEach(async () => {
 
 const renderComponent = (slug = "test-product") =>
   render(
-    <MemoryRouter initialEntries={[`/product/${slug}`]}>
-      <Routes>
-        <Route path="/product/:slug" element={<ProductDetails />} />
-      </Routes>
-    </MemoryRouter>
+    <CartProvider>
+      <MemoryRouter initialEntries={[`/product/${slug}`]}>
+        <Routes>
+          <Route path="/product/:slug" element={<ProductDetails />} />
+        </Routes>
+      </MemoryRouter>
+    </CartProvider>
   );
 
 describe("ProductDetails + ProductRoutes + getSingleProductController integration", () => {

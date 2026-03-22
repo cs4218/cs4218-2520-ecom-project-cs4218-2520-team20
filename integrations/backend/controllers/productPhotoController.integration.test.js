@@ -91,8 +91,7 @@ describe("productPhotoController (Integration)", () => {
     expect(res.status).toHaveBeenCalledWith(200);
   });
 
-  // ✅ 4. Does not return anything if photo.data is null
-  test("does not send response when photo data is null", async () => {
+  test("sends err response when photo data is null", async () => {
     const product = await productModel.create({
       name: "Laptop",
       slug: "laptop",
@@ -110,7 +109,8 @@ describe("productPhotoController (Integration)", () => {
 
     await productPhotoController(req, res);
 
-    expect(res.send).not.toHaveBeenCalled();
+    // Wang Zhi Wren, A0255368U - fix regression
+    expect(res.send).toHaveBeenCalledWith({"message": "Photo not found", "success": false});
   });
 
   // ✅ 5. Does not set header if no photo data
@@ -150,7 +150,8 @@ describe("productPhotoController (Integration)", () => {
 
     await productPhotoController(req, res);
 
-    expect(res.send).not.toHaveBeenCalled();
+    // Wang Zhi Wren, A0255368U - fix regression
+    expect(res.send).toHaveBeenCalledWith({"message": "Photo not found", "success": false});
   });
 
   // ✅ 7. Handles invalid product id format

@@ -120,12 +120,12 @@ beforeAll(async () => {
     app.use(morgan('dev'));
     app.use("/api/v1/auth", authRoutes);
     await new Promise(res => {
-      expressServer = app.listen(6060, () => {
-        console.log(`Server running on port 6060`.bgCyan.white);
+      expressServer = app.listen(6062, () => {
+        console.log(`Server running on port 6062`.bgCyan.white);
         res();
       });
     });
-    axios.defaults.baseURL = 'http://localhost:6060';
+    axios.defaults.baseURL = 'http://localhost:6062';
     localStorageMock.setItem('auth', JSON.stringify(canned_auth))
 });
 
