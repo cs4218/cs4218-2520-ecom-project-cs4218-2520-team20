@@ -6,7 +6,6 @@ import { useSearch } from "../context/search";
 import { useNavigate } from "react-router-dom";
 const Search = () => {
   const navigate = useNavigate();
-  const [cart, setCart] = useCart();
   const [values, setValues] = useSearch();
   
   return (
@@ -43,17 +42,7 @@ const Search = () => {
                   >
                     More Details
                   </button>
-                  <button
-                    className="btn btn-secondary ms-1"
-                    onClick={() => {
-                      setCart([...cart, p]);
-                      localStorage.setItem(
-                        "cart",
-                        JSON.stringify([...cart, p])
-                      );
-                      toast.success("Item Added to cart");
-                    }}
-                  >
+                  <button className="btn btn-secondary ms-1">
                     ADD TO CART
                   </button>
                 </div>
