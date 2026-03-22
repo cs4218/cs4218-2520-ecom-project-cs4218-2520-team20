@@ -65,11 +65,21 @@ const product = await productModel.create({
   shipping: true,
 });
 
+const product2 = await productModel.create({
+  name: "Seed Product 2",
+  slug: "seed-product-2",
+  description: "Another seeded product for testing",
+  price: 30,
+  category: category._id,
+  quantity: 5,
+  shipping: true,
+});
+
 const user = await userModel.findOne({
   email: process.env.USER_EMAIL ?? "user@test.com",
 });
 await orderModel.create({
-  products: [product._id],
+  products: [product._id, product2._id],
   payment: { success: true },
   buyer: user._id,
   status: "Not Processed",

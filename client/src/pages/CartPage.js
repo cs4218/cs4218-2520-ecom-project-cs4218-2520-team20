@@ -4,7 +4,7 @@ import { useCart } from "../context/cart";
 import { useAuth } from "../context/auth";
 import { useNavigate } from "react-router-dom";
 import DropIn from "braintree-web-drop-in-react";
-import { AiFillWarning } from "react-icons/ai";
+// import { AiFillWarning } from "react-icons/ai";
 import axios from "axios";
 import toast from "react-hot-toast";
 import "../styles/CartStyles.css";
@@ -103,7 +103,9 @@ const CartPage = () => {
                 <div className="row card flex-row" key={p._id}>
                   <div className="col-md-4">
                     <img
-                      src={`/api/v1/product/product-photo/${p._id}`}
+                      src={
+                        p?._id ? `/api/v1/product/product-photo/${p._id}` : ""
+                      }
                       className="card-img-top"
                       alt={p.name}
                       width="100%"
@@ -112,7 +114,8 @@ const CartPage = () => {
                   </div>
                   <div className="col-md-4">
                     <p>{p.name}</p>
-                    <p>{p.description.substring(0, 30)}</p>
+                    {/* The fix: added optional chaining ?. and a fallback empty string */}
+                    <p>{p?.description?.substring(0, 30)}</p>
                     <p>Price : {p.price}</p>
                   </div>
                   <div className="col-md-4 cart-remove-btn">
