@@ -131,12 +131,12 @@ beforeAll(async () => {
     // mocked req string
     app.use(`/api/v1/product/search/:keyword`, mockSearchController);
     await new Promise(res => {
-      expressServer = app.listen(6060, () => {
-        console.log(`Server running on port 6060`.bgCyan.white);
+      expressServer = app.listen(6061, () => {
+        console.log(`Server running on port 6061`.bgCyan.white);
         res();
       });
     });
-    axios.defaults.baseURL = 'http://localhost:6060';
+    axios.defaults.baseURL = 'http://localhost:6061';
 });
 
 beforeEach(() => {

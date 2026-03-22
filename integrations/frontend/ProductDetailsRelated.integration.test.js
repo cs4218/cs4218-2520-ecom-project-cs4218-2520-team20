@@ -6,6 +6,7 @@ import { MemoryRouter, Routes, Route } from "react-router-dom";
 import mongoose from "mongoose";
 import axios from "axios";
 
+import { CartProvider } from "@client/context/cart";
 import ProductDetails from "@client/pages/ProductDetails.js";
 import productModel from "@server/models/productModel.js";
 import categoryModel from "@server/models/categoryModel.js";
@@ -72,11 +73,13 @@ afterEach(async () => {
 
 const renderComponent = (slug = "main-product") =>
   render(
-    <MemoryRouter initialEntries={[`/product/${slug}`]}>
-      <Routes>
-        <Route path="/product/:slug" element={<ProductDetails />} />
-      </Routes>
-    </MemoryRouter>
+    <CartProvider>
+      <MemoryRouter initialEntries={[`/product/${slug}`]}>
+        <Routes>
+          <Route path="/product/:slug" element={<ProductDetails />} />
+        </Routes>
+      </MemoryRouter>
+    </CartProvider>
   );
 
 describe("ProductDetails + relatedProductController integration", () => {
