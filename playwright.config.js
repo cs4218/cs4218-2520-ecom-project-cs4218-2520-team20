@@ -1,6 +1,13 @@
 /* eslint-disable notice/notice */
 
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
+
+dotenv.config();
+const ui_mongo_db = `${process.env.MONGO_URL.replace(/\/$/, '')}/ui`;
+// delete PORT, as the process env from this propagates into the client
+// if not deleted, the client attempts to run on the same PORT as the backend.
+delete process.env.PORT;
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -51,6 +58,10 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
+      name: 'setup db',
+      testMatch: /global\.setup\.js/
+    },
+    {
       name: 'chromium',
 
       /* Project-specific settings. */
@@ -58,48 +69,6 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
       },
     },
-
-    // {
-    //   name: 'firefox',
-    //   use: {
-    //     ...devices['Desktop Firefox'],
-    //   },
-    // },
-
-    // {
-    //   name: 'webkit',
-    //   use: {
-    //     ...devices['Desktop Safari'],
-    //   },
-    // },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: {
-    //     ...devices['Pixel 5'],
-    //   },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: {
-    //     ...devices['iPhone 12'],
-    //   },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: {
-    //     channel: 'msedge',
-    //   },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: {
-    //     channel: 'chrome',
-    //   },
-    // },
   ],
 
   /* Folder for test artifacts such as screenshots, videos, traces, etc. */
@@ -112,5 +81,8 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
     stdout: 'ignore',
     stderr: 'pipe',
+    env: {
+      MONGO_URL: ui_mongo_db,
+    },
   },
 });
