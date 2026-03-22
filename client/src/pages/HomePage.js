@@ -152,15 +152,25 @@ const HomePage = () => {
           <h1 className="text-center">All Products</h1>
           <div className="d-flex flex-wrap">
             {products?.map((p) => (
-              <div className="card m-2" key={p._id}>
+              <div
+                className="card m-2"
+                key={p._id}
+                data-testid={`product-card-${p.slug}`}
+              >
                 <img
                   src={`/api/v1/product/product-photo/${p._id}`}
                   className="card-img-top"
                   alt={p.name}
+                  data-testid={`product-image-${p.slug}`}
                 />
                 <div className="card-body">
                   <div className="card-name-price">
-                    <h5 className="card-title">{p.name}</h5>
+                    <h5
+                      className="card-title"
+                      data-testid={`product-name-${p.slug}`}
+                    >
+                      {p.name}
+                    </h5>
                     <h5 className="card-title card-price">
                       {p.price.toLocaleString("en-US", {
                         style: "currency",
@@ -174,12 +184,14 @@ const HomePage = () => {
                   <div className="card-name-price">
                     <button
                       className="btn btn-info ms-1"
+                      data-testid={`product-details-btn-${p.slug}`}
                       onClick={() => navigate(`/product/${p.slug}`)}
                     >
                       More Details
                     </button>
                     <button
                       className="btn btn-dark ms-1"
+                      data-testid={`product-add-to-cart-btn-${p.slug}`}
                       onClick={() => {
                         setCart([...cart, p]);
                         localStorage.setItem(

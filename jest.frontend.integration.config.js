@@ -1,3 +1,6 @@
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+
 export default {
   // name displayed during tests
   displayName: "frontend-integration",
@@ -16,6 +19,7 @@ export default {
     "\\.(css|scss)$": "identity-obj-proxy",
     "^@client/(.*)$": "<rootDir>/client/src/$1",
     "^@server/(.*)$": "<rootDir>/$1",
+    "^bson$": require.resolve("bson"),
   },
 
   // resolve modules from client/node_modules so integration tests outside client/src
@@ -27,7 +31,7 @@ export default {
 
   // only run these tests
   testMatch: [
-   // TODO: Remove at end of MS2 - Early removal will probably cause merge conflicts
+    // TODO: Remove at end of MS2 - Early removal will probably cause merge conflicts
     "<rootDir>/integrations/frontend/example/*.test.js",
     "<rootDir>/integrations/frontend/general/*.test.js",
     "<rootDir>/integrations/frontend/user-pages/*.test.js",
@@ -35,6 +39,6 @@ export default {
   ],
 
   setupFilesAfterEnv: ["<rootDir>/client/src/setupTests.js"],
-  
+
   collectCoverage: false,
 };

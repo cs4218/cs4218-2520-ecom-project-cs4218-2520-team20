@@ -142,18 +142,18 @@ To begin unit testing with Jest in your project, follow these steps:
 
 ### Alexander Setyawan (A0257149W)
 
- - Search
- - Product
- - Contact
- - General
-   - components/Footer.js
-   - components/Header.js
-   - components/Layout.js
-   - components/Spinner.js
-   - pages/About.js
-   - pages/Pagenotfound.js
-   - config/db.js
-   
+- Search
+- Product
+- Contact
+- General
+  - components/Footer.js
+  - components/Header.js
+  - components/Layout.js
+  - components/Spinner.js
+  - pages/About.js
+  - pages/Pagenotfound.js
+  - config/db.js
+
 ### Seah Minlong (A0271643E)
 
 - Admin Actions - Client-Related Files only
@@ -175,14 +175,14 @@ To begin unit testing with Jest in your project, follow these steps:
 - Cart
 - Category
 - Admin Actions - Server-Related Files Only
- 
+
 ### Wang Zhi, Wren (A0255368U)
 
 - General
-   - components/Routes/Private.js
-   - components/UserMenu.js
-   - pages/user/Dashboard.js
-   - models/userModel.js
+  - components/Routes/Private.js
+  - components/UserMenu.js
+  - pages/user/Dashboard.js
+  - models/userModel.js
 - Order
 - Profile
 - Admin View Users
@@ -191,8 +191,8 @@ To begin unit testing with Jest in your project, follow these steps:
 
 ### Alexander Setyawan (A0257149W)
 
-   
 ### Seah Minlong (A0271643E)
+
 - integrations/backend/controllers/categoryController.integration.test.js
 - integrations/backend/controllers/productController.integration.test.js
 - integrations/backend/adminBackend.integration.test.js
@@ -214,6 +214,11 @@ To begin unit testing with Jest in your project, follow these steps:
 
 ### Kaw Jun Rei, Dylan (A0252791Y)
 
- 
-### Wang Zhi, Wren (A0255368U)
+- integrations/backend/controllers/authController.order.integration.test.js
+- integrations/frontend/AdminOrders.integration.test.js
+- integrations/frontend/cartCheckoutPipeline.integration.test.js
+- integrations/frontend/cartPage.integration.test.js
+- integrations/frontend/Orders.integration.test.js
+- playwright-test/cart.spec.js
 
+### Wang Zhi, Wren (A0255368U)

@@ -8,9 +8,9 @@ import userModel from "../models/userModel.js";
 import categoryModel from "../models/categoryModel.js";
 import productModel from "../models/productModel.js";
 import orderModel from "../models/orderModel.js";
-import { test as base } from '@playwright/test'
+import { test as base } from "@playwright/test";
 
-const ui_mongo_db = `${process.env.MONGO_URL.replace(/\/$/, '')}/ui`;
+const ui_mongo_db = `${process.env.MONGO_URL.replace(/\/$/, "")}/ui`;
 
 const ADMIN = {
   name: "Test Admin",
@@ -39,7 +39,7 @@ async function seedUser({ password, ...userData }) {
 }
 
 export const test = base.extend({
-  reset_db: async({}, use) => {
+  reset_db: async ({}, use) => {
     await mongoose.connect(ui_mongo_db);
 
     console.log("Dropping all collections...");
@@ -68,6 +68,16 @@ export const test = base.extend({
       shipping: true,
     });
 
+    const product2 = await productModel.create({
+      name: "Seed Product 2",
+      slug: "seed-product-2",
+      description: "Another seeded product for testing",
+      price: 30,
+      category: category._id,
+      quantity: 5,
+      shipping: true,
+    });
+
     const user = await userModel.findOne({
       email: process.env.USER_EMAIL ?? "user@test.com",
     });
@@ -79,7 +89,7 @@ export const test = base.extend({
     });
 
     await mongoose.disconnect();
-    await use()
-    console.log('Done setting up DB.')
-  }
-})
+    await use();
+    console.log("Done setting up DB.");
+  },
+});
