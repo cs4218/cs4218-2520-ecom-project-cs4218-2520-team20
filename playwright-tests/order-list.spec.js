@@ -27,9 +27,9 @@ test('Verify orders page updates properly on success', async ({ reset_db, page }
   await expect(page.getByRole('cell', { name: '1' }).nth(1)).toBeVisible();
 
   await page.getByRole('link', { name: 'Home' }).click();
-  await page.getByRole('button', { name: 'ADD TO CART' }).click();
-  await page.getByRole('button', { name: 'ADD TO CART' }).click();
-  await page.getByRole('button', { name: 'ADD TO CART' }).click();
+  await page.getByRole('button', { name: 'ADD TO CART' }).first().click();
+  await page.getByRole('button', { name: 'ADD TO CART' }).first().click();
+  await page.getByRole('button', { name: 'ADD TO CART' }).first().click();
   await page.getByRole('link', { name: 'Cart' }).click();
   await page.getByRole('button', { name: 'Paying with Card' }).click();
 
@@ -85,7 +85,7 @@ test('Verify orders page updates properly for a failed order', async ({ reset_db
 
   await page.goto('http://localhost:3000/product/bad-product');
   await expect(page.getByText('Bad Product')).toBeVisible();
-  await page.getByRole('button', { name: 'ADD TO CART' }).click();
+  await page.getByRole('button', { name: 'ADD TO CART' }).first().click();
   await page.getByRole('link', { name: 'Cart' }).click();
   await page.getByRole('button', { name: 'Paying with Card' }).click();
 

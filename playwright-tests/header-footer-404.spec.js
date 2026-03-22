@@ -37,12 +37,12 @@ test.describe('Header Element', () => {
     await page.goto('/');
 
     await expect(page.getByRole('listitem').filter({ hasText: 'Cart0' })).toBeVisible();
-    await page.getByRole('button', { name: 'ADD TO CART' }).click();
+    await page.getByRole('button', { name: 'ADD TO CART' }).first().click();
     await expect(page.getByRole('listitem').filter({ hasText: 'Cart1' })).toBeVisible();
-    await page.getByRole('button', { name: 'ADD TO CART' }).click();
-    await page.getByRole('button', { name: 'ADD TO CART' }).click();
+    await page.getByRole('button', { name: 'ADD TO CART' }).first().click();
+    await page.getByRole('button', { name: 'ADD TO CART' }).first().click();
     await expect(page.getByRole('listitem').filter({ hasText: 'Cart3' })).toBeVisible();
-    await page.getByRole('button', { name: 'ADD TO CART' }).click();
+    await page.getByRole('button', { name: 'ADD TO CART' }).first().click();
 
     await page.getByRole('link', { name: 'Cart' }).click();
     await expect(page.getByRole('listitem').filter({ hasText: 'Cart4' })).toBeVisible();
