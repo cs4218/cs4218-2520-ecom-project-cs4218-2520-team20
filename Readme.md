@@ -138,22 +138,22 @@ To begin unit testing with Jest in your project, follow these steps:
 
 [MS1 CI URL](https://github.com/cs4218/cs4218-2520-ecom-project-cs4218-2520-team20/actions/runs/22283277546/job/64457271252)
 
-## Contributions
+### CONTRIBUTIONS
 
 ### Alexander Setyawan (A0257149W)
 
- - Search
- - Product
- - Contact
- - General
-   - components/Footer.js
-   - components/Header.js
-   - components/Layout.js
-   - components/Spinner.js
-   - pages/About.js
-   - pages/Pagenotfound.js
-   - config/db.js
-   
+- Search
+- Product
+- Contact
+- General
+- components/Footer.js
+- components/Header.js
+- components/Layout.js
+- components/Spinner.js
+- pages/About.js
+- pages/Pagenotfound.js
+- config/db.js
+
 ### Seah Minlong (A0271643E)
 
 - Admin Actions - Client-Related Files only
@@ -175,24 +175,42 @@ To begin unit testing with Jest in your project, follow these steps:
 - Cart
 - Category
 - Admin Actions - Server-Related Files Only
- 
+
 ### Wang Zhi, Wren (A0255368U)
 
 - General
-   - components/Routes/Private.js
-   - components/UserMenu.js
-   - pages/user/Dashboard.js
-   - models/userModel.js
+  - components/Routes/Private.js
+  - components/UserMenu.js
+  - pages/user/Dashboard.js
+  - models/userModel.js
 - Order
 - Profile
 - Admin View Users
 
 ## MS2
 
-### Alexander Setyawan (A0257149W)
+### CONTRIBUTIONS
 
+### Alexander Setyawan (A0257149W)
+- integrations\backend\controllers\categoryController.integration.test.js
+- integrations\backend\controllers\getProductController.integration.test.js
+- integrations\backend\controllers\getSingleProductController.integration.test.js
+- integrations\backend\controllers\productCategoryController.integration.test.js
+- integrations\backend\controllers\productController.integration.test.js
+- integrations\backend\controllers\productCountController.integration.test.js
+- integrations\backend\controllers\productFiltersController.integration.test.js
+- integrations\backend\controllers\productListController.integration.test.js
+- integrations\backend\controllers\productPhotoController.integration.test.js
+- integrations\backend\controllers\relatedProductController.integration.test.js
+- integrations\backend\controllers\searchProductController.integration.test.js
+- integrations\frontend\CategoryProductBackend.integration.test.js
+- integrations\frontend\ProductDetailsRelated.integration.test.js
+- integrations\frontend\ProductDetailsSingle.integration.test.js
+- playwright-tests\profileDetails.spec.js
+- playwright-tests\search.spec.js
    
 ### Seah Minlong (A0271643E)
+
 - integrations/backend/controllers/categoryController.integration.test.js
 - integrations/backend/controllers/productController.integration.test.js
 - integrations/backend/adminBackend.integration.test.js
@@ -200,13 +218,25 @@ To begin unit testing with Jest in your project, follow these steps:
 - integrations/frontend/adminProductPages.integration.test.js
 - playwright-tests/adminPanel.spec.js
 - playwright-test/adminRouteProtection.spec.js
-- playwright-test/seedTestData.mjs
+- playwright-test/seed-db.js
 
 ### Nigel Lee Xun Yi (A0259264W)
-
+- integrations/backend/auth.integration.test.js
+- integrations/frontend/loginFlow.integration.test.js
+- integrations/frontend/registrationFlow.integration.test.js
+- integrations/frontend/privateRoute.integration.test.js
+- playwright-tests/authRegistrationFlow.spec.js
+- playwright-tests/authLoginLogout.spec.js
+- playwright-tests/authForgotPassword.spec.js
+- playwright-tests/authProtectedRoutes.spec.js
 
 ### Kaw Jun Rei, Dylan (A0252791Y)
 
- 
-### Wang Zhi, Wren (A0255368U)
+- integrations/backend/controllers/authController.order.integration.test.js
+- integrations/frontend/AdminOrders.integration.test.js
+- integrations/frontend/cartCheckoutPipeline.integration.test.js
+- integrations/frontend/cartPage.integration.test.js
+- integrations/frontend/Orders.integration.test.js
+- playwright-test/cart.spec.js
 
+### Wang Zhi, Wren (A0255368U)

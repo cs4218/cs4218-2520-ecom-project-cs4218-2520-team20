@@ -18,7 +18,8 @@ const Header = () => {
       token: "",
     });
     localStorage.removeItem("auth");
-    toast.success("Logout Successfully");
+    toast.dismiss();
+    toast.success("Logout Successfully", {duration: 5000});
   };
   return (
     <>

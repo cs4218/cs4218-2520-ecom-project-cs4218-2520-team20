@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Search from "./Search";
 import { useSearch } from "../context/search";
+import { MemoryRouter } from "react-router-dom";
 
 jest.mock("./../components/Layout", () => ({ children, title }) => (
   <div data-testid="layout">
@@ -26,7 +27,11 @@ describe("Search Page", () => {
     useSearch.mockReturnValue([{ results: [] }, jest.fn()]);
 
     // ACT
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
 
     // ASSERT
     expect(screen.getByText("Search Results")).toBeInTheDocument();
@@ -37,7 +42,11 @@ describe("Search Page", () => {
     useSearch.mockReturnValue([{ results: [] }, jest.fn()]);
 
     // ACT
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
 
     // ASSERT
     expect(screen.getByText("No Products Found")).toBeInTheDocument();
@@ -53,7 +62,11 @@ describe("Search Page", () => {
     useSearch.mockReturnValue([{ results: fakeProducts }, jest.fn()]);
 
     // ACT
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
 
     // ASSERT
     expect(screen.getByText("Found 2")).toBeInTheDocument();
@@ -68,7 +81,11 @@ describe("Search Page", () => {
     useSearch.mockReturnValue([{ results: fakeProducts }, jest.fn()]);
 
     // ACT
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
 
     // ASSERT
     expect(screen.getByText("Test Product")).toBeInTheDocument();
@@ -84,7 +101,11 @@ describe("Search Page", () => {
     useSearch.mockReturnValue([{ results: fakeProducts }, jest.fn()]);
 
     // ACT
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
 
     // ASSERT
     expect(screen.getByText("123456789012345678901234567890...")).toBeInTheDocument();
@@ -99,7 +120,11 @@ describe("Search Page", () => {
     useSearch.mockReturnValue([{ results: fakeProducts }, jest.fn()]);
 
     // ACT
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
 
     // ASSERT
     expect(screen.getByText("$ 999")).toBeInTheDocument();
@@ -114,7 +139,11 @@ describe("Search Page", () => {
     useSearch.mockReturnValue([{ results: fakeProducts }, jest.fn()]);
 
     // ACT
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
 
     const image = screen.getByAltText("Product");
 
@@ -134,7 +163,11 @@ describe("Search Page", () => {
     useSearch.mockReturnValue([{ results: fakeProducts }, jest.fn()]);
 
     // ACT
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
 
     // ASSERT
     expect(screen.getByText("More Details")).toBeInTheDocument();
@@ -149,7 +182,11 @@ describe("Search Page", () => {
     useSearch.mockReturnValue([{ results: fakeProducts }, jest.fn()]);
 
     // ACT
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
 
     // ASSERT
     expect(screen.getByText("ADD TO CART")).toBeInTheDocument();
