@@ -200,7 +200,7 @@ To begin unit testing with Jest in your project, follow these steps:
 - integrations/frontend/adminProductPages.integration.test.js
 - playwright-tests/adminPanel.spec.js
 - playwright-test/adminRouteProtection.spec.js
-- playwright-test/seedTestData.mjs
+- playwright-test/seed-db.js
 
 ### Nigel Lee Xun Yi (A0259264W)
 - integrations/backend/auth.integration.test.js
