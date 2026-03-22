@@ -16,5 +16,6 @@ export default class FixJSDOMEnvironment extends JSDOMEnvironment {
 
     this.global.TextEncoder = TextEncoder;
     this.global.TextDecoder = TextDecoder;
+    this.global.setImmediate = setImmediate;
   }
 }

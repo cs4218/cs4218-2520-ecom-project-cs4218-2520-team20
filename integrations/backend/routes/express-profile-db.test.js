@@ -1,3 +1,4 @@
+// Wang Zhi Wren, A0255368U
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import supertest from "supertest";
@@ -96,28 +97,8 @@ describe('Update Profile Route', () => {
         expect(update_response).toHaveProperty('updatedUser');
         const updatedUser = update_response.updatedUser
         expect(updatedUser).toHaveProperty('name', 'The Woman');
-        expect(updatedUser).toHaveProperty('password');
         expect(updatedUser).toHaveProperty('address', 'Address #3');
         expect(updatedUser).toHaveProperty('phone', '007');
-    });
-
-    it('should successfully update the password as a hash', async () => {
-        const update_query = {
-            password: 'Updated Password',
-        }
-
-        const response = supertest(app).put('/api/v1/auth/profile')
-                            .set('Authorization', `Bearer ${user_tokens[0]}`)
-                            .send(update_query)
-
-        const update_response = (await response.expect(200)).body;
-        expect(update_response).toHaveProperty('success', true);
-        expect(update_response).toHaveProperty('updatedUser');
-        const updatedUser = update_response.updatedUser;
-        expect(updatedUser).toHaveProperty('password');
-        const password = updatedUser.password;
-        expect(password).not.toMatch(update_query.password);
-        await expect(comparePassword(update_query.password, password)).resolves.not.toThrow()
     });
 
     it('should reflect the changes to the user on the DB', async () => {
@@ -138,6 +119,24 @@ describe('Update Profile Route', () => {
         expect(updatedUser).toHaveProperty('password');
         expect(updatedUser).toHaveProperty('address', 'Address #8');
         expect(updatedUser).toHaveProperty('phone', '011');
+    });
+
+    it('should successfully update the password as a hash', async () => {
+        const update_query = {
+            password: 'Updated Password',
+        }
+
+        const response = supertest(app).put('/api/v1/auth/profile')
+                            .set('Authorization', `Bearer ${user_tokens[0]}`)
+                            .send(update_query)
+
+        const update_response = (await response.expect(200)).body;
+        expect(update_response).toHaveProperty('success', true);
+        expect(update_response).toHaveProperty('updatedUser');
+        const updatedUser = await UserModel.findById(user_docs[0]);
+        const password = updatedUser.password;
+        expect(password).not.toMatch(update_query.password);
+        await expect(comparePassword(update_query.password, password)).resolves.not.toThrow()
     });
 
     it('should never change the email, answer and role of the user', async () => {

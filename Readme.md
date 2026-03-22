@@ -186,3 +186,27 @@ To begin unit testing with Jest in your project, follow these steps:
 - Order
 - Profile
 - Admin View Users
+
+## MS2
+
+### Alexander Setyawan (A0257149W)
+
+   
+### Seah Minlong (A0271643E)
+- integrations/backend/controllers/categoryController.integration.test.js
+- integrations/backend/controllers/productController.integration.test.js
+- integrations/backend/adminBackend.integration.test.js
+- integrations/frontend/adminCreateCategory.integration.test.js
+- integrations/frontend/adminProductPages.integration.test.js
+- playwright-tests/adminPanel.spec.js
+- playwright-test/adminRouteProtection.spec.js
+- playwright-test/seedTestData.mjs
+
+### Nigel Lee Xun Yi (A0259264W)
+
+
+### Kaw Jun Rei, Dylan (A0252791Y)
+
+ 
+### Wang Zhi, Wren (A0255368U)
+
