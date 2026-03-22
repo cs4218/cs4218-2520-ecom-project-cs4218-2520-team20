@@ -11,6 +11,15 @@ const canned_user = {
   address: 'P. Sherman, 42 Wallaby Way, Sydney'
 }
 
+const canned_updated_user = {
+  _id: 'placeholder',
+  name: 'placeholder',
+  email: 'placeholder',
+  phone: 'placeholder',
+  address: 'placeholder',
+  role: 'placeholder',
+}
+
 const canned_req = {
   body: {
     name: 'William Smith',
@@ -27,7 +36,7 @@ jest.mock('../models/userModel', () => ({
   __esModule: true,
   default: {
     findById: jest.fn(id => Promise.resolve(canned_user)),
-    findByIdAndUpdate: jest.fn()
+    findByIdAndUpdate: jest.fn(() => canned_updated_user)
   }
 }));
 
