@@ -192,7 +192,14 @@ export const updateProfileController = async (req, res) => {
     res.status(200).send({
       success: true,
       message: "Profile updated successfully.",
-      updatedUser,
+      updatedUser: {
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        phone: updatedUser.phone,
+        address: updatedUser.address,
+        role: updatedUser.role,
+      },
     });
   } catch (error) {
     console.log(error);
