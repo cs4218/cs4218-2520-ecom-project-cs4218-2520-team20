@@ -240,3 +240,14 @@ To begin unit testing with Jest in your project, follow these steps:
 - playwright-test/cart.spec.js
 
 ### Wang Zhi, Wren (A0255368U)
+- integrations/backend/models/* (all 4 models)
+- integrations/backend/express-all-category-db.js
+- integrations/backend/express-profile-db.js
+- integrations/frontend/general/full-layout-nodata.test.js
+- integrations/frontend/general/full-layout-categorydata.test.js
+- integrations/frontend/user-pages/profile-backend.test.js
+- playwright-test/header-footer-404.js
+- playwright-test/order-list.js
+- playwright-test/profile.js
+- FixJSDOMEnvironment.js (hacking environment to allow backend components to run on jsdom)
+- playwright-test/seed-db.js (refactor)
