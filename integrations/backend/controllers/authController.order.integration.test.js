@@ -1,5 +1,6 @@
 // A0252791Y, Kaw Jun Rei Dylan
 // Integration: authController order endpoints <-> orderModel.js
+// These tests were generated with the help of GPT-5.3-Codex
 
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";

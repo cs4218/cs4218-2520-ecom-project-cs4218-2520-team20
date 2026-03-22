@@ -1,5 +1,6 @@
 // Kaw Jun Rei Dylan, A0252791Y
 // Integration: Orders.js + getOrdersController + orderModel.js
+// These tests were generated with the help of GPT-5.3-Codex
 
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";

@@ -1,6 +1,7 @@
 // Kaw Jun Rei Dylan, A0252791Y
 // Integration Tests: CartPage + Cart Context + Real localStorage
 // Tests cart state persistence and integration with real CartContext
+// These tests were generated with the help of GPT-5.3-Codex
 
 import React from "react";
 import {
