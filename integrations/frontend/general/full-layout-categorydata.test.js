@@ -360,7 +360,7 @@ describe("Layout Component", () => {
     it("should successfully decrease badge number as cart gets items removed", async () => {
       const { findByTestId } = await act(async () => render(
         <RenderStack>
-          <SetCartButton next_val={JSON.stringify([])}/>
+          <SetCartButton next_val={JSON.stringify(['Item 1'])}/>
           <div data-testid="child">Child Content</div>
         </RenderStack>
       ));
@@ -374,7 +374,7 @@ describe("Layout Component", () => {
       const cart_btn = await findByTestId('set-cart-btn')
       fireEvent.click(cart_btn)
       
-      await waitFor(() => expect(cart_badge).toHaveTextContent('0'));
+      await waitFor(() => expect(cart_badge).toHaveTextContent('1'));
     });
   })
 });

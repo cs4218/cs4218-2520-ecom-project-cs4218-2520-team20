@@ -1,5 +1,5 @@
 // Alexander Setyawan, A0257149W
-// Integration: CategoryProduct.js + productRoutes.js + productCategoryController + productModel.js + categoryModel.js
+// CategoryProduct.js + productRoutes.js + productCategoryController + productModel.js + categoryModel.js
 
 import { render, screen, waitFor, cleanup } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";

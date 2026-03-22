@@ -138,7 +138,7 @@ To begin unit testing with Jest in your project, follow these steps:
 
 [MS1 CI URL](https://github.com/cs4218/cs4218-2520-ecom-project-cs4218-2520-team20/actions/runs/22283277546/job/64457271252)
 
-## Contributions
+### CONTRIBUTIONS
 
 ### Alexander Setyawan (A0257149W)
 
@@ -146,13 +146,13 @@ To begin unit testing with Jest in your project, follow these steps:
 - Product
 - Contact
 - General
-  - components/Footer.js
-  - components/Header.js
-  - components/Layout.js
-  - components/Spinner.js
-  - pages/About.js
-  - pages/Pagenotfound.js
-  - config/db.js
+- components/Footer.js
+- components/Header.js
+- components/Layout.js
+- components/Spinner.js
+- pages/About.js
+- pages/Pagenotfound.js
+- config/db.js
 
 ### Seah Minlong (A0271643E)
 
@@ -189,8 +189,26 @@ To begin unit testing with Jest in your project, follow these steps:
 
 ## MS2
 
-### Alexander Setyawan (A0257149W)
+### CONTRIBUTIONS
 
+### Alexander Setyawan (A0257149W)
+- integrations\backend\controllers\categoryController.integration.test.js
+- integrations\backend\controllers\getProductController.integration.test.js
+- integrations\backend\controllers\getSingleProductController.integration.test.js
+- integrations\backend\controllers\productCategoryController.integration.test.js
+- integrations\backend\controllers\productController.integration.test.js
+- integrations\backend\controllers\productCountController.integration.test.js
+- integrations\backend\controllers\productFiltersController.integration.test.js
+- integrations\backend\controllers\productListController.integration.test.js
+- integrations\backend\controllers\productPhotoController.integration.test.js
+- integrations\backend\controllers\relatedProductController.integration.test.js
+- integrations\backend\controllers\searchProductController.integration.test.js
+- integrations\frontend\CategoryProductBackend.integration.test.js
+- integrations\frontend\ProductDetailsRelated.integration.test.js
+- integrations\frontend\ProductDetailsSingle.integration.test.js
+- playwright-tests\profileDetails.spec.js
+- playwright-tests\search.spec.js
+   
 ### Seah Minlong (A0271643E)
 
 - integrations/backend/controllers/categoryController.integration.test.js
