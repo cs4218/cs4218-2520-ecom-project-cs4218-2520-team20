@@ -1,7 +1,8 @@
+// Wang Zhi Wren, A0255368U
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import connectDB from '../../../config/db';
-import UserModel from '../../../models/userModel';
+import connectDB from '@server/config/db';
+import UserModel from '@server/models/userModel';
 
 // canned values
 const users = [{

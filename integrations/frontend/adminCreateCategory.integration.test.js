@@ -6,23 +6,23 @@ import { MemoryRouter } from "react-router-dom";
 import mongoose from "mongoose";
 import toast from "react-hot-toast";
 import axios from "axios";
-import categoryModel from "../../models/categoryModel.js";
+import categoryModel from "@server/models/categoryModel.js";
 import {
   createCategoryController,
   updateCategoryController,
   deleteCategoryController,
   categoryController,
-} from "../../controllers/categoryController.js";
-import CreateCategory from "../../client/src/pages/admin/CreateCategory.js";
+} from "@server/controllers/categoryController.js";
+import CreateCategory from "@client/pages/admin/CreateCategory.js";
 
 jest.mock("axios");
 jest.mock("react-hot-toast");
 
-jest.mock("../../client/src/components/Layout", () => ({ children }) => (
+jest.mock("@client/components/Layout", () => ({ children }) => (
   <div>{children}</div>
 ));
 
-jest.mock("../../client/src/components/AdminMenu", () => () => (
+jest.mock("@client/components/AdminMenu", () => () => (
   <div>AdminMenu</div>
 ));
 

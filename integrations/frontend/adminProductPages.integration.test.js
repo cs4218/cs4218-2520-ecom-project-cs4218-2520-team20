@@ -9,15 +9,15 @@ import path from "path";
 import os from "os";
 import toast from "react-hot-toast";
 import axios from "axios";
-import categoryModel from "../../models/categoryModel.js";
-import productModel from "../../models/productModel.js";
+import categoryModel from "@server/models/categoryModel.js";
+import productModel from "@server/models/productModel.js";
 import {
 	createProductController,
 	getProductController,
-} from "../../controllers/productController.js";
-import { categoryController } from "../../controllers/categoryController.js";
-import CreateProduct from "../../client/src/pages/admin/CreateProduct.js";
-import Products from "../../client/src/pages/admin/Products.js";
+} from "@server/controllers/productController.js";
+import { categoryController } from "@server/controllers/categoryController.js";
+import CreateProduct from "@client/pages/admin/CreateProduct.js";
+import Products from "@client/pages/admin/Products.js";
 
 jest.mock("axios");
 jest.mock("react-hot-toast");
@@ -32,11 +32,11 @@ jest.mock("react-router-dom", () => {
 	};
 });
 
-jest.mock("../../client/src/components/Layout", () => ({ children }) => (
+jest.mock("@client/components/Layout", () => ({ children }) => (
 	<div>{children}</div>
 ));
 
-jest.mock("../../client/src/components/AdminMenu", () => () => (
+jest.mock("@client/components/AdminMenu", () => () => (
 	<div>AdminMenu</div>
 ));
 
