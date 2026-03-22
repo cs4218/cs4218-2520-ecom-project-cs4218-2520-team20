@@ -45,10 +45,13 @@ const Login = () => {
       } else {
         toast.error(res.data.message);
       }
-    } catch (error) {
-      console.error(error);
-      toast.error("Something went wrong");
-    }
+      } catch (error) {
+        if (error.response && error.response.data && error.response.data.message) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("Something went wrong");
+        }
+      }
   };
   return (
     <Layout title="Login - Ecommerce App">
