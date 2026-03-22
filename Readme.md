@@ -203,6 +203,14 @@ To begin unit testing with Jest in your project, follow these steps:
 - playwright-test/seedTestData.mjs
 
 ### Nigel Lee Xun Yi (A0259264W)
+- integrations/backend/auth.integration.test.js
+- integrations/frontend/loginFlow.integration.test.js
+- integrations/frontend/registrationFlow.integration.test.js
+- integrations/frontend/privateRoute.integration.test.js
+- playwright-tests/authRegistrationFlow.spec.js
+- playwright-tests/authLoginLogout.spec.js
+- playwright-tests/authForgotPassword.spec.js
+- playwright-tests/authProtectedRoutes.spec.js
 
 ### Kaw Jun Rei, Dylan (A0252791Y)
 
