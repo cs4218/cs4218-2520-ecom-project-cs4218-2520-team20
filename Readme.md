@@ -206,8 +206,8 @@ To begin unit testing with Jest in your project, follow these steps:
 - integrations\frontend\CategoryProductBackend.integration.test.js
 - integrations\frontend\ProductDetailsRelated.integration.test.js
 - integrations\frontend\ProductDetailsSingle.integration.test.js
-- playwright-tests\profileDetails.spec.js
-- playwright-tests\search.spec.js
+- playwright-tests\acProductDetails.spec.js
+- playwright-tests\acSearch.spec.js
    
 ### Seah Minlong (A0271643E)
 
