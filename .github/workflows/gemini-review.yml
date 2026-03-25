@@ -49,8 +49,7 @@ jobs:
           ISSUE_TITLE: '${{ github.event.pull_request.title || github.event.issue.title }}'
           ISSUE_BODY: '${{ github.event.pull_request.body || github.event.issue.body }}'
           PULL_REQUEST_NUMBER: '${{ github.event.pull_request.number || github.event.issue.number }}'
-          REPOSITORY_OWNER: '${{ github.repository_owner }}'
-          REPOSITORY_NAME: '${{ github.event.repository.name }}'
+          REPOSITORY: '${{ github.repository }}'
           ADDITIONAL_CONTEXT: '${{ inputs.additional_context }}'
           GEMINI_API_KEY: '${{ secrets.GEMINI_API_KEY }}'
         with:
