@@ -7,7 +7,7 @@ on:
   pull_request_review:
     types:
       - 'submitted'
-  pull_request_target: # Changed from pull_request to pull_request_target for access to secrets
+  pull_request: 
     types:
       - 'opened'
   # issues:
