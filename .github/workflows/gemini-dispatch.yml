@@ -7,7 +7,7 @@ on:
   pull_request_review:
     types:
       - 'submitted'
-  pull_request:
+  pull_request_target: # Changed from pull_request to pull_request_target for access to secrets
     types:
       - 'opened'
   # issues:
@@ -48,8 +48,7 @@ jobs:
     # For comments: only if user types @gemini-cli and is OWNER/MEMBER/COLLABORATOR
     if: |-
       (
-        github.event_name == 'pull_request' &&
-        github.event.pull_request.head.repo.fork == false
+        github.event_name == 'pull_request'
       ) || (
         github.event_name == 'issues' &&
         contains(fromJSON('["opened", "reopened"]'), github.event.action)
