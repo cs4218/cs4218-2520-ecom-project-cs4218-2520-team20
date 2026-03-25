@@ -41,6 +41,23 @@ jobs:
       - name: 'Checkout repository'
         uses: 'actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8' # ratchet:actions/checkout@v6
 
+      # --- DEBUG  ---
+      - name: 'Check Secrets Availability'
+        run: |
+          echo "Checking if secrets are accessible in this run context..."
+          if [ -z "${{ secrets.GH_PAT }}" ]; then
+            echo "❌ GH_PAT is MISSING. This is why you are getting 404s on a private repo."
+          else
+            echo "✅ GH_PAT is present."
+          fi
+          
+          if [ -z "${{ secrets.GEMINI_API_KEY }}" ]; then
+            echo "❌ GEMINI_API_KEY is MISSING."
+          else
+            echo "✅ GEMINI_API_KEY is present."
+          fi
+      # --- END DEBUG --- 
+      
       - name: 'Run Gemini pull request review'
         uses: 'google-github-actions/run-gemini-cli@v0' # ratchet:exclude
         id: 'gemini_pr_review'
