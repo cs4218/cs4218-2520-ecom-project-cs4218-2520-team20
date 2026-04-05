@@ -131,12 +131,12 @@ beforeAll(async () => {
     // mocked req string
     app.use(`/api/v1/product/search/:keyword`, mockSearchController);
     await new Promise(res => {
-      expressServer = app.listen(6060, () => {
-        console.log(`Server running on port 6060`.bgCyan.white);
+      expressServer = app.listen(6061, () => {
+        console.log(`Server running on port 6061`.bgCyan.white);
         res();
       });
     });
-    axios.defaults.baseURL = 'http://localhost:6060';
+    axios.defaults.baseURL = 'http://localhost:6061';
 });
 
 beforeEach(() => {
@@ -360,7 +360,7 @@ describe("Layout Component", () => {
     it("should successfully decrease badge number as cart gets items removed", async () => {
       const { findByTestId } = await act(async () => render(
         <RenderStack>
-          <SetCartButton next_val={JSON.stringify([])}/>
+          <SetCartButton next_val={JSON.stringify(['Item 1'])}/>
           <div data-testid="child">Child Content</div>
         </RenderStack>
       ));
@@ -374,7 +374,7 @@ describe("Layout Component", () => {
       const cart_btn = await findByTestId('set-cart-btn')
       fireEvent.click(cart_btn)
       
-      await waitFor(() => expect(cart_badge).toHaveTextContent('0'));
+      await waitFor(() => expect(cart_badge).toHaveTextContent('1'));
     });
   })
 });

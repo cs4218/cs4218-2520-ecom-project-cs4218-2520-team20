@@ -7,6 +7,11 @@ import ProductDetails from "./ProductDetails";
 
 jest.mock("axios");
 
+const mockSetCart = jest.fn();
+jest.mock("../context/cart", () => ({
+  useCart: () => [[], mockSetCart],
+}));
+
 const mockNavigate = jest.fn();
 let mockSlug = "test-product";
 
@@ -16,9 +21,9 @@ jest.mock("react-router-dom", () => ({
   useNavigate: () => mockNavigate,
 }));
 
-jest.mock("../components/Layout", () =>
-  ({ children }) => <div data-testid="layout">{children}</div>
-);
+jest.mock("../components/Layout", () => ({ children }) => (
+  <div data-testid="layout">{children}</div>
+));
 
 jest.mock("../styles/ProductDetailsStyles.css", () => {}, { virtual: true });
 
@@ -45,7 +50,8 @@ const mockRelated = [
   {
     _id: "prod-2",
     name: "Related Widget",
-    description: "Another nice widget with a long description that should be truncated",
+    description:
+      "Another nice widget with a long description that should be truncated",
     price: 29.99,
     slug: "related-widget",
     category: { _id: "cat-1", name: "Gadgets" },
@@ -63,7 +69,8 @@ describe("ProductDetails", () => {
     console.log.mockRestore();
   });
 
-  describe("Component rendering", () => { // Alexander Setyawan, A0257149W
+  describe("Component rendering", () => {
+    // Alexander Setyawan, A0257149W
     beforeEach(() => {
       axios.get
         .mockResolvedValueOnce({ data: { product: mockProduct } })
@@ -136,12 +143,13 @@ describe("ProductDetails", () => {
 
       // Assert
       expect(
-        screen.getByRole("button", { name: /add to cart/i })
+        screen.getByTestId("product-details-add-to-cart-btn-test-widget")
       ).toBeInTheDocument();
     });
   });
 
-  describe("API calls on mount", () => { // Alexander Setyawan, A0257149W
+  describe("API calls on mount", () => {
+    // Alexander Setyawan, A0257149W
     it("calls the get-product endpoint with the slug from params", async () => {
       // Arrange
       axios.get
@@ -184,7 +192,8 @@ describe("ProductDetails", () => {
     });
   });
 
-  describe("Similar products section", () => { // Alexander Setyawan, A0257149W
+  describe("Similar products section", () => {
+    // Alexander Setyawan, A0257149W
     it('shows "No Similar Products found" when related list is empty', async () => {
       // Arrange
       axios.get
@@ -195,7 +204,9 @@ describe("ProductDetails", () => {
       await renderAndSettle();
 
       // Assert
-      expect(screen.getByText(/no similar products found/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/no similar products found/i)
+      ).toBeInTheDocument();
     });
 
     it("does not show the empty-state message when related products exist", async () => {
@@ -283,7 +294,8 @@ describe("ProductDetails", () => {
     });
   });
 
-  describe("Navigation", () => { // Alexander Setyawan, A0257149W
+  describe("Navigation", () => {
+    // Alexander Setyawan, A0257149W
     it('navigates to the related product slug when "More Details" is clicked', async () => {
       // Arrange
       axios.get
@@ -293,7 +305,9 @@ describe("ProductDetails", () => {
       await renderAndSettle();
 
       // Act
-      await userEvent.click(screen.getByRole("button", { name: /more details/i }));
+      await userEvent.click(
+        screen.getByRole("button", { name: /more details/i })
+      );
 
       // Assert
       expect(mockNavigate).toHaveBeenCalledWith(
@@ -302,7 +316,8 @@ describe("ProductDetails", () => {
     });
   });
 
-  describe("API error handling", () => { // Alexander Setyawan, A0257149W
+  describe("API error handling", () => {
+    // Alexander Setyawan, A0257149W
     it("logs error and does not crash when getProduct fails", async () => {
       // Arrange
       const error = new Error("Network error");

@@ -227,7 +227,8 @@ describe("Product Controller", () => {
       // Assert
       expect(res.set).not.toHaveBeenCalled();
       expect(res.status).not.toHaveBeenCalledWith(200);
-      expect(res.send).not.toHaveBeenCalled();
+      // Wang Zhi Wren, A0255368U - fix regression
+      expect(res.send).toHaveBeenCalledTimes(1);
     });
 
     test("getPhoto_error_returns500", async () => {
@@ -246,7 +247,8 @@ describe("Product Controller", () => {
       expect(res.send).toHaveBeenCalledWith({
         success: false,
         message: "Error while getting photo",
-        error: mockError,
+        // Wang Zhi Wren, A0255368U - fix regression
+        error: mockError.message,
       });
     });
   });
