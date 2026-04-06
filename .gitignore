@@ -12,3 +12,6 @@ coverage
 
 # GitHub App credentials
 gha-creds-*.json
+
+# k6 load testing results
+report.html
