@@ -25,8 +25,8 @@ export const options = {
     },
   },
   thresholds: {
-    "http_req_duration{scenario:login}": ["p(95)<1000"],    // login should be fast
-    "http_req_duration{scenario:register}": ["p(95)<2000"], // register involves hashing
+    "http_req_duration{scenario:login}": ["p(95)<1000", "p(99)<2000"],    // login should be fast
+    "http_req_duration{scenario:register}": ["p(95)<2000", "p(99)<4000"], // register involves hashing
     http_req_failed: ["rate<0.10"],
   },
 };
