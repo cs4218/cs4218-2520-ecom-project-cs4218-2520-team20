@@ -251,3 +251,21 @@ To begin unit testing with Jest in your project, follow these steps:
 - playwright-test/profile.js
 - FixJSDOMEnvironment.js (hacking environment to allow backend components to run on jsdom)
 - playwright-test/seed-db.js (refactor)
+
+## MS2
+
+### CONTRIBUTIONS
+
+### Alexander Setyawan (A0257149W)
+   
+### Seah Minlong (A0271643E)
+
+- ks/load-testing/auth.js
+- ks/load-testing/browse-products.js
+- ks/load-testing/cart-order.js
+
+### Nigel Lee Xun Yi (A0259264W)
+
+### Kaw Jun Rei, Dylan (A0252791Y)
+
+### Wang Zhi, Wren (A0255368U)

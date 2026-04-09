@@ -1,3 +1,4 @@
+// Seah Minlong, A0271643E
 import http from "k6/http";
 import { check, sleep } from "k6";
 
