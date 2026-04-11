@@ -1,0 +1,56 @@
+[
+  {
+    "name": "Spike Target",
+    "slug": "spike-target",
+    "description": "The target product of the spike test",
+    "price": 200,
+    "category": "Spike",
+    "quantity": 1000,
+    "photo": {
+      "data": {
+        "$binary": {
+          "base64": "iVBORw0KGgoAAAANSUhEUgAAAPoAAAD6CAMAAAC/MqoPAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAS1BMVEUAACMAADcAAEsAAF8AAHMAAIcAAJsAAK8AAMMAANcAAOsAAP8UFP8LU5QcRYcoKP8RVcxKhuhQoP88tP8oyP8U3P8A//8AyP////+/o1GzAAAAAWJLR0QYm2mFHgAAAAd0SU1FB+oCGAcSFYQAPOkAAAE9SURBVHja7c/HDQJBAACxI2eOTP+dUsN8kFayO/A0ZYtsma2ydTapq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urqw9V32TbbPcH+0xdXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dfaz6ITtmp+ycXTJ1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV19bHq12zObtk9e2Tq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6mPVn9kre2ef7Jupq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urqw9V/wEmRsxDLsT3vgAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyNi0wMi0yNFQwNzoxODoyMCswMDowMOfbeNIAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjYtMDItMjRUMDc6MTg6MjArMDA6MDCWhsBuAAAAAElFTkSuQmCC",
+          "subType": "00"
+        }
+      },
+      "contentType": "image/png"
+    },
+    "shipping": true
+  },
+  {
+    "name": "Green Laptop",
+    "slug": "green-laptop",
+    "description": "A related product used in the spike test",
+    "price": 1200,
+    "category": "Spike",
+    "quantity": 1000,
+    "photo": {
+      "data": {
+        "$binary": {
+          "base64": "iVBORw0KGgoAAAANSUhEUgAAAPoAAAD6CAMAAAC/MqoPAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAATlBMVEUAIwAANwAASwAAXwAAcwAAhwAAmwAArwAAwwAA1wAA6wAA/wAA/xQA/ygA/zwA/1AA/2QA62QA12QAw2QAr2QAr1AArzwArygArxT///87c9N8AAAAAWJLR0QZ7G61iAAAAAd0SU1FB+kKFwQHBULDXfkAAAE9SURBVHja7c/HEcJAAAAxkzMmQ/+VUsM+b0bqQNOULbJltsrW2aSurq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6uPlR9k22zXbbPDpm6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6+lj1Y3bKztklu2bq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6mPV5+yW3bNH9szU1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1ceqv7J39sm+2S9TV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXVx+q/gefSnJW1sB7lwAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyNS0xMC0yM1QwNDowNzowNSswMDowMK/b0AkAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjUtMTAtMjNUMDQ6MDc6MDUrMDA6MDDehmi1AAAAAElFTkSuQmCC",
+          "subType": "00"
+        }
+      },
+      "contentType": "image/png"
+    },
+    "shipping": true
+  },
+  {
+    "name": "Unrelated Product",
+    "slug": "unrelated-product",
+    "description": "An unrelated product used in the spike test",
+    "price": 2500,
+    "category": "Not Spike",
+    "quantity": 1000,
+    "photo": {
+      "data": {
+        "$binary": {
+          "base64": "iVBORw0KGgoAAAANSUhEUgAAAPoAAAD6CAMAAAC/MqoPAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAb1BMVEVYAACGAABtAAB9AACOAACbAACmAAC1AAC5AADeAAD8Bwf/ISH/FBT8HBf2JBngGxHYIBfSKCH6PjSWGQBLAABwAAB9AACZAACvAADMAADXAADrAAD/AAD6FBT/GRn/MjL/PDzwRiSmHAB5FAD///92ujFXAAAAFHRSTlPAwMCvwMCvwMDAwMDAr8DAr8DAwKtbD8YAAAABYktHRCS0BvmZAAAAB3RJTUUH6QQKCxwqVjvdJAAAAUdJREFUeNrtz0URBEAQBLA5ZmYm/x5PRNf+EgepfaQOkWOkc4qUurq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6unqzejfS60cGkeEoUufI+BK5Ria3iLq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urp6u/o9Mn1EnpHZK6Kurq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6u3q4+jyyWkVVkvYnUO7L9RL6R3S+irq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urt6s/ge+evVO1MzJqgAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyNS0wNC0xMFQxMToyODo0MSswMDowMADEkxsAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjUtMDQtMTBUMTE6Mjg6NDErMDA6MDBxmSunAAAAAElFTkSuQmCC",
+          "subType": "00"
+        }
+      },
+      "contentType": "image/png"
+    },
+    "shipping": true
+  }
+]
