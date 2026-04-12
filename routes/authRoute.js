@@ -11,19 +11,27 @@ import {
   getAllUsersController,
 } from "../controllers/authController.js";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
+import { rateLimit } from 'express-rate-limit'
+
 
 //router object
 const router = express.Router();
+
+export const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10,
+  message: 'Too many attempts, please try again later',
+});
 
 //routing
 //REGISTER || METHOD POST
 router.post("/register", registerController);
 
 //LOGIN || POST
-router.post("/login", loginController);
+router.post("/login", authLimiter, loginController);
 
 //Forgot Password || POST
-router.post("/forgot-password", forgotPasswordController);
+router.post("/forgot-password", authLimiter, forgotPasswordController);
 
 //test routes
 router.get("/test", requireSignIn, isAdmin, testController);

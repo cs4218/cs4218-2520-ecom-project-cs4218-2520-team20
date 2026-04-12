@@ -1,0 +1,40 @@
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+
+export default {
+  // name displayed during tests
+  displayName: "nfr",
+
+  // simulates browser environment in jest
+  // e.g., using document.querySelector in your tests
+  testEnvironment: "./FixJSDOMEnvironment.js",
+
+  // jest does not recognise jsx files by default, so we use babel to transform any jsx files
+  transform: {
+    "^.+\\.jsx?$": "babel-jest",
+  },
+
+  // tells jest how to handle css/scss imports in your tests
+  moduleNameMapper: {
+    "\\.(css|scss)$": "identity-obj-proxy",
+    "^@client/(.*)$": "<rootDir>/client/src/$1",
+    "^@server/(.*)$": "<rootDir>/$1",
+    "^bson$": require.resolve("bson"),
+  },
+
+  // resolve modules from client/node_modules so integration tests outside client/src
+  // can import axios, react-hot-toast, antd, etc.
+  modulePaths: ["<rootDir>/client/node_modules"],
+
+  // ignore all node_modules except styleMock (needed for css imports)
+  transformIgnorePatterns: ["/node_modules/(?!(styleMock\\.js)$)"],
+
+  // only run these tests
+  testMatch: [
+    "<rootDir>/security-tests/*.test.js"
+  ],
+
+  setupFilesAfterEnv: ["<rootDir>/client/src/setupTests.js"],
+
+  collectCoverage: false,
+};

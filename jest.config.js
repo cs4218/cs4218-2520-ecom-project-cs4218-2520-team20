@@ -6,5 +6,6 @@ export default {
     "<rootDir>/jest.frontend.config.js",
     "<rootDir>/jest.frontend.integration.config.js",
     "<rootDir>/jest.backend.integration.config.js",
+    "<rootDir>/jest.security.config.js",
   ]
 };
