@@ -192,6 +192,7 @@ To begin unit testing with Jest in your project, follow these steps:
 ### CONTRIBUTIONS
 
 ### Alexander Setyawan (A0257149W)
+
 - integrations\backend\controllers\categoryController.integration.test.js
 - integrations\backend\controllers\getProductController.integration.test.js
 - integrations\backend\controllers\getSingleProductController.integration.test.js
@@ -208,7 +209,7 @@ To begin unit testing with Jest in your project, follow these steps:
 - integrations\frontend\ProductDetailsSingle.integration.test.js
 - playwright-tests\acProductDetails.spec.js
 - playwright-tests\acSearch.spec.js
-   
+
 ### Seah Minlong (A0271643E)
 
 - integrations/backend/controllers/categoryController.integration.test.js
@@ -221,6 +222,7 @@ To begin unit testing with Jest in your project, follow these steps:
 - playwright-test/seed-db.js
 
 ### Nigel Lee Xun Yi (A0259264W)
+
 - integrations/backend/auth.integration.test.js
 - integrations/frontend/loginFlow.integration.test.js
 - integrations/frontend/registrationFlow.integration.test.js
@@ -240,7 +242,8 @@ To begin unit testing with Jest in your project, follow these steps:
 - playwright-test/cart.spec.js
 
 ### Wang Zhi, Wren (A0255368U)
-- integrations/backend/models/* (all 4 models)
+
+- integrations/backend/models/\* (all 4 models)
 - integrations/backend/express-all-category-db.js
 - integrations/backend/express-profile-db.js
 - integrations/frontend/general/full-layout-nodata.test.js
@@ -257,7 +260,7 @@ To begin unit testing with Jest in your project, follow these steps:
 ### CONTRIBUTIONS
 
 ### Alexander Setyawan (A0257149W)
-   
+
 ### Seah Minlong (A0271643E)
 
 - ks/load-testing/auth.js
@@ -268,6 +271,11 @@ To begin unit testing with Jest in your project, follow these steps:
 
 ### Kaw Jun Rei, Dylan (A0252791Y)
 
+- ks/stress-testing/auth.js
+- ks/stress-testing/browse-products.js
+- ks/stress-testing/cart-order.js
+
 ### Wang Zhi, Wren (A0255368U)
+
 - ks/spike-testing/helper/seed_db.js + associated JSON files
 - ks/spike-testing/spike_test_backend.js
