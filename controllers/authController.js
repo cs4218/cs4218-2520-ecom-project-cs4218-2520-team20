@@ -27,6 +27,11 @@ export const registerController = async (req, res) => {
     if (!answer) {
       return res.send({ message: "Answer is Required" });
     }
+
+    if (password.length < 6) {
+      return res.status(400).send({message: "Password is too weak! It should be at least 6 characters long!"});
+    }
+
     //check user
     const exisitingUser = await userModel.findOne({ email });
     //exisiting user
@@ -74,6 +79,11 @@ export const loginController = async (req, res) => {
         message: "Invalid email or password",
       });
     }
+
+    if (typeof email !== 'string' || typeof password !== 'string') {
+      return res.status(400).send({ success: false, message: "Invalid input format" });
+    }
+
     //check user
     const user = await userModel.findOne({ email });
     if (!user) {
@@ -130,6 +140,15 @@ export const forgotPasswordController = async (req, res) => {
     if (!newPassword) {
       return res.status(400).send({ success: false, message: "New Password is required" });
     }
+
+    if (newPassword.length < 6) {
+      return res.status(400).send({message: "Password is too weak! It should be at least 6 characters long!"});
+    }
+
+    if (typeof email !== 'string' || typeof newPassword !== 'string' || typeof answer !== 'string') {
+      return res.status(400).send({ success: false, message: "Invalid input format" });
+    }
+
     //check
     const user = await userModel.findOne({ email, answer });
     //validation

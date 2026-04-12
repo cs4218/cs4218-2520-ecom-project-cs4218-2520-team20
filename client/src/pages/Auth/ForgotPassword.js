@@ -20,6 +20,10 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.newPassword.length < 6) {
+      toast.error("Password must be at least 6 characters long");
+      return;
+    }
     try {
       const { data } = await axios.post("/api/v1/auth/forgot-password", formData);
       if (data?.success) {
