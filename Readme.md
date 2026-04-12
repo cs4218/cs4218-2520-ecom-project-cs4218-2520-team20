@@ -269,6 +269,8 @@ To begin unit testing with Jest in your project, follow these steps:
 
 ### Nigel Lee Xun Yi (A0259264W)
 
+- security-tests/security.test.js
+  
 ### Kaw Jun Rei, Dylan (A0252791Y)
 
 - ks/stress-testing/auth.js
