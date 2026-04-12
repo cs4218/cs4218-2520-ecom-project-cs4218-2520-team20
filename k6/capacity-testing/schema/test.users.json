@@ -1,0 +1,209 @@
+[{
+  "_id": {
+    "$oid": "671218f37e0f5f9fddeb66e9"
+  },
+  "name": "Daniel",
+  "email": "Daniel@gmail.com",
+  "password": "$2b$10$mjJb91uL34wQunwl3q.S7ueLUWwcjT90tX8IhDXk2Go1RfqEyDQdm",
+  "phone": "Daniel",
+  "address": "60 Daniel Road",
+  "answer": "Singapore",
+  "role": 1,
+  "createdAt": {
+    "$date": "2024-10-18T08:14:43.300Z"
+  },
+  "updatedAt": {
+    "$date": "2024-10-18T08:14:43.300Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67136d5416c8949aec627dd3"
+  },
+  "name": "Test 3",
+  "email": "hello@test.com",
+  "password": "$2b$10$slCLTwjFVi7j0a5zmvWRseIxZNL6.el2/4WMhAV8yrO7p6ENMnol2",
+  "phone": "123",
+  "address": "hell3@test.com",
+  "answer": "hello@test.com",
+  "role": 0,
+  "createdAt": {
+    "$date": "2024-10-19T08:27:00.468Z"
+  },
+  "updatedAt": {
+    "$date": "2024-10-20T09:09:55.668Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6714c2a30e8ea8335e4104ff"
+  },
+  "name": "test@test123.com",
+  "email": "test@test123.com",
+  "password": "$2b$10$hcWrgH9pOqr1Nc5tMRxpHO5Of22vTZOM/Y/DdiNQ1PqO1e1mbThW.",
+  "phone": "test@test123.com",
+  "address": "test@test123.com",
+  "answer": "test@test123.com",
+  "role": 0,
+  "createdAt": {
+    "$date": "2024-10-20T08:43:15.745Z"
+  },
+  "updatedAt": {
+    "$date": "2024-10-20T08:43:15.745Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6714f0fd9202daf875f017ef"
+  },
+  "name": "Test",
+  "email": "test@admin.com",
+  "password": "$2b$10$nyzaFOPhn/01AbiQtp6qEeyLY81ppGWL6oiB3WwwD2JZIuTU3OxKa",
+  "phone": "test@admin.com",
+  "address": "test@admin.com",
+  "answer": "test@admin.com",
+  "role": 1,
+  "createdAt": {
+    "$date": "2024-10-20T12:01:01.455Z"
+  },
+  "updatedAt": {
+    "$date": "2024-10-20T12:01:01.455Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "671b875e17aee62d2300d203"
+  },
+  "name": "asdf",
+  "email": "asdf@gmail.com",
+  "password": "$2b$10$n4XsfcWzT0PPgBG7bGA5rO70ZZ8273ank/530ZJhEBpCA5JKFpV6W",
+  "phone": "12341234",
+  "address": "asdf",
+  "answer": "asdf",
+  "role": 0,
+  "createdAt": {
+    "$date": "2024-10-25T11:56:14.756Z"
+  },
+  "updatedAt": {
+    "$date": "2024-10-25T11:56:14.756Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "671bc2f1364eadc7d5417c80"
+  },
+  "name": "admin@test.sg",
+  "email": "admin@test.sg",
+  "password": "$2b$10$o.ESH/gKZf5ObWT30ptltuVzkaex.AjfQO.ZWz0a7jAll29q7ieuC",
+  "phone": "admin@test.sg",
+  "address": "admin@test.sg",
+  "answer": "admin@test.sg",
+  "role": 1,
+  "createdAt": {
+    "$date": "2024-10-25T16:10:25.288Z"
+  },
+  "updatedAt": {
+    "$date": "2024-10-25T16:10:25.288Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "671cf647ef5cf60493cce8f5"
+  },
+  "name": "MyAdmin",
+  "email": "admin@admin.com",
+  "password": "$2b$10$MHZ1uww8rMqg6FC23T3G..EBnhdciGene0VXQkw2b45chAUXVGg3W",
+  "phone": "81234567",
+  "address": "admin's address",
+  "answer": "Leetcoding",
+  "role": 1,
+  "createdAt": {
+    "$date": "2024-10-26T14:01:43.905Z"
+  },
+  "updatedAt": {
+    "$date": "2024-10-26T14:01:43.905Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "671de121458e878f02ca07b8"
+  },
+  "name": "user@test.comuser@test.com",
+  "email": "usertest.comuser@test.com",
+  "password": "$2b$10$Pc15GsuumjRLu2lBR0IV3eWj2EqaxJuSGItGsU5ZkEmUjgJLxf3S6",
+  "phone": "user@test.comuser@test.com",
+  "address": "user@test.comuser@test.com",
+  "answer": "user@test.comuser@test.com",
+  "role": 0,
+  "createdAt": {
+    "$date": "2024-10-27T06:43:45.619Z"
+  },
+  "updatedAt": {
+    "$date": "2024-10-27T06:43:45.619Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "672e27a43a31a117795ce0f9"
+  },
+  "name": "test@gmail.com",
+  "email": "test@gmail.com",
+  "password": "$2b$10$dez1pum4cub4/maDhwRh.uyv/hRTfGNzK40dRQosj07bhdFd.fnZu",
+  "phone": "test@gmail.com",
+  "address": "test@gmail.com",
+  "answer": "test@gmail.com",
+  "role": 0,
+  "createdAt": {
+    "$date": "2024-11-08T15:00:52.049Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-08T15:00:52.049Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "672f05f78e4ca7dabcdabae7"
+  },
+  "name": "user@test.com",
+  "email": "user@test.com",
+  "password": "$2b$10$Sgt1q9.yyhvzOZRU5UOx3uMgRf/fUFnqxp0Oyaxqku9rWNMQ57ev6",
+  "phone": "user@test.com",
+  "address": "user@test.com",
+  "answer": "user@test.com",
+  "role": 0,
+  "createdAt": {
+    "$date": "2024-11-09T06:49:27.973Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-09T06:49:27.973Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a218decf4efddf1e5358ac"
+  },
+  "name": "CS 4218 Test Account",
+  "email": "cs4218@test.com",
+  "password": "$2b$10$//wWsN./fEX1WiipH57HG.SAwgkYv1MRrPSkpXM38Dy5seOEhCoUy",
+  "phone": "81234567",
+  "address": "1 Computing Drive",
+  "answer": "password is cs4218@test.com",
+  "role": 0,
+  "createdAt": {
+    "$date": "2025-02-04T13:40:46.071Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-04T13:40:46.071Z"
+  },
+  "__v": 0
+}]

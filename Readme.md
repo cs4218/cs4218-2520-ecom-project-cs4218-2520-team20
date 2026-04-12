@@ -261,6 +261,13 @@ To begin unit testing with Jest in your project, follow these steps:
 
 ### Alexander Setyawan (A0257149W)
 
+- ks/capacity-testing/auth-category.js
+- ks/capacity-testing/mixed-workload.js
+- ks/capacity-testing/product-browsing.js
+- ks/capacity-testing/search-filter.js
+- ks/capacity-testing/schema
+- ks/capacity-testing/user-journey.js
+
 ### Seah Minlong (A0271643E)
 
 - ks/load-testing/auth.js
