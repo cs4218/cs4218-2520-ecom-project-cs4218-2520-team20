@@ -269,3 +269,5 @@ To begin unit testing with Jest in your project, follow these steps:
 ### Kaw Jun Rei, Dylan (A0252791Y)
 
 ### Wang Zhi, Wren (A0255368U)
+- ks/spike-testing/helper/seed_db.js + associated JSON files
+- ks/spike-testing/spike_test_backend.js
